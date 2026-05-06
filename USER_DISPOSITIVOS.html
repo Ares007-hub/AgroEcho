@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroEcho - Meus Dispositivos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* TEMA CLARO (PADRÃO) */
+        :root {
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-secondary: #666;
+            --text-light: #999;
+            --border: #e1e5e9;
+            --shadow: rgba(0,0,0,0.05);
+            --header-bg: #ffffff;
+            --stat-bg: #ffffff;
+            --device-bg: #ffffff;
+            --info-border: #e1e5e9;
+            --gradient-1: #667eea;
+            --gradient-2: #764ba2;
+        }
+        
+        /* TEMA ESCURO */
+        [data-theme="dark"] {
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #e1e5e9;
+            --text-secondary: #a0a0b0;
+            --text-light: #888;
+            --border: #2a2a4a;
+            --shadow: rgba(0,0,0,0.3);
+            --header-bg: #16213e;
+            --stat-bg: #16213e;
+            --device-bg: #16213e;
+            --info-border: #2a2a4a;
+            --gradient-1: #7b8cff;
+            --gradient-2: #9b6bff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .user-panel {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: var(--header-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 2px 15px var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            transition: all 0.3s;
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-left p {
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .avatar-change-hint {
+            object-fit: cover;
+            position: absolute;
+            bottom: -25px;
+            right: -25px;
+            background: var(--gradient-1);
+            color: rgb(3, 3, 3);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        /* Modal do Avatar */
+        .avatar-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar-modal.active {
+            display: flex;
+        }
+
+        .avatar-modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .avatar-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .avatar-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .avatar-option:hover {
+            transform: scale(1.1);
+            border-color: var(--gradient-1);
+        }
+
+        .avatar-option.selected {
+            border-color: var(--gradient-1);
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .avatar-colors {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-theme {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 2px solid var(--border);
+            font-size: 1.2rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .btn-theme:hover {
+            border-color: var(--gradient-1);
+            transform: rotate(30deg);
+        }
+
+        .btn-home {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-home:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            color: white;
+            padding: 12px 30px;
+            margin-top: 1rem;
+        }
+
+        .btn-save:hover {
+            opacity: 0.9;
+        }
+
+        .btn-cancel {
+            background: var(--border);
+            color: var(--text);
+            padding: 12px 30px;
+            margin-top: 1rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--stat-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .stat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--text); }
+        .stat-label { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.3rem; }
+
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .device-card {
+            background: var(--device-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .device-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow);
+        }
+
+        .device-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .device-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .device-id {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 3px;
+        }
+
+        .status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active { background: #d1fae5; color: #065f46; }
+        .status-inactive { background: #fee2e2; color: #991b1b; }
+
+        .device-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--info-border);
+        }
+
+        .info-item { }
+        .info-label { color: var(--text-light); font-size: 0.8rem; margin-bottom: 3px; }
+        .info-value { color: var(--text); font-weight: 500; }
+
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .devices-grid { grid-template-columns: 1fr; }
+            .header { flex-direction: column; text-align: center; }
+            .header-right { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="user-panel">
+        <div class="header">
+            <div class="header-left">
+                <h1>Meus Dispositivos</h1>
+                <p>Monitoramento em tempo real da sua fazenda</p>
+            </div>
+            <div class="header-right">
+                <div class="user-info" onclick="openAvatarModal()" title="Clique para mudar o avatar">
+                    <span id="userName" style="font-weight: 600;"></span>
+                    <div class="avatar" id="userAvatar">
+                        <span id="avatarText"></span>
+                        <span class="avatar-change-hint">✎</span>
+                    </div>
+                </div>
+                <button class="btn btn-theme" onclick="toggleTheme()" title="Modo escuro/claro" id="themeBtn">
+                    🌙
+                </button>
+                <a href="index.html" class="btn btn-home">🏠 Início</a>
+                <button class="btn btn-logout" onclick="logout()">🚪 Sair</button>
+            </div>
+        </div>
+
+        <div class="stats-row" id="statsRow"></div>
+
+        <div class="devices-grid" id="devicesGrid"></div>
+    </div>
+
+    <!-- Modal de Avatar -->
+    <div class="avatar-modal" id="avatarModal">
+        <div class="avatar-modal-content">
+            <h2 style="margin-bottom: 1rem;">🎨 Personalizar Avatar</h2>
+            
+            <h4 style="margin-bottom: 0.5rem;">Escolha um ícone:</h4>
+            <div class="avatar-options" id="avatarOptions">
+                <div class="avatar-option" onclick="selectAvatarIcon('👤')">👤</div>
+                <div class="avatar-option" onclick="selectAvatarIcon('👨‍🌾')">👨‍🌾</div>
+                <div class="avatar-option" onclick="selectAvatarIcon('👩‍🌾')">👩‍🌾</div>
+                <div class="avatar-option" onclick="selectAvatarIcon('🚜')">🚜</div>
+                <div class="avatar-option" onclick="selectAvatarIcon('🌾')">🌾</div>
+                <div class="avatar-option" onclick="selectAvatarIcon('💧')">💧</div>
+                <div class="avatar-option" onclick="selectAvatarIcon('🌱')">🌱</div>
+                <div class="avatar-option" onclick="selectAvatarIcon('🔧')">🔧</div>
+            </div>
+
+            <h4 style="margin: 1rem 0 0.5rem;">Cor de fundo:</h4>
+            <div class="avatar-colors" id="avatarColors">
+                <div class="color-option" style="background: linear-gradient(135deg, #667eea, #764ba2);" onclick="selectAvatarColor('#667eea', '#764ba2')"></div>
+                <div class="color-option" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="selectAvatarColor('#10b981', '#059669')"></div>
+                <div class="color-option" style="background: linear-gradient(135deg, #f59e0b, #d97706);" onclick="selectAvatarColor('#f59e0b', '#d97706')"></div>
+                <div class="color-option" style="background: linear-gradient(135deg, #ef4444, #dc2626);" onclick="selectAvatarColor('#ef4444', '#dc2626')"></div>
+                <div class="color-option" style="background: linear-gradient(135deg, #3b82f6, #2563eb);" onclick="selectAvatarColor('#3b82f6', '#2563eb')"></div>
+                <div class="color-option" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);" onclick="selectAvatarColor('#8b5cf6', '#7c3aed')"></div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-cancel" onclick="closeAvatarModal()">Cancelar</button>
+                <button class="btn btn-save" onclick="saveAvatar()">Salvar Avatar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar autenticação
+        const user = JSON.parse(sessionStorage.getItem('agroecho_user'));
+        
+        if (!user || user.role !== 'user') {
+            alert('Acesso negado! Faça login primeiro.');
+            window.location.href = 'index.html';
+        }
+
+        // Configurações do usuário
+        let userSettings = JSON.parse(localStorage.getItem('agroecho_settings_' + user.id)) || {
+            theme: 'light',
+            avatarIcon: '👤',
+            avatarColor1: '#667eea',
+            avatarColor2: '#764ba2'
+        };
+
+        // Aplicar tema
+        function applyTheme() {
+            if (userSettings.theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeBtn').textContent = '☀️';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                document.getElementById('themeBtn').textContent = '🌙';
+            }
+        }
+
+        // Alternar tema
+        function toggleTheme() {
+            userSettings.theme = userSettings.theme === 'dark' ? 'light' : 'dark';
+            saveSettings();
+            applyTheme();
+        }
+
+        // Aplicar avatar
+        function applyAvatar() {
+            const avatarDiv = document.getElementById('userAvatar');
+            const avatarText = document.getElementById('avatarText');
+            
+            avatarDiv.style.background = `linear-gradient(135deg, ${userSettings.avatarColor1}, ${userSettings.avatarColor2})`;
+            
+            // Verificar se tem imagem
+            if (userSettings.avatarImage) {
+                avatarDiv.innerHTML = `<img src="${userSettings.avatarImage}" alt="Avatar"><span class="avatar-change-hint">✎</span>`;
+            } else {
+                avatarDiv.innerHTML = `<span id="avatarText">${userSettings.avatarIcon}</span><span class="avatar-change-hint">✎</span>`;
+            }
+        }
+
+        // Salvar configurações
+        function saveSettings() {
+            localStorage.setItem('agroecho_settings_' + user.id, JSON.stringify(userSettings));
+        }
+
+        // Modal do Avatar
+        function openAvatarModal() {
+            document.getElementById('avatarModal').classList.add('active');
+            highlightSelectedIcon();
+            highlightSelectedColor();
+        }
+
+        function closeAvatarModal() {
+            document.getElementById('avatarModal').classList.remove('active');
+        }
+
+        function selectAvatarIcon(icon) {
+            userSettings.avatarIcon = icon;
+            highlightSelectedIcon();
+        }
+
+        function selectAvatarColor(color1, color2) {
+            userSettings.avatarColor1 = color1;
+            userSettings.avatarColor2 = color2;
+            highlightSelectedColor();
+        }
+
+        function highlightSelectedIcon() {
+            document.querySelectorAll('.avatar-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.textContent === userSettings.avatarIcon) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function highlightSelectedColor() {
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('selected');
+                const bg = opt.style.background;
+                if (bg.includes(userSettings.avatarColor1)) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function saveAvatar() {
+            saveSettings();
+            applyAvatar();
+            closeAvatarModal();
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('avatarModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAvatarModal();
+            }
+        });
+
+        // Mostrar nome do usuário
+        document.getElementById('userName').textContent = user.name;
+
+        // Aplicar tema e avatar
+        applyTheme();
+        applyAvatar();
+
+        // Dispositivos
+        const userDevices = [
+            { id: 'ESP32-SOIL-001', name: 'Sensor Umidade Solo', type: 'Sensor Capacitivo v1.2', location: 'Setor Norte', status: 'active', battery: 87, signal: -85, lastReading: '869 kPa', lastUpdate: '2 min atrás' },
+            { id: 'ESP32-RAIN-002', name: 'Pluviômetro Central', type: 'Pluviômetro de Báscula', location: 'Setor Central', status: 'active', battery: 92, signal: -78, lastReading: '2.5 mm', lastUpdate: '5 min atrás' },
+            { id: 'ESP32-FLOW-003', name: 'Sensor de Fluxo', type: 'YF-S201', location: 'Bomba Principal', status: 'active', battery: 95, signal: -72, lastReading: '12.3 L/min', lastUpdate: '1 min atrás' },
+            { id: 'ESP32-TEMP-004', name: 'Sensor Temperatura', type: 'DS18B20', location: 'Estufa 1', status: 'inactive', battery: 12, signal: -95, lastReading: '28.5 °C', lastUpdate: '3 horas atrás' }
+        ];
+
+        // Stats
+        const active = userDevices.filter(d => d.status === 'active').length;
+        const avgBattery = Math.round(userDevices.reduce((acc, d) => acc + d.battery, 0) / userDevices.length);
+
+        document.getElementById('statsRow').innerHTML = `
+            <div class="stat-card">
+                <div class="stat-icon">📡</div>
+                <div class="stat-value">${userDevices.length}</div>
+                <div class="stat-label">Total de Dispositivos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value">${active}</div>
+                <div class="stat-label">Dispositivos Ativos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔋</div>
+                <div class="stat-value">${avgBattery}%</div>
+                <div class="stat-label">Bateria Média</div>
+            </div>
+        `;
+
+        // Devices
+        document.getElementById('devicesGrid').innerHTML = userDevices.map(device => `
+            <div class="device-card">
+                <div class="device-header">
+                    <div>
+                        <div class="device-name">${device.name}</div>
+                        <div class="device-id">ID: ${device.id}</div>
+                    </div>
+                    <span class="status status-${device.status}">
+                        ${device.status === 'active' ? 'Ativo' : 'Inativo'}
+                    </span>
+                </div>
+                <div class="device-info">
+                    <div class="info-item">
+                        <div class="info-label">Tipo</div>
+                        <div class="info-value">${device.type}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Localização</div>
+                        <div class="info-value">${device.location}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Última Leitura</div>
+                        <div class="info-value">${device.lastReading}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Atualização</div>
+                        <div class="info-value">${device.lastUpdate}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Bateria</div>
+                        <div class="info-value">${device.battery}%</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Sinal</div>
+                        <div class="info-value">${device.signal} dBm</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        function logout() {
+            sessionStorage.removeItem('agroecho_user');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

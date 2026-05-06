@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroEcho - Acesso ao Sistema</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .whats{
+            width: 15px;
+            height: 15px;
+        }
+
+
+        .particle {
+            position: absolute;
+            background: rgba(102, 126, 234, 0.15);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e1e5e9;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #999;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .user{
+            width: 20px;
+            height: 20px;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2.5rem;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            font-size: 4rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .logo-section h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
+            margin: 0.5rem 0;
+            font-weight: 800;
+        }
+
+        .logo-section .slogan {
+            color: #666;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        .senha{
+            width: 20px;
+            height: 20px;
+        }
+
+        .logo-section h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0.5rem 0;
+            font-weight: 800;
+            border-radius: 15px;
+            padding: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 45px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            outline: none;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .message-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .message-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .info-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f0f4ff;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #555;
+            text-align: center;
+        }
+
+        .info-box strong {
+            color: #667eea;
+        }
+
+        .home-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .home-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .home-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .logo-img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .register-info {
+            background: #f0f4ff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: #555;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas de fundo -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')"> Login</button>
+            <button class="tab" onclick="switchTab('register')"> Criar Conta</button>
+        </div>
+
+        <!-- Tab Login -->
+        <div class="tab-content active" id="loginTab">
+            <div class="logo-section">
+                <div class="logo-icon"><img src="Logo.png" alt="Logotipo do AgroEcho" class="logo-img"></div>
+                <h1 id="logo-section" class= "logo-section">AgroEcho</h1>
+                
+            </div>
+
+            <div class="message" id="loginMessage"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"> @ </span>
+                        <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒︎</span>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="loginBtn">
+                    <span class="loading-flex">Entrar no Sistema</span>
+                </button>
+            </form>
+
+            <div class="info-box">
+                <strong>Admin:</strong> admin@agroecho.com.br / admin123<br>
+            </div>
+        </div>
+
+        <!-- Tab Registro -->
+        <div class="tab-content" id="registerTab">
+            <div class="logo-section">
+                <div class="logo-icon"><img src="Logo.png" alt="Logotipo do AgroEcho" class="logo-img"></div>
+                <h1>Criar Conta</h1>
+                <p class="slogan">Comece a monitorar sua fazenda hoje</p>
+            </div>
+
+            <div class="message" id="registerMessage"></div>
+
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Nome Completo *</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"><img class="user" src="user.png"></span>
+                        <input type="text" id="regName" placeholder="Seu nome completo" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"> @ </span>
+                        <input type="email" id="regEmail" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"><img class = "whats" src="wha.svg" alt="Logotipo do AgroEcho" class="logo-img"></span>
+                        <input type="tel" id="regPhone" placeholder="(11) 99999-9999">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha *</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒︎</span>
+                        <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar Senha *</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"><img class="senha" src="certo.png"></span>
+                        <input type="password" id="regConfirmPassword" placeholder="Repita a senha" minlength="6" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="registerBtn">
+                    <span class="loading-flex">Criar Minha Conta</span>
+                </button>
+            </form>
+
+            <div class="home-link">
+                <a href="#" onclick="switchTab('login')">← Já tem conta? Faça login</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    // Criar partículas
+    function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.width = Math.random() * 10 + 5 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = Math.random() * 20 + 10 + 's';
+            container.appendChild(particle);
+        }
+    }
+    createParticles();
+
+    // Banco de dados usando LOCALSTORAGE (persiste no navegador)
+    let DB = {
+        users: JSON.parse(localStorage.getItem('agroecho_all_users')) || [
+            { 
+                id: 1, 
+                name: 'Administrador', 
+                email: 'admin@agroecho.com.br', 
+                password: 'admin123', 
+                role: 'admin', 
+                phone: '(11) 99999-9999', 
+                createdAt: '2024-01-15',
+                permanent: true
+            },
+            { 
+                id: 2, 
+                name: 'João Silva', 
+                email: 'joao@email.com', 
+                password: 'joao123', 
+                role: 'user', 
+                phone: '(11) 98888-8888', 
+                createdAt: '2024-02-20',
+                permanent: false
+            }
+        ]
+    };
+
+    // Salvar no localStorage
+    function saveDB() {
+        localStorage.setItem('agroecho_all_users', JSON.stringify(DB.users));
+    }
+    saveDB();
+
+    // Trocar tabs
+    function switchTab(tab) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        if (tab === 'login') {
+            document.querySelector('.tab:first-child').classList.add('active');
+            document.getElementById('loginTab').classList.add('active');
+        } else {
+            document.querySelector('.tab:last-child').classList.add('active');
+            document.getElementById('registerTab').classList.add('active');
+        }
+        
+        // Limpar mensagens
+        document.getElementById('loginMessage').style.display = 'none';
+        document.getElementById('registerMessage').style.display = 'none';
+    }
+
+    // LOGIN
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const msg = document.getElementById('loginMessage');
+        const btn = document.getElementById('loginBtn');
+        
+        msg.style.display = 'none';
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-flex"><span class="spinner"></span>Entrando...</span>';
+        
+        await new Promise(r => setTimeout(r, 1000));
+        
+        // Recarregar DB do localStorage
+        DB.users = JSON.parse(localStorage.getItem('agroecho_all_users')) || DB.users;
+        
+        const user = DB.users.find(u => u.email === email && u.password === password);
+        
+        if (user) {
+            const sessionData = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                phone: user.phone,
+                permanent: user.permanent || false,
+                loggedAt: new Date().toISOString()
+            };
+            
+            sessionStorage.setItem('agroecho_user', JSON.stringify(sessionData));
+            
+            msg.className = 'message message-success';
+            msg.textContent = '✅ Login realizado! Redirecionando...';
+            msg.style.display = 'block';
+            
+            setTimeout(() => redirectUser(sessionData), 500);
+        } else {
+            msg.className = 'message message-error';
+            msg.textContent = '❌ Email ou senha inválidos!';
+            msg.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<span class="loading-flex">Entrar no Sistema</span>';
+        }
+    });
+
+        // REGISTRO (SALVA NO LOCALSTORAGE E VOLTA PARA TELA DE LOGIN)
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const phone = document.getElementById('regPhone').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const confirmPassword = document.getElementById('regConfirmPassword').value;
+        const msg = document.getElementById('registerMessage');
+        const btn = document.getElementById('registerBtn');
+        
+        msg.style.display = 'none';
+        
+        // Validações
+        if (password !== confirmPassword) {
+            msg.className = 'message message-error';
+            msg.textContent = '❌ As senhas não coincidem!';
+            msg.style.display = 'block';
+            return;
+        }
+        
+        if (password.length < 6) {
+            msg.className = 'message message-error';
+            msg.textContent = '❌ A senha deve ter no mínimo 6 caracteres!';
+            msg.style.display = 'block';
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-flex"><span class="spinner"></span>Criando conta...</span>';
+        
+        await new Promise(r => setTimeout(r, 1500));
+        
+        // Recarregar DB do localStorage
+        DB.users = JSON.parse(localStorage.getItem('agroecho_all_users')) || DB.users;
+        
+        // Verificar email duplicado
+        if (DB.users.some(u => u.email === email)) {
+            msg.className = 'message message-error';
+            msg.textContent = '❌ Este email já está cadastrado!';
+            msg.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<span class="loading-flex">Criar Minha Conta</span>';
+            return;
+        }
+        
+        // Criar novo usuário - SEMPRE COMO 'user' (usuário comum)
+        const newUser = {
+            id: DB.users.length + 1,
+            name: name,
+            email: email,
+            password: password,
+            phone: phone,
+            role: 'user', // ⬅️ FORÇA SEMPRE COMO USUÁRIO COMUM
+            createdAt: new Date().toISOString().split('T')[0],
+            permanent: false
+        };
+        
+        DB.users.push(newUser);
+        saveDB(); // Salva no localStorage permanentemente
+        
+        // Mensagem de sucesso
+        msg.className = 'message message-success';
+        msg.textContent = '✅ Conta criada com sucesso! Agora faça login.';
+        msg.style.display = 'block';
+        
+        // Limpar formulário
+        document.getElementById('registerForm').reset();
+        btn.disabled = false;
+        btn.innerHTML = '<span class="loading-flex">Criar Minha Conta</span>';
+        
+        // VOLTA PARA TELA DE LOGIN (NÃO FAZ LOGIN AUTOMÁTICO)
+        setTimeout(() => {
+            switchTab('login');
+            // Mostrar mensagem na tela de login também
+            document.getElementById('loginMessage').className = 'message message-success';
+            document.getElementById('loginMessage').textContent = '✅ Conta criada! Faça login com seu email e senha.';
+            document.getElementById('loginMessage').style.display = 'block';
+        }, 2000);
+    });
+
+    function redirectUser(user) {
+        if (user.role === 'admin') {
+            window.location.href = 'dashboard.html';
+        } else {
+            window.location.href = 'user_dispositivos.html';
+        }
+    }
+</script>
+</body>
+</html>

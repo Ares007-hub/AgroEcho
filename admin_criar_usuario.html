@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroEcho - Gerenciar Usuários</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* TEMA CLARO */
+        :root {
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-secondary: #666;
+            --border: #e1e5e9;
+            --shadow: rgba(0,0,0,0.05);
+            --sidebar-bg: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            --input-bg: #f8f9fa;
+            --thead-bg: #f8f9fa;
+            --hover-row: #f8f9fa;
+        }
+        
+        /* TEMA ESCURO */
+        [data-theme="dark"] {
+            --bg: #0f0c29;
+            --card-bg: #16213e;
+            --text: #e1e5e9;
+            --text-secondary: #a0a0b0;
+            --border: #2a2a4a;
+            --shadow: rgba(0,0,0,0.3);
+            --sidebar-bg: linear-gradient(180deg, #0a0a1a 0%, #0f0c29 100%);
+            --input-bg: #1a1a2e;
+            --thead-bg: #1a1a2e;
+            --hover-row: #1a1a3e;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .container { display: flex; min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #000;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar .logo { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar .user-name { color: #999; font-size: 0.9rem; }
+
+        .nav-menu { list-style: none; margin-top: 2rem; flex: 1; }
+        .nav-item { margin-bottom: 0.5rem; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(102, 126, 234, 0.2);
+            color: white;
+        }
+
+        .nav-link .icon { font-size: 1.3rem; }
+
+        .bottom-links {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+        }
+
+        /* BOTÃO TEMA */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            color: rgba(255,255,255,0.7);
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(102, 126, 234, 0.2);
+            color: white;
+        }
+
+        .theme-icon {
+            font-size: 1.3rem;
+            transition: transform 0.5s;
+        }
+
+        .theme-toggle:hover .theme-icon {
+            transform: rotate(30deg);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .top-bar {
+            background: var(--card-bg);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .top-bar h1 { font-size: 1.8rem; color: var(--text); }
+        .top-bar p { color: var(--text-secondary); margin-top: 5px; }
+        
+        .admin-label {
+            background: #1a1a2e;
+            color: #f59e0b;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group { margin-bottom: 0; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            outline: none;
+            background: var(--input-bg);
+            color: var(--text);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-create:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: none;
+            font-weight: 500;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .message-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* TABELA */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 1rem; 
+        }
+        
+        thead { 
+            background: var(--thead-bg); 
+            border-bottom: 2px solid var(--border);
+        }
+        
+        th, td { 
+            padding: 14px 16px; 
+            text-align: left; 
+            border-bottom: 1px solid var(--border); 
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        
+        th { 
+            font-weight: 600; 
+            color: var(--text-secondary); 
+            font-size: 0.8rem; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: var(--hover-row);
+        }
+
+        .role-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-block;
+        }
+
+        .role-admin { 
+            background: #fee2e2; 
+            color: #991b1b;
+        }
+
+        .role-user { 
+            background: #dbeafe; 
+            color: #1e40af;
+        }
+
+        .role-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .permanent-badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .btn-edit-role {
+            background: none;
+            border: 1px dashed var(--border);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+            margin-left: 5px;
+        }
+
+        .btn-edit-role:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        /* MODAL DE CONFIRMAÇÃO */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-confirm, .btn-cancel {
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-confirm:hover, .btn-cancel:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 200px; padding: 1.5rem 1rem; }
+            .main-content { margin-left: 200px; padding: 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <nav class="sidebar">
+            <div class="admin-header">
+                <span class="admin-badge">👑 ADMINISTRADOR</span>
+                <div class="logo">AgroEcho</div>
+                <div class="user-name" id="sidebarUserName"></div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                         Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin_criar_usuario.html" class="nav-link active">
+                        Gerenciar Usuários
+                    </a>
+                </li>
+            </ul>
+
+            <div class="bottom-links">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+                    <span class="theme-icon" id="themeIcon">🌙</span>
+                    <span id="themeText">Modo Escuro</span>
+                </button>
+                <a href="index.html" class="nav-link">
+                    <span class="icon"></span> Página Inicial
+                </a>
+                <a href="#" class="nav-link" onclick="logout()">
+                    <span class="icon"></span> Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div>
+                    <h1>Gerenciar Usuários</h1>
+                    <p>Criar, visualizar e editar usuários do sistema</p>
+                </div>
+                <span class="admin-label">ADMIN</span>
+            </div>
+
+            <!-- CRIAR USUÁRIO -->
+            <div class="card">
+                <h2> Criar Novo Usuário</h2>
+                <div class="message" id="message"></div>
+
+                <form id="createUserForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nome Completo *</label>
+                            <input type="text" id="name" placeholder="Nome do usuário" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="email" placeholder="email@exemplo.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Senha *</label>
+                            <input type="password" id="password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone</label>
+                            <input type="tel" id="phone" placeholder="(11) 99999-9999">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Usuário *</label>
+                            <select id="role" required>
+                                <option value="user"> Usuário Comum</option>
+                                <option value="admin"> Administrador</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: end;">
+                            <button type="submit" class="btn-create" id="submitBtn">
+                                 Criar Usuário
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- LISTA DE USUÁRIOS -->
+            <div class="card">
+                <h2> Usuários Cadastrados</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Tipo</th>
+                                <th>Telefone</th>
+                                <th>Data Criação</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <h3 id="modalTitle"> Confirmar Alteração</h3>
+            <p id="modalMessage"></p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                <button class="btn-confirm" id="confirmBtn" onclick="confirmAction()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // VERIFICAÇÃO ROBUSTA DE AUTENTICAÇÃO
+        // ============================================
+        function checkAuth() {
+            const user = JSON.parse(sessionStorage.getItem('agroecho_user'));
+            
+            if (!user) {
+                alert('Sessão expirada! Faça login novamente.');
+                window.location.href = 'index.html';
+                return null;
+            }
+            
+            if (user.role !== 'admin') {
+                alert('Acesso negado! Apenas administradores podem acessar esta página.');
+                window.location.href = 'user_dispositivos.html';
+                return null;
+            }
+            
+            return user;
+        }
+
+        const user = checkAuth();
+        if (!user) throw new Error('Autenticação falhou');
+
+        document.getElementById('sidebarUserName').textContent = user.name;
+
+        // ============================================
+        // TEMA ESCURO/CLARO
+        // ============================================
+        let theme = localStorage.getItem('agroecho_theme') || 'light';
+        
+        function applyTheme() {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeIcon').textContent = '☀️';
+                document.getElementById('themeText').textContent = 'Modo Claro';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                document.getElementById('themeIcon').textContent = '🌙';
+                document.getElementById('themeText').textContent = 'Modo Escuro';
+            }
+        }
+        
+        function toggleTheme() {
+            theme = theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('agroecho_theme', theme);
+            applyTheme();
+        }
+        
+        applyTheme();
+
+        // ============================================
+        // BANCO DE DADOS (LOCALSTORAGE)
+        // ============================================
+        function loadUsers() {
+            let users = JSON.parse(localStorage.getItem('agroecho_all_users'));
+            
+            // Se não existir, criar dados padrão
+            if (!users || users.length === 0) {
+                users = [
+                    { 
+                        id: 1, 
+                        name: 'Administrador', 
+                        email: 'admin@agroecho.com.br', 
+                        password: 'admin123', 
+                        role: 'admin', 
+                        phone: '(11) 99999-9999', 
+                        createdAt: '2024-01-15',
+                        permanent: true
+                    },
+                    { 
+                        id: 2, 
+                        name: 'João Silva', 
+                        email: 'joao@email.com', 
+                        password: 'joao123', 
+                        role: 'user', 
+                        phone: '(11) 98888-8888', 
+                        createdAt: '2024-02-20',
+                        permanent: false
+                    },
+                    { 
+                        id: 3, 
+                        name: 'Maria Santos', 
+                        email: 'maria@email.com', 
+                        password: 'maria123', 
+                        role: 'user', 
+                        phone: '(11) 97777-7777', 
+                        createdAt: '2024-03-10',
+                        permanent: false
+                    }
+                ];
+                saveUsers(users);
+            }
+            
+            return users;
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('agroecho_all_users', JSON.stringify(users));
+        }
+
+        let users = loadUsers();
+
+        // ============================================
+        // RENDERIZAR TABELA
+        // ============================================
+        function renderUsers() {
+            const tbody = document.getElementById('usersTable');
+            
+            tbody.innerHTML = users.map(u => {
+                const isPermanent = u.permanent === true;
+                const roleLabel = u.role === 'admin' ? 'Admin' : 'Usuário';
+                const roleClass = u.role === 'admin' ? 'role-admin' : 'role-user';
+                
+                return `
+                    <tr>
+                        <td><strong>#${u.id}</strong></td>
+                        <td>${u.name}${isPermanent ? '<span class="permanent-badge">Fixo</span>' : ''}</td>
+                        <td>${u.email}</td>
+                        <td>
+                            <span class="role-badge ${roleClass}" id="role-${u.id}">${roleLabel}</span>
+                            ${!isPermanent ? `<button class="btn-edit-role" onclick="toggleUserRole(${u.id})" title="Alternar tipo de usuário">🔄 Alternar</button>` : ''}
+                        </td>
+                        <td>${u.phone || '-'}</td>
+                        <td>${u.createdAt}</td>
+                        <td>
+                            ${!isPermanent ? `<button class="btn-edit-role" onclick="deleteUser(${u.id})" style="color: #ef4444;" title="Excluir usuário">🗑️</button>` : '🔒 Protegido'}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ============================================
+        // ALTERNAR TIPO DE USUÁRIO (USER <-> ADMIN)
+        // ============================================
+        let pendingAction = null;
+
+        function toggleUserRole(userId) {
+            const targetUser = users.find(u => u.id === userId);
+            if (!targetUser) return;
+            
+            // Não permitir alterar admin permanente
+            if (targetUser.permanent) {
+                showMessage('error', '❌ Não é possível alterar o administrador permanente!');
+                return;
+            }
+            
+            const newRole = targetUser.role === 'admin' ? 'user' : 'admin';
+            const roleName = newRole === 'admin' ? 'Administrador' : 'Usuário Comum';
+            
+            // Mostrar modal de confirmação
+            document.getElementById('modalTitle').textContent = '🔄 Alterar Tipo de Usuário';
+            document.getElementById('modalMessage').textContent = 
+                `Deseja alterar "${targetUser.name}" para ${roleName}?`;
+            document.getElementById('confirmModal').classList.add('active');
+            
+            pendingAction = () => {
+                targetUser.role = newRole;
+                saveUsers(users);
+                renderUsers();
+                showMessage('success', `✅ Usuário "${targetUser.name}" agora é ${roleName}!`);
+                closeModal();
+            };
+        }
+
+        function deleteUser(userId) {
+            const targetUser = users.find(u => u.id === userId);
+            if (!targetUser) return;
+            
+            if (targetUser.permanent) {
+                showMessage('error', '❌ Não é possível excluir o administrador permanente!');
+                return;
+            }
+            
+            document.getElementById('modalTitle').textContent = '🗑️ Excluir Usuário';
+            document.getElementById('modalMessage').textContent = 
+                `Tem certeza que deseja excluir "${targetUser.name}"? Esta ação não pode ser desfeita.`;
+            document.getElementById('confirmModal').classList.add('active');
+            
+            pendingAction = () => {
+                users = users.filter(u => u.id !== userId);
+                saveUsers(users);
+                renderUsers();
+                showMessage('success', `✅ Usuário "${targetUser.name}" excluído com sucesso!`);
+                closeModal();
+            };
+        }
+
+        function confirmAction() {
+            if (pendingAction) {
+                pendingAction();
+                pendingAction = null;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            pendingAction = null;
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('confirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // ============================================
+        // MOSTRAR MENSAGEM
+        // ============================================
+        function showMessage(type, text) {
+            const msg = document.getElementById('message');
+            msg.className = 'message message-' + type;
+            msg.textContent = text;
+            msg.style.display = 'block';
+            
+            // Rolar para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 4000);
+        }
+
+        // ============================================
+        // CRIAR USUÁRIO
+        // ============================================
+        document.getElementById('createUserForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ Criando...';
+            
+            const newUser = {
+                id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value.trim(),
+                role: document.getElementById('role').value,
+                createdAt: new Date().toISOString().split('T')[0],
+                permanent: false
+            };
+            
+            // Simular processamento
+            await new Promise(r => setTimeout(r, 800));
+            
+            // Validar email duplicado
+            if (users.some(u => u.email === newUser.email)) {
+                showMessage('error', '❌ Este email já está cadastrado!');
+                btn.disabled = false;
+                btn.textContent = '➕ Criar Usuário';
+                return;
+            }
+            
+            // Adicionar e salvar
+            users.push(newUser);
+            saveUsers(users);
+            
+            showMessage('success', `✅ Usuário "${newUser.name}" criado com sucesso!`);
+            
+            document.getElementById('createUserForm').reset();
+            renderUsers();
+            
+            btn.disabled = false;
+            btn.textContent = '➕ Criar Usuário';
+        });
+
+        // ============================================
+        // LOGOUT
+        // ============================================
+        function logout() {
+            sessionStorage.removeItem('agroecho_user');
+            window.location.href = 'index.html';
+        }
+
+        // ============================================
+        // INICIALIZAR
+        // ============================================
+        renderUsers();
+    </script>
+</body>
+</html>
