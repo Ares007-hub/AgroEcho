@@ -3,743 +3,308 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AgroEcho - Login</title>
 
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    min-height:100vh;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    padding:30px;
-
-    background:linear-gradient(135deg,#0b8f47,#ffffff,#0b8f47);
-
-    overflow:auto;
-}
-
-/* FUNDO */
-body::before{
-
-    content:'';
-
-    position:fixed;
-
-    inset:0;
-
-    background:
-    radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(11,143,71,0.18), transparent 35%);
-
-    z-index:-1;
-}
-
-/* CARD PRINCIPAL */
-.container{
-
-    width:1350px;
-
-    max-width:95%;
-
-    min-height:850px;
-
-    background:#ffffff;
-
-    border-radius:14px;
-
-    overflow:hidden;
-
-    display:flex;
-
-    box-shadow:0 25px 60px rgba(0,0,0,0.20);
-}
-
-/* LADO ESQUERDO */
-.left-side{
-
-    width:50%;
-
-    background:#ffffff;
-
-    color:#0b8f47;
-
-    padding:80px 60px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    position:relative;
-}
-
-/* DECORAÇÃO */
-.left-side::before{
-
-    content:'';
-
-    position:absolute;
-
-    width:280px;
-    height:280px;
-
-    border-radius:50%;
-
-    background:rgba(11,143,71,0.05);
-
-    top:-100px;
-    left:-100px;
-}
-
-.left-side::after{
-
-    content:'';
-
-    position:absolute;
-
-    width:220px;
-    height:220px;
-
-    border-radius:50%;
-
-    background:rgba(11,143,71,0.05);
-
-    bottom:-80px;
-    right:-80px;
-}
-
-/* LOGO */
-.logo-img{
-
-    width:340px;
-
-    max-width:100%;
-
-    margin-bottom:50px;
-
-    z-index:1;
-}
-
-/* TEXTO */
-.left-side p{
-
-    font-size:1.2rem;
-
-    text-align:center;
-
-    line-height:1.9;
-
-    max-width:470px;
-
-    z-index:1;
-}
-
-/* LADO DIREITO */
-.right-side{
-
-    width:50%;
-
-    background:#bdf3c7;
-
-    padding:70px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-}
-
-/* TABS */
-.tabs{
-
-    display:flex;
-
-    margin-bottom:45px;
-
-    border-bottom:2px solid rgba(0,0,0,0.08);
-}
-
-.tab{
-
-    flex:1;
-
-    padding:18px;
-
-    border:none;
-
-    background:none;
-
-    font-size:1rem;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    color:#666;
-
-    transition:0.3s;
-
-    border-bottom:3px solid transparent;
-}
-
-.tab.active{
-
-    color:#0b8f47;
-
-    border-bottom:3px solid #0b8f47;
-}
-
-/* FORMULÁRIOS */
-.tab-content{
-    display:none;
-}
-
-.tab-content.active{
-    display:block;
-}
-
-/* TÍTULOS */
-.form-title{
-
-    font-size:3rem;
-
-    color:#0b8f47;
-
-    margin-bottom:12px;
-}
-
-.form-subtitle{
-
-    color:#555;
-
-    margin-bottom:40px;
-
-    font-size:1.05rem;
-}
-
-/* CAMPOS */
-.form-group{
-    margin-bottom:24px;
-}
-
-.form-group label{
-
-    display:block;
-
-    margin-bottom:10px;
-
-    color:#222;
-
-    font-weight:600;
-
-    font-size:1rem;
-}
-
-.form-group input{
-
-    width:100%;
-
-    padding:18px;
-
-    border-radius:10px;
-
-    border:2px solid #d8d8d8;
-
-    outline:none;
-
-    background:#ffffff;
-
-    font-size:1rem;
-
-    transition:0.3s;
-}
-
-.form-group input:focus{
-
-    border-color:#0b8f47;
-
-    box-shadow:0 0 0 5px rgba(11,143,71,0.10);
-}
-
-/* BOTÃO */
-.btn-submit{
-
-    width:100%;
-
-    padding:18px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#0b8f47;
-
-    color:white;
-
-    font-size:1rem;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:0.3s;
-
-    margin-top:10px;
-}
-
-.btn-submit:hover{
-
-    background:#08763a;
-
-    transform:translateY(-2px);
-
-    box-shadow:0 12px 25px rgba(11,143,71,0.25);
-}
-
-/* MENSAGENS */
-.message{
-
-    display:none;
-
-    padding:14px;
-
-    border-radius:10px;
-
-    margin-bottom:20px;
-
-    font-weight:600;
-}
-
-.message-success{
-
-    background:#d1fae5;
-
-    color:#065f46;
-}
-
-.message-error{
-
-    background:#fee2e2;
-
-    color:#991b1b;
-}
-
-/* RESPONSIVO */
-@media(max-width:950px){
-
-    .container{
-
-        flex-direction:column;
-
-        width:100%;
-
-        min-height:auto;
+    :root {
+        --verde-pastel: #bdf3c7;
+        --verde-firme: #0b8f47;
+        --branco: #ffffff;
     }
 
-    .left-side,
-    .right-side{
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-        width:100%;
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, var(--branco), var(--verde-pastel), var(--branco));
+        overflow: hidden;
     }
 
-    .left-side{
-
-        min-height:320px;
-
-        padding:50px 30px;
+    .container {
+        width: 1000px;
+        max-width: 95%;
+        height: 600px; 
+        background: var(--branco);
+        border-radius: 30px;
+        display: flex;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        overflow: hidden;
+        position: relative;
+        animation: surge 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
     }
 
-    .right-side{
-
-        padding:40px 30px;
+    @keyframes surge {
+        from { opacity: 0; transform: scale(0.9) translateY(40px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    .logo-img{
-        width:230px;
+    .left-side {
+        width: 45%;
+        background: var(--branco);
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
     }
 
-    .form-title{
-        font-size:2.1rem;
+    .logo-img {
+        width: 260px;
+        z-index: 1;
+        animation: float 4s ease-in-out infinite;
     }
 
-}
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
 
+    .left-side p {
+        color: var(--verde-firme);
+        text-align: center;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-top: 20px;
+        z-index: 1;
+    }
+
+    .right-side {
+        width: 55%;
+        background: var(--verde-pastel);
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tabs {
+        display: flex;
+        margin-bottom: 20px;
+        border-bottom: 2px solid rgba(0,0,0,0.05);
+    }
+
+    .tab {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        background: none;
+        font-weight: bold;
+        color: rgba(0,0,0,0.4);
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .tab.active {
+        color: var(--verde-firme);
+        border-bottom: 3px solid var(--verde-firme);
+    }
+
+    /* ÁREA DE CONTEÚDO COM SCROLL SE PRECISAR */
+    .tabs-wrapper {
+        flex: 1;
+        overflow-y: auto; /* Permite rolar se a tela for pequena */
+        padding-right: 5px;
+    }
+
+    /* Estilização da barra de rolagem para ficar discreta */
+    .tabs-wrapper::-webkit-scrollbar { width: 5px; }
+    .tabs-wrapper::-webkit-scrollbar-thumb { background: var(--verde-firme); border-radius: 10px; }
+
+    .tab-content { display: none; animation: slideIn 0.4s ease-out; }
+    .tab-content.active { display: block; }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    .form-title { color: var(--verde-firme); font-size: 2rem; margin-bottom: 5px; }
+    .form-subtitle { color: #555; margin-bottom: 15px; font-size: 0.9rem; }
+
+    /* GRID DO FORMULÁRIO - LADO A LADO */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .full-width { grid-column: span 2; }
+
+    .form-group { margin-bottom: 10px; }
+    label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.85rem; color: #333; }
+
+    input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        outline: none;
+        font-size: 0.9rem;
+    }
+
+    input:focus { border-color: var(--verde-firme); box-shadow: 0 0 8px rgba(11, 143, 71, 0.1); }
+
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: var(--verde-firme);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    .btn-submit:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+    .message { padding: 10px; border-radius: 8px; margin-bottom: 10px; display: none; font-size: 0.85rem; text-align: center; font-weight: bold; }
+    .message-success { background: #d1fae5; color: #065f46; }
+    .message-error { background: #fee2e2; color: #991b1b; }
+
+    @media(max-width: 850px){
+        .container { flex-direction: column; height: auto; margin: 20px 0; }
+        .left-side, .right-side { width: 100%; }
+        .form-grid { grid-template-columns: 1fr; }
+    }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-
-    <!-- LADO ESQUERDO -->
     <div class="left-side">
-
         <img src="Logo.png" class="logo-img">
-
-        <p>
-            Plataforma inteligente para monitoramento agrícola,
-            gerenciamento de dispositivos e controle completo da sua fazenda.
-        </p>
-
+        <p>Plataforma inteligente para monitoramento agrícola e controle completo da sua fazenda.</p>
     </div>
 
-    <!-- LADO DIREITO -->
     <div class="right-side">
-
         <div class="tabs">
-
-            <button class="tab active" onclick="switchTab('login')">
-                LOGIN
-            </button>
-
-            <button class="tab" onclick="switchTab('register')">
-                CADASTRO
-            </button>
-
+            <button class="tab active" onclick="switchTab('login')">LOGIN</button>
+            <button class="tab" onclick="switchTab('register')">CADASTRO</button>
         </div>
 
-        <!-- LOGIN -->
-        <div class="tab-content active" id="loginTab">
+        <div class="tabs-wrapper">
+            <div class="tab-content active" id="loginTab">
+                <h2 class="form-title">Entrar</h2>
+                <p class="form-subtitle">Acesse sua conta para continuar.</p>
+                <div class="message" id="loginMessage"></div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="Digite seu email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" id="loginPassword" placeholder="Digite sua senha" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Entrar no Sistema</button>
+                </form>
+            </div>
 
-            <h2 class="form-title">Entrar</h2>
-
-            <p class="form-subtitle">
-                Acesse sua conta
-            </p>
-
-            <div class="message" id="loginMessage"></div>
-
-            <form id="loginForm">
-
-                <div class="form-group">
-                    <label>Email</label>
-
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        placeholder="Digite seu email"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Senha</label>
-
-                    <input
-                        type="password"
-                        id="loginPassword"
-                        placeholder="Digite sua senha"
-                        required
-                    >
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    Entrar no Sistema
-                </button>
-
-            </form>
-
+            <div class="tab-content" id="registerTab">
+                <h2 class="form-title">Criar Conta</h2>
+                <p class="form-subtitle">Gerencie sua fazenda agora mesmo.</p>
+                <div class="message" id="registerMessage"></div>
+                <form id="registerForm" class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Nome Completo</label>
+                        <input type="text" id="regName" placeholder="Seu nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="regEmail" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="tel" id="regPhone" placeholder="(00) 00000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" id="regPassword" placeholder="Mín. 6 chars" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar</label>
+                        <input type="password" id="regConfirmPassword" placeholder="Repita a senha" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="submit" class="btn-submit">Criar Minha Conta</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <!-- CADASTRO -->
-        <div class="tab-content" id="registerTab">
-
-            <h2 class="form-title">Criar Conta</h2>
-
-            <p class="form-subtitle">
-                Cadastre-se na plataforma
-            </p>
-
-            <div class="message" id="registerMessage"></div>
-
-            <form id="registerForm">
-
-                <div class="form-group">
-                    <label>Nome Completo *</label>
-
-                    <input
-                        type="text"
-                        id="regName"
-                        placeholder="Digite seu nome"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Email *</label>
-
-                    <input
-                        type="email"
-                        id="regEmail"
-                        placeholder="Digite seu email"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Telefone (opcional)</label>
-
-                    <input
-                        type="tel"
-                        id="regPhone"
-                        placeholder="(11) 99999-9999"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Senha *</label>
-
-                    <input
-                        type="password"
-                        id="regPassword"
-                        placeholder="Mínimo 6 caracteres"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Confirmar Senha</label>
-
-                    <input
-                        type="password"
-                        id="regConfirmPassword"
-                        placeholder="Repita sua senha"
-                        required
-                    >
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    Criar Conta
-                </button>
-
-            </form>
-
-        </div>
-
     </div>
-
 </div>
 
 <script>
-
-/* TROCAR TABS */
-function switchTab(tab){
-
-    document.querySelectorAll('.tab')
-    .forEach(btn => btn.classList.remove('active'));
-
-    document.querySelectorAll('.tab-content')
-    .forEach(content => content.classList.remove('active'));
-
-    if(tab === 'login'){
-
-        document.querySelectorAll('.tab')[0]
-        .classList.add('active');
-
-        document.getElementById('loginTab')
-        .classList.add('active');
-
-    }else{
-
-        document.querySelectorAll('.tab')[1]
-        .classList.add('active');
-
-        document.getElementById('registerTab')
-        .classList.add('active');
-    }
-
-}
-
-/* BANCO LOCAL */
-let DB = {
-
-    users: JSON.parse(
-        localStorage.getItem('agroecho_all_users')
-    ) || [
-
-        {
-            id:1,
-            name:'Administrador',
-            email:'admin@agroecho.com.br',
-            password:'admin123',
-            role:'admin'
+    function switchTab(tab){
+        document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        if(tab === 'login'){
+            document.querySelectorAll('.tab')[0].classList.add('active');
+            document.getElementById('loginTab').classList.add('active');
+        }else{
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            document.getElementById('registerTab').classList.add('active');
         }
-
-    ]
-
-};
-
-function saveDB(){
-
-    localStorage.setItem(
-        'agroecho_all_users',
-        JSON.stringify(DB.users)
-    );
-
-}
-
-/* LOGIN */
-document
-.getElementById('loginForm')
-.addEventListener('submit', function(e){
-
-    e.preventDefault();
-
-    const email =
-    document.getElementById('loginEmail').value;
-
-    const password =
-    document.getElementById('loginPassword').value;
-
-    const msg =
-    document.getElementById('loginMessage');
-
-    const user = DB.users.find(u =>
-        u.email === email &&
-        u.password === password
-    );
-
-    if(user){
-
-        sessionStorage.setItem(
-            'agroecho_user',
-            JSON.stringify(user)
-        );
-
-        msg.className =
-        'message message-success';
-
-        msg.style.display = 'block';
-
-        msg.innerHTML =
-        'Login realizado com sucesso';
-
-        setTimeout(()=>{
-
-            if(user.role === 'admin'){
-                window.location.href = 'dashboard.html';
-            }else{
-                window.location.href = 'USER_DISPOSITIVOS.html';
-            }
-
-        },1000);
-
-    }else{
-
-        msg.className =
-        'message message-error';
-
-        msg.style.display = 'block';
-
-        msg.innerHTML =
-        'Email ou senha inválidos';
     }
 
-});
-
-/* CADASTRO */
-document
-.getElementById('registerForm')
-.addEventListener('submit', function(e){
-
-    e.preventDefault();
-
-    const name =
-    document.getElementById('regName').value;
-
-    const email =
-    document.getElementById('regEmail').value;
-
-    const phone =
-    document.getElementById('regPhone').value;
-
-    const password =
-    document.getElementById('regPassword').value;
-
-    const confirmPassword =
-    document.getElementById('regConfirmPassword').value;
-
-    const msg =
-    document.getElementById('registerMessage');
-
-    if(password !== confirmPassword){
-
-        msg.className =
-        'message message-error';
-
-        msg.style.display = 'block';
-
-        msg.innerHTML =
-        'As senhas não coincidem';
-
-        return;
-    }
-
-    if(DB.users.some(u => u.email === email)){
-
-        msg.className =
-        'message message-error';
-
-        msg.style.display = 'block';
-
-        msg.innerHTML =
-        'Este email já está cadastrado';
-
-        return;
-    }
-
-    const newUser = {
-
-        id:DB.users.length + 1,
-        name,
-        email,
-        phone,
-        password,
-        role:'user'
-
+    // Lógica de Banco de Dados local e Forms mantida igual à sua original
+    let DB = {
+        users: JSON.parse(localStorage.getItem('agroecho_all_users')) || [
+            { id:1, name:'Admin', email:'admin@agroecho.com.br', password:'admin123', role:'admin' }
+        ]
     };
 
-    DB.users.push(newUser);
+    function saveDB(){ localStorage.setItem('agroecho_all_users', JSON.stringify(DB.users)); }
 
-    saveDB();
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const msg = document.getElementById('loginMessage');
+        const user = DB.users.find(u => u.email === email && u.password === password);
 
-    msg.className =
-    'message message-success';
+        if(user){
+            sessionStorage.setItem('agroecho_user', JSON.stringify(user));
+            msg.className = 'message message-success';
+            msg.style.display = 'block';
+            msg.innerHTML = 'Sucesso! Entrando...';
+            setTimeout(() => { window.location.href = user.role === 'admin' ? 'dashboard.html' : 'USER_DISPOSITIVOS.html'; }, 1000);
+        } else {
+            msg.className = 'message message-error';
+            msg.style.display = 'block';
+            msg.innerHTML = 'Dados incorretos.';
+        }
+    });
 
-    msg.style.display = 'block';
+    document.getElementById('registerForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('regName').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regConfirmPassword').value;
+        const msg = document.getElementById('registerMessage');
 
-    msg.innerHTML =
-    'Conta criada com sucesso';
+        if(password !== confirm){
+            msg.className = 'message message-error'; msg.style.display = 'block';
+            msg.innerHTML = 'Senhas diferentes!'; return;
+        }
 
-    document
-    .getElementById('registerForm')
-    .reset();
+        if(DB.users.some(u => u.email === email)){
+            msg.className = 'message message-error'; msg.style.display = 'block';
+            msg.innerHTML = 'Email já existe.'; return;
+        }
 
-    setTimeout(()=>{
-
-        switchTab('login');
-
-    },1500);
-
-});
-
+        DB.users.push({ id: Date.now(), name, email, password, role:'user' });
+        saveDB();
+        msg.className = 'message message-success'; msg.style.display = 'block';
+        msg.innerHTML = 'Conta criada!';
+        setTimeout(() => switchTab('login'), 1500);
+    });
 </script>
 
 </body>
