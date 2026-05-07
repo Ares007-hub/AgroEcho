@@ -5,34 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AgroEcho - Login</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
     :root {
         --verde-pastel: #bdf3c7;
         --verde-firme: #0b8f47;
+        --verde-escuro: #064e26; 
         --branco: #ffffff;
+        --erro: #e74c3c;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
     body {
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        background: linear-gradient(135deg, var(--branco), var(--verde-pastel), var(--branco));
-        /* Removido o overflow hidden para permitir scroll na página se necessário */
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                    url('fundoloding.png');
+        background-size: cover;
+        background-position: center;
         padding: 20px;
     }
 
     .container {
         width: 1000px;
         max-width: 100%;
-        /* Trocado de height fixo para min-height para ser expansivo */
         min-height: 600px; 
-        background: var(--branco);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
         border-radius: 30px;
         display: flex;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         overflow: hidden;
         position: relative;
         animation: surge 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
@@ -45,19 +52,30 @@
 
     .left-side {
         width: 45%;
-        background: var(--branco);
+        background: transparent;
         padding: 40px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        position: relative;
+    }
+
+
+    .logo-container {
+        background: transparent;
+        border: 2px solid var(--verde-escuro);
+        border-radius: 15px;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        animation: float 4s ease-in-out infinite;
     }
 
     .logo-img {
-        width: 260px;
-        z-index: 1;
-        animation: float 4s ease-in-out infinite;
+        width: 200px;
+        mix-blend-mode: multiply; 
     }
 
     @keyframes float {
@@ -65,13 +83,30 @@
         50% { transform: translateY(-10px); }
     }
 
-    .left-side p {
-        color: var(--verde-firme);
-        text-align: center;
-        font-size: 0.95rem;
-        line-height: 1.5;
+    .social {
         margin-top: 20px;
-        z-index: 1;
+    }
+
+
+    .social a {
+        font-size: 24px;
+        color: var(--verde-escuro);
+        text-decoration: none;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+        border: 2px solid var(--verde-escuro);
+        border-radius: 50%;
+        transition: 0.3s;
+    }
+
+    .social a:hover {
+        background: var(--verde-escuro);
+        color: white;
+        transform: scale(1.1);
     }
 
     .right-side {
@@ -80,110 +115,46 @@
         padding: 40px;
         display: flex;
         flex-direction: column;
-        /* Garante que o lado direito ocupe a altura do container */
-        justify-content: flex-start;
     }
 
-    .tabs {
-        display: flex;
-        margin-bottom: 20px;
-        border-bottom: 2px solid rgba(0,0,0,0.05);
-    }
-
-    .tab {
-        flex: 1;
-        padding: 12px;
-        border: none;
-        background: none;
-        font-weight: bold;
-        color: rgba(0,0,0,0.4);
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .tab.active {
-        color: var(--verde-firme);
-        border-bottom: 3px solid var(--verde-firme);
-    }
-
-    /* Ajuste do Wrapper para o Scroll Funcionar */
-    .tabs-wrapper {
-        flex: 1;
-        overflow-y: auto; 
-        max-height: 450px; /* Limite de altura para ativar o scroll interno */
-        padding-right: 10px;
-    }
-
-    /* Estilização da barra de rolagem */
+    .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid rgba(0,0,0,0.05); }
+    .tab { flex: 1; padding: 12px; border: none; background: none; font-weight: bold; color: rgba(0,0,0,0.4); cursor: pointer; transition: 0.3s; }
+    .tab.active { color: var(--verde-firme); border-bottom: 3px solid var(--verde-firme); }
+    .tabs-wrapper { flex: 1; overflow-y: auto; max-height: 480px; padding-right: 10px; }
     .tabs-wrapper::-webkit-scrollbar { width: 6px; }
-    .tabs-wrapper::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
     .tabs-wrapper::-webkit-scrollbar-thumb { background: var(--verde-firme); border-radius: 10px; }
-
     .tab-content { display: none; animation: slideIn 0.4s ease-out; }
     .tab-content.active { display: block; }
-
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateX(10px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-
-    .form-title { color: var(--verde-firme); font-size: 2rem; margin-bottom: 5px; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+    .form-title { color: var(--verde-firme); font-size: 2rem; margin-bottom: 5px; font-weight: 700; }
     .form-subtitle { color: #555; margin-bottom: 15px; font-size: 0.9rem; }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .full-width { grid-column: span 2; }
-    .form-group { margin-bottom: 10px; }
+    .form-group { margin-bottom: 10px; position: relative; }
     label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.85rem; color: #333; }
-
-    input {
-        width: 100%;
-        padding: 10px 12px;
-        border-radius: 8px;
-        border: 1px solid transparent;
-        outline: none;
-        font-size: 0.9rem;
-    }
-
+    input { width: 100%; padding: 11px 12px; border-radius: 8px; border: 1px solid #ddd; outline: none; font-size: 0.9rem; transition: 0.2s; }
     input:focus { border-color: var(--verde-firme); box-shadow: 0 0 8px rgba(11, 143, 71, 0.1); }
-
-    .btn-submit {
-        width: 100%;
-        padding: 14px;
-        background: var(--verde-firme);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.3s;
-        margin-top: 10px;
-    }
-
-    .btn-submit:hover { filter: brightness(1.1); transform: translateY(-2px); }
-
+    .phone-warning { color: var(--erro); font-size: 0.7rem; position: absolute; bottom: -15px; left: 0; display: none; }
+    .btn-submit { width: 100%; padding: 14px; background: var(--verde-firme); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+    .btn-submit:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(11, 143, 71, 0.2); }
     .message { padding: 10px; border-radius: 8px; margin-bottom: 10px; display: none; font-size: 0.85rem; text-align: center; font-weight: bold; }
-    .message-success { background: #d1fae5; color: #065f46; }
-    .message-error { background: #fee2e2; color: #991b1b; }
-
-    @media(max-width: 850px){
-        .container { flex-direction: column; height: auto; min-height: auto; }
-        .left-side, .right-side { width: 100%; }
-        .form-grid { grid-template-columns: 1fr; }
-        .tabs-wrapper { max-height: none; overflow: visible; } /* No mobile, cresce livremente */
-    }
+    .message-success { background: #d1fae5; color: #065f46; border: 1px solid #065f46; }
+    .message-error { background: #fee2e2; color: #991b1b; border: 1px solid #991b1b; }
 </style>
 </head>
 <body>
 
 <div class="container">
     <div class="left-side">
-        <img src="Logo.png" class="logo-img">
-        <p>Plataforma inteligente para monitoramento agrícola e controle completo da sua fazenda.</p>
+        <div class="logo-container">
+            <img src="Logo.png" class="logo-img" alt="Logo AgroEcho">
+        </div>
+
+        <div class="social">
+            <a href="#" target="_blank" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
     </div>
 
     <div class="right-side">
@@ -225,11 +196,12 @@
                     </div>
                     <div class="form-group">
                         <label>Telefone</label>
-                        <input type="tel" id="regPhone" placeholder="(00) 00000-0000">
+                        <input type="tel" id="regPhone" placeholder="(00) 00000-0000" inputmode="numeric" maxlength="15">
+                        <span id="phoneHint" class="phone-warning">Apenas números permitidos!</span>
                     </div>
                     <div class="form-group">
                         <label>Senha</label>
-                        <input type="password" id="regPassword" placeholder="Mín. 6 chars" required>
+                        <input type="password" id="regPassword" placeholder="Mín. 6 chars + Especial" required>
                     </div>
                     <div class="form-group">
                         <label>Confirmar</label>
@@ -245,25 +217,43 @@
 </div>
 
 <script>
-    function switchTab(tab){
-        document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        if(tab === 'login'){
-            document.querySelectorAll('.tab')[0].classList.add('active');
-            document.getElementById('loginTab').classList.add('active');
-        }else{
-            document.querySelectorAll('.tab')[1].classList.add('active');
-            document.getElementById('registerTab').classList.add('active');
-        }
+    function switchTab(tab) {
+        const isLogin = tab === 'login';
+        document.querySelectorAll('.tab').forEach((btn, idx) => {
+            btn.classList.toggle('active', isLogin ? idx === 0 : idx === 1);
+        });
+        document.getElementById('loginTab').classList.toggle('active', isLogin);
+        document.getElementById('registerTab').classList.toggle('active', !isLogin);
+        document.querySelectorAll('.message').forEach(m => m.style.display = 'none');
     }
+
+    const telInput = document.getElementById('regPhone');
+    const phoneHint = document.getElementById('phoneHint');
+
+    telInput.addEventListener('input', (e) => {
+        let value = e.target.value;
+        if (/[a-zA-Z]/.test(value)) {
+            phoneHint.style.display = 'block';
+            setTimeout(() => { phoneHint.style.display = 'none'; }, 2000);
+        }
+        value = value.replace(/\D/g, ''); 
+        if (value.length > 0) value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        if (value.length > 9) value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        e.target.value = value;
+    });
 
     let DB = {
         users: JSON.parse(localStorage.getItem('agroecho_all_users')) || [
-            { id:1, name:'Admin', email:'admin@agroecho.com.br', password:'admin123', role:'admin' }
+            { id:1, name:'Admin', email:'admin@agroecho.com.br', password:'Admin@123', role:'admin' }
         ]
     };
 
     function saveDB(){ localStorage.setItem('agroecho_all_users', JSON.stringify(DB.users)); }
+
+    function isPasswordStrong(pw) {
+        const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+        return regex.test(pw);
+    }
 
     document.getElementById('loginForm').addEventListener('submit', function(e){
         e.preventDefault();
@@ -293,20 +283,26 @@
         const confirm = document.getElementById('regConfirmPassword').value;
         const msg = document.getElementById('registerMessage');
 
+        if(!isPasswordStrong(password)) {
+            msg.className = 'message message-error'; msg.style.display = 'block';
+            msg.innerHTML = 'Senha fraca! Use pelo o menos uma letra maiúscula e um símbolo (!@#$).';
+            return;
+        }
+
         if(password !== confirm){
             msg.className = 'message message-error'; msg.style.display = 'block';
-            msg.innerHTML = 'Senhas diferentes!'; return;
+            msg.innerHTML = 'As senhas não coincidem!'; return;
         }
 
         if(DB.users.some(u => u.email === email)){
             msg.className = 'message message-error'; msg.style.display = 'block';
-            msg.innerHTML = 'Email já existe.'; return;
+            msg.innerHTML = 'Email já cadastrado.'; return;
         }
 
         DB.users.push({ id: Date.now(), name, email, password, role:'user' });
         saveDB();
         msg.className = 'message message-success'; msg.style.display = 'block';
-        msg.innerHTML = 'Conta criada!';
+        msg.innerHTML = 'Conta criada com sucesso!';
         setTimeout(() => switchTab('login'), 1500);
     });
 </script>
