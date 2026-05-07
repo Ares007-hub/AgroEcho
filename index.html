@@ -102,11 +102,12 @@
         border-bottom: 3px solid var(--verde-firme);
     }
 
-    /* ÁREA DE CONTEÚDO COM SCROLL SE PRECISAR */
+
     .tabs-wrapper {
         flex: 1;
-        overflow-y: auto; /* Permite rolar se a tela for pequena */
+        overflow-y: auto; 
         padding-right: 5px;
+        overflow: hidden
     }
 
     /* Estilização da barra de rolagem para ficar discreta */
@@ -252,7 +253,6 @@
         }
     }
 
-    // Lógica de Banco de Dados local e Forms mantida igual à sua original
     let DB = {
         users: JSON.parse(localStorage.getItem('agroecho_all_users')) || [
             { id:1, name:'Admin', email:'admin@agroecho.com.br', password:'admin123', role:'admin' }
