@@ -146,10 +146,7 @@
         transform: translateY(-3px);
     }
 
-    .logo-img {
-        width: 160px;
-        height: auto;
-    }
+    .logo-img { width: 160px; height: auto; }
 
     .brand-name {
         font-size: 1rem;
@@ -186,286 +183,123 @@
         background: var(--green-50);
     }
 
-    .form-panel {
-        width: 60%;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
+    .form-panel { width: 60%; display: flex; flex-direction: column; height: 100%; }
 
     .tab-row {
-        display: flex;
-        gap: 0;
+        display: flex; gap: 0;
         border-bottom: 2px solid var(--gray-200);
-        padding: 0 40px;
-        flex-shrink: 0;
+        padding: 0 40px; flex-shrink: 0;
     }
 
     .tab-btn {
-        flex: 1;
-        padding: 18px 10px;
-        border: none;
-        background: none;
-        font-weight: 600;
-        font-size: 0.88rem;
-        color: var(--gray-400);
-        cursor: pointer;
-        letter-spacing: 0.8px;
-        transition: all 0.25s;
-        position: relative;
-        font-family: 'Inter', sans-serif;
-        text-transform: uppercase;
+        flex: 1; padding: 18px 10px; border: none; background: none;
+        font-weight: 600; font-size: 0.88rem; color: var(--gray-400);
+        cursor: pointer; letter-spacing: 0.8px; transition: all 0.25s;
+        position: relative; font-family: 'Inter', sans-serif; text-transform: uppercase;
     }
 
-    .tab-btn.active {
-        color: var(--green-500);
-    }
+    .tab-btn.active { color: var(--green-500); }
 
     .tab-btn.active::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 45px;
-        height: 2.5px;
-        background: var(--green-500);
-        border-radius: 10px;
+        content: ''; position: absolute; bottom: -2px; left: 50%;
+        transform: translateX(-50%); width: 45px; height: 2.5px;
+        background: var(--green-500); border-radius: 10px;
     }
 
-    /* Scroll area */
     .tab-scroll {
-        flex: 1;
-        overflow-y: auto;
-        padding: 30px 40px 35px;
+        flex: 1; overflow-y: auto; padding: 30px 40px 35px;
     }
 
-    .tab-scroll::-webkit-scrollbar {
-        width: 5px;
-    }
+    .tab-scroll::-webkit-scrollbar { width: 5px; }
+    .tab-scroll::-webkit-scrollbar-track { background: transparent; }
+    .tab-scroll::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 10px; }
 
-    .tab-scroll::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .tab-scroll::-webkit-scrollbar-thumb {
-        background: var(--gray-300);
-        border-radius: 10px;
-    }
-
-    .tab-scroll::-webkit-scrollbar-thumb:hover {
-        background: var(--gray-400);
-    }
-
-    .tab-content {
-        display: none;
-        animation: slideIn 0.35s ease-out;
-    }
-
-    .tab-content.active {
-        display: block;
-    }
+    .tab-content { display: none; animation: slideIn 0.35s ease-out; }
+    .tab-content.active { display: block; }
 
     @keyframes slideIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
-    .section-title {
-        font-size: 1.45rem;
-        font-weight: 700;
-        color: var(--gray-800);
-        margin-bottom: 3px;
-    }
+    .section-title { font-size: 1.45rem; font-weight: 700; color: var(--gray-800); margin-bottom: 3px; }
+    .section-subtitle { font-size: 0.83rem; color: var(--gray-500); margin-bottom: 24px; }
 
-    .section-subtitle {
-        font-size: 0.83rem;
-        color: var(--gray-500);
-        margin-bottom: 24px;
-    }
-
-    .field-group {
-        margin-bottom: 18px;
-    }
+    .field-group { margin-bottom: 18px; position: relative; }
 
     .field-group label {
-        display: block;
-        font-size: 0.78rem;
-        font-weight: 600;
-        color: var(--gray-600);
-        margin-bottom: 6px;
-        letter-spacing: 0.2px;
+        display: block; font-size: 0.78rem; font-weight: 600;
+        color: var(--gray-600); margin-bottom: 6px; letter-spacing: 0.2px;
     }
 
-    .field-group label .asterisk {
-        color: var(--red);
-        margin-left: 2px;
-        font-weight: 700;
-    }
+    .field-group label .asterisk { color: var(--red); margin-left: 2px; font-weight: 700; }
 
     .field-group input {
-        width: 100%;
-        padding: 13px 16px;
-        border: 1.5px solid var(--gray-300);
-        border-radius: 10px;
-        font-size: 0.88rem;
-        color: var(--gray-800);
-        background: var(--gray-50);
-        outline: none;
-        transition: all 0.2s;
-        font-family: 'Inter', sans-serif;
+        width: 100%; padding: 13px 45px 13px 16px;
+        border: 1.5px solid var(--gray-300); border-radius: 10px;
+        font-size: 0.88rem; color: var(--gray-800); background: var(--gray-50);
+        outline: none; transition: all 0.2s; font-family: 'Inter', sans-serif;
     }
 
-    .field-group input::placeholder {
-        color: var(--gray-400);
-    }
-
+    .field-group input::placeholder { color: var(--gray-400); }
     .field-group input:focus {
-        border-color: var(--green-500);
-        background: var(--white);
+        border-color: var(--green-500); background: var(--white);
         box-shadow: 0 0 0 4px rgba(11, 143, 71, 0.06);
     }
+    .field-group input.valid { border-color: var(--emerald); background: var(--green-50); }
+    .field-group input.invalid { border-color: var(--red); background: #fef2f2; }
 
-    .field-group input.valid {
-        border-color: var(--emerald);
-        background: var(--green-50);
+    .toggle-password {
+        position: absolute; right: 12px; top: 34px; background: none;
+        border: none; cursor: pointer; color: var(--gray-400);
+        font-size: 1rem; padding: 5px; transition: color 0.2s;
     }
+    .toggle-password:hover { color: var(--gray-600); }
 
-    .field-group input.invalid {
-        border-color: var(--red);
-        background: #fef2f2;
-    }
-
-    .field-hint {
-        font-size: 0.72rem;
-        margin-top: 5px;
-        min-height: 18px;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-
+    .field-hint { font-size: 0.72rem; margin-top: 5px; min-height: 18px; font-weight: 500; }
     .field-hint.ok { color: var(--emerald); }
     .field-hint.err { color: var(--red); }
 
-    .strength-track {
-        height: 5px;
-        background: var(--gray-200);
-        border-radius: 10px;
-        margin-top: 8px;
-        overflow: hidden;
-    }
-
-    .strength-fill {
-        height: 100%;
-        width: 0;
-        border-radius: 10px;
-        transition: all 0.4s ease;
-    }
-
+    .strength-track { height: 5px; background: var(--gray-200); border-radius: 10px; margin-top: 8px; overflow: hidden; }
+    .strength-fill { height: 100%; width: 0; border-radius: 10px; transition: all 0.4s ease; }
     .strength-fill[data-level="weak"] { width: 25%; background: var(--red); }
     .strength-fill[data-level="fair"] { width: 50%; background: var(--amber); }
     .strength-fill[data-level="good"] { width: 75%; background: var(--lime); }
     .strength-fill[data-level="strong"] { width: 100%; background: var(--emerald); }
 
-    .strength-label {
-        font-size: 0.72rem;
-        font-weight: 600;
-        margin-top: 4px;
-        transition: color 0.3s;
-    }
-
+    .strength-label { font-size: 0.72rem; font-weight: 600; margin-top: 4px; }
     .strength-label[data-level="weak"] { color: var(--red); }
     .strength-label[data-level="fair"] { color: var(--amber); }
     .strength-label[data-level="good"] { color: var(--lime); }
     .strength-label[data-level="strong"] { color: var(--emerald); }
 
-    .req-list {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3px 12px;
-        margin-top: 8px;
-    }
-
-    .req-list span {
-        font-size: 0.7rem;
-        color: var(--gray-400);
-        transition: color 0.25s;
-    }
-
-    .req-list span.met {
-        color: var(--emerald);
-    }
+    .req-list { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 12px; margin-top: 8px; }
+    .req-list span { font-size: 0.7rem; color: var(--gray-400); transition: color 0.25s; }
+    .req-list span.met { color: var(--emerald); }
 
     .btn-primary {
-        width: 100%;
-        padding: 14px;
-        background: var(--green-500);
-        color: var(--white);
-        border: none;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        letter-spacing: 0.3px;
-        margin-top: 6px;
-        transition: all 0.25s;
+        width: 100%; padding: 14px; background: var(--green-500);
+        color: var(--white); border: none; border-radius: 10px;
+        font-weight: 600; font-size: 0.9rem; cursor: pointer;
+        letter-spacing: 0.3px; margin-top: 6px; transition: all 0.25s;
         font-family: 'Inter', sans-serif;
-        position: sticky;
-        bottom: 0;
     }
-
-    .btn-primary:hover {
-        background: var(--green-600);
-        transform: translateY(-1px);
-        box-shadow: 0 8px 25px rgba(11, 143, 71, 0.2);
-    }
+    .btn-primary:hover { background: var(--green-600); transform: translateY(-1px); box-shadow: 0 8px 25px rgba(11, 143, 71, 0.2); }
 
     .alert-msg {
-        padding: 12px 16px;
-        border-radius: 10px;
-        margin-bottom: 18px;
-        display: none;
-        font-size: 0.82rem;
-        font-weight: 500;
-        text-align: center;
+        padding: 12px 16px; border-radius: 10px; margin-bottom: 18px;
+        display: none; font-size: 0.82rem; font-weight: 500; text-align: center;
     }
-
-    .alert-msg.success {
-        background: var(--green-50);
-        color: var(--green-600);
-        border: 1px solid var(--green-200);
-    }
-
-    .alert-msg.error {
-        background: #fef2f2;
-        color: #991b1b;
-        border: 1px solid #fecaca;
-    }
+    .alert-msg.success { background: var(--green-50); color: var(--green-600); border: 1px solid var(--green-200); }
+    .alert-msg.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 
     @media (max-width: 768px) {
-        .container {
-            flex-direction: column;
-            height: auto;
-            max-height: none;
-        }
-        .brand-panel {
-            width: 100%;
-            padding: 30px 20px;
-        }
-        .form-panel {
-            width: 100%;
-            height: auto;
-        }
-        .tab-scroll {
-            padding: 24px 20px 30px;
-            max-height: 500px;
-        }
-        .tab-row {
-            padding: 0 20px;
-        }
-        .req-list {
-            grid-template-columns: 1fr;
-        }
+        .container { flex-direction: column; height: auto; max-height: none; }
+        .brand-panel { width: 100%; padding: 30px 20px; }
+        .form-panel { width: 100%; height: auto; }
+        .tab-scroll { padding: 24px 20px 30px; max-height: 500px; }
+        .tab-row { padding: 0 20px; }
+        .req-list { grid-template-columns: 1fr; }
     }
 </style>
 </head>
@@ -497,6 +331,7 @@
 
         <div class="tab-scroll">
 
+            <!-- LOGIN -->
             <div class="tab-content active" id="tab-login">
                 <div class="section-title">Bem-vindo de volta</div>
                 <div class="section-subtitle">Acesse sua conta para continuar.</div>
@@ -510,11 +345,15 @@
                     <div class="field-group">
                         <label>Senha</label>
                         <input type="password" id="loginPassword" placeholder="Sua senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePass('loginPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
                     <button type="submit" class="btn-primary">Entrar</button>
                 </form>
             </div>
 
+            <!-- REGISTER -->
             <div class="tab-content" id="tab-register">
                 <div class="section-title">Criar conta</div>
                 <div class="section-subtitle">Preencha os dados para começar.</div>
@@ -540,6 +379,9 @@
                     <div class="field-group">
                         <label>Senha <span class="asterisk">*</span></label>
                         <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" required>
+                        <button type="button" class="toggle-password" onclick="togglePass('regPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
                         <div class="strength-track">
                             <div class="strength-fill" id="strengthFill" data-level=""></div>
                         </div>
@@ -555,6 +397,9 @@
                     <div class="field-group">
                         <label>Confirmar senha <span class="asterisk">*</span></label>
                         <input type="password" id="regConfirm" placeholder="Repita a senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePass('regConfirm', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
                         <div class="field-hint" id="matchHint"></div>
                     </div>
 
@@ -566,221 +411,228 @@
 </div>
 
 <script>
-    let theme = localStorage.getItem('agroecho_theme') || 'light';
-    
-    function applyTheme() {
-        if (theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.querySelector('.theme-toggle i').className = 'fas fa-sun';
-        } else {
-            document.documentElement.removeAttribute('data-theme');
-            document.querySelector('.theme-toggle i').className = 'fas fa-moon';
-        }
+// ========== TEMA ==========
+let theme = localStorage.getItem('agroecho_theme') || 'light';
+function applyTheme() {
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+        document.querySelector('.theme-toggle i').className = 'fas fa-moon';
     }
-    
-    function toggleTheme() {
-        theme = theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('agroecho_theme', theme);
-        applyTheme();
-    }
-    
+}
+function toggleTheme() {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('agroecho_theme', theme);
     applyTheme();
+}
+applyTheme();
 
-
-    function switchTab(tab) {
-        const isLogin = tab === 'login';
-        document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-            btn.classList.toggle('active', isLogin ? i === 0 : i === 1);
-        });
-        document.getElementById('tab-login').classList.toggle('active', isLogin);
-        document.getElementById('tab-register').classList.toggle('active', !isLogin);
-        document.querySelectorAll('.alert-msg').forEach(m => m.style.display = 'none');
-        
-        document.querySelector('.tab-scroll').scrollTop = 0;
+// ========== VISUALIZAR SENHA ==========
+function togglePass(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
     }
+}
 
-    const phoneInput = document.getElementById('regPhone');
-    phoneInput.addEventListener('input', function() {
-        let val = this.value.replace(/\D/g, '');
-        if (val.length > 0) val = val.replace(/^(\d{2})(\d)/, '($1) $2');
-        if (val.length > 10) val = val.replace(/(\d{5})(\d)/, '$1-$2');
-        this.value = val;
+// ========== TABS ==========
+function switchTab(tab) {
+    const isLogin = tab === 'login';
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', isLogin ? i === 0 : i === 1);
     });
+    document.getElementById('tab-login').classList.toggle('active', isLogin);
+    document.getElementById('tab-register').classList.toggle('active', !isLogin);
+    document.querySelectorAll('.alert-msg').forEach(m => m.style.display = 'none');
+    document.querySelector('.tab-scroll').scrollTop = 0;
+}
 
-    let DB = {
-        users: JSON.parse(localStorage.getItem('agroecho_all_users')) || [
-            { id:1, name:'Administrador', email:'admin@agroecho.com.br', password:'Admin@123', role:'admin', phone:'(11) 99999-9999' }
-        ]
-    };
-    function saveDB() { localStorage.setItem('agroecho_all_users', JSON.stringify(DB.users)); }
+// ========== TELEFONE ==========
+const phoneInput = document.getElementById('regPhone');
+phoneInput.addEventListener('input', function() {
+    let val = this.value.replace(/\D/g, '');
+    if (val.length > 0) val = val.replace(/^(\d{2})(\d)/, '($1) $2');
+    if (val.length > 10) val = val.replace(/(\d{5})(\d)/, '$1-$2');
+    this.value = val;
+});
 
+// ========== BANCO DE DADOS ==========
+function getUsers() {
+    let users = localStorage.getItem('agroecho_all_users');
+    if (users) return JSON.parse(users);
+    return [];
+}
+function saveUsers(users) {
+    localStorage.setItem('agroecho_all_users', JSON.stringify(users));
+}
 
-    const emailInput = document.getElementById('regEmail');
-    const emailHint = document.getElementById('emailHint');
-
-    function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-
-    emailInput.addEventListener('input', function() {
-        const val = this.value.trim();
-        if (!val) { emailHint.textContent = ''; this.classList.remove('valid','invalid'); return; }
-        if (validEmail(val)) {
-            emailHint.textContent = 'Email válido';
-            emailHint.className = 'field-hint ok';
-            this.classList.add('valid'); this.classList.remove('invalid');
-        } else {
-            emailHint.textContent = 'Formato inválido';
-            emailHint.className = 'field-hint err';
-            this.classList.add('invalid'); this.classList.remove('valid');
-        }
-    });
-
-    const pwdInput = document.getElementById('regPassword');
-    const strengthFill = document.getElementById('strengthFill');
-    const strengthLabel = document.getElementById('strengthLabel');
-    const reqs = {
-        length: document.getElementById('req-length'),
-        upper: document.getElementById('req-upper'),
-        special: document.getElementById('req-special'),
-        number: document.getElementById('req-number')
-    };
-
-    function checkPwd(pwd) {
-        const checks = {
-            length: pwd.length >= 6,
-            upper: /[A-Z]/.test(pwd),
-            special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
-            number: /[0-9]/.test(pwd)
-        };
-        let score = Object.values(checks).filter(Boolean).length;
-        if (pwd.length >= 10) score++;
-        return { checks, score };
-    }
-
-    pwdInput.addEventListener('input', function() {
-        const pwd = this.value;
-        
-        if (!pwd) {
-            strengthFill.setAttribute('data-level', '');
-            strengthLabel.setAttribute('data-level', '');
-            strengthLabel.textContent = '';
-            Object.values(reqs).forEach(r => r.className = '');
-            return;
-        }
-
-        const { checks, score } = checkPwd(pwd);
-        
-        reqs.length.className = checks.length ? 'met' : '';
-        reqs.upper.className = checks.upper ? 'met' : '';
-        reqs.special.className = checks.special ? 'met' : '';
-        reqs.number.className = checks.number ? 'met' : '';
-
-        let level = '';
-        if (score <= 1) level = 'weak';
-        else if (score <= 2) level = 'fair';
-        else if (score <= 3) level = 'good';
-        else level = 'strong';
-
-        strengthFill.setAttribute('data-level', level);
-        strengthLabel.setAttribute('data-level', level);
-        
-        const labels = { weak: 'Fraca', fair: 'Razoável', good: 'Boa', strong: 'Forte' };
-        strengthLabel.textContent = labels[level];
-    });
-
-    const confirmInput = document.getElementById('regConfirm');
-    const matchHint = document.getElementById('matchHint');
-
-    confirmInput.addEventListener('input', function() {
-        const val = this.value;
-        if (!val) { matchHint.textContent = ''; this.classList.remove('valid','invalid'); return; }
-        if (val === pwdInput.value) {
-            matchHint.textContent = 'Senhas conferem';
-            matchHint.className = 'field-hint ok';
-            this.classList.add('valid'); this.classList.remove('invalid');
-        } else {
-            matchHint.textContent = 'Senhas não conferem';
-            matchHint.className = 'field-hint err';
-            this.classList.add('invalid'); this.classList.remove('valid');
-        }
-    });
-
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const pwd = document.getElementById('loginPassword').value;
-        const msg = document.getElementById('loginMsg');
-        
-        DB.users = JSON.parse(localStorage.getItem('agroecho_all_users')) || DB.users;
-        const user = DB.users.find(u => u.email === email && u.password === pwd);
-
-        if (user) {
-            sessionStorage.setItem('agroecho_user', JSON.stringify(user));
-            msg.className = 'alert-msg success';
-            msg.style.display = 'block';
-            msg.textContent = 'Login efetuado. Redirecionando...';
-            setTimeout(() => {
-                window.location.href = user.role === 'admin' ? 'dashboard.html' : 'user_dispositivos.html';
-            }, 800);
-        } else {
-            msg.className = 'alert-msg error';
-            msg.style.display = 'block';
-            msg.textContent = 'Email ou senha incorretos.';
-        }
-    });
-
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = document.getElementById('regName').value.trim();
-        const email = emailInput.value.trim();
-        const phone = phoneInput.value.trim();
-        const pwd = pwdInput.value;
-        const confirm = confirmInput.value;
-        const msg = document.getElementById('registerMsg');
-
-        if (!validEmail(email)) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'Insira um email válido.'; return;
-        }
-
-        const { checks } = checkPwd(pwd);
-        if (!Object.values(checks).every(Boolean)) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'A senha não atende aos requisitos.'; return;
-        }
-
-        if (pwd !== confirm) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'As senhas não conferem.'; return;
-        }
-
-        DB.users = JSON.parse(localStorage.getItem('agroecho_all_users')) || DB.users;
-        if (DB.users.some(u => u.email === email)) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'Este email já está cadastrado.'; return;
-        }
-
-        DB.users.push({ 
-            id: Date.now(), name, email, password: pwd, 
-            phone: phone || '-', role: 'user', 
-            createdAt: new Date().toISOString().split('T')[0] 
+// Garante admin padrão
+(function() {
+    let users = getUsers();
+    if (!users.find(u => u.email === 'admin@agroecho.com.br')) {
+        users.push({
+            id: 1, name: 'Administrador', email: 'admin@agroecho.com.br',
+            password: 'Admin@123', role: 'admin', phone: '(11) 99999-9999',
+            createdAt: '2024-01-15', permanent: true
         });
-        saveDB();
+        saveUsers(users);
+    }
+})();
 
-        msg.className = 'alert-msg success'; msg.style.display = 'block';
-        msg.textContent = 'Conta criada com sucesso!';
-        
-        document.getElementById('registerForm').reset();
+// ========== EMAIL ==========
+const emailInput = document.getElementById('regEmail');
+const emailHint = document.getElementById('emailHint');
+function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+emailInput.addEventListener('input', function() {
+    const val = this.value.trim();
+    if (!val) { emailHint.textContent = ''; this.classList.remove('valid','invalid'); return; }
+    if (validEmail(val)) {
+        emailHint.textContent = 'Email válido';
+        emailHint.className = 'field-hint ok';
+        this.classList.add('valid'); this.classList.remove('invalid');
+    } else {
+        emailHint.textContent = 'Formato inválido';
+        emailHint.className = 'field-hint err';
+        this.classList.add('invalid'); this.classList.remove('valid');
+    }
+});
+
+// ========== SENHA ==========
+const pwdInput = document.getElementById('regPassword');
+const strengthFill = document.getElementById('strengthFill');
+const strengthLabel = document.getElementById('strengthLabel');
+const reqs = {
+    length: document.getElementById('req-length'),
+    upper: document.getElementById('req-upper'),
+    special: document.getElementById('req-special'),
+    number: document.getElementById('req-number')
+};
+function checkPwd(pwd) {
+    const checks = {
+        length: pwd.length >= 6,
+        upper: /[A-Z]/.test(pwd),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
+        number: /[0-9]/.test(pwd)
+    };
+    let score = Object.values(checks).filter(Boolean).length;
+    if (pwd.length >= 10) score++;
+    return { checks, score };
+}
+pwdInput.addEventListener('input', function() {
+    const pwd = this.value;
+    if (!pwd) {
         strengthFill.setAttribute('data-level', '');
         strengthLabel.setAttribute('data-level', '');
         strengthLabel.textContent = '';
         Object.values(reqs).forEach(r => r.className = '');
-        emailHint.textContent = '';
-        matchHint.textContent = '';
-        emailInput.classList.remove('valid','invalid');
-        confirmInput.classList.remove('valid','invalid');
+        return;
+    }
+    const { checks, score } = checkPwd(pwd);
+    reqs.length.className = checks.length ? 'met' : '';
+    reqs.upper.className = checks.upper ? 'met' : '';
+    reqs.special.className = checks.special ? 'met' : '';
+    reqs.number.className = checks.number ? 'met' : '';
+    let level = score <= 1 ? 'weak' : score <= 2 ? 'fair' : score <= 3 ? 'good' : 'strong';
+    strengthFill.setAttribute('data-level', level);
+    strengthLabel.setAttribute('data-level', level);
+    strengthLabel.textContent = { weak: 'Fraca', fair: 'Razoável', good: 'Boa', strong: 'Forte' }[level];
+});
 
-        setTimeout(() => switchTab('login'), 1500);
-    });
+// ========== CONFIRMAR SENHA ==========
+const confirmInput = document.getElementById('regConfirm');
+const matchHint = document.getElementById('matchHint');
+confirmInput.addEventListener('input', function() {
+    const val = this.value;
+    if (!val) { matchHint.textContent = ''; this.classList.remove('valid','invalid'); return; }
+    if (val === pwdInput.value) {
+        matchHint.textContent = 'Senhas conferem';
+        matchHint.className = 'field-hint ok';
+        this.classList.add('valid'); this.classList.remove('invalid');
+    } else {
+        matchHint.textContent = 'Senhas não conferem';
+        matchHint.className = 'field-hint err';
+        this.classList.add('invalid'); this.classList.remove('valid');
+    }
+});
+
+// ========== LOGIN ==========
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const pwd = document.getElementById('loginPassword').value;
+    const msg = document.getElementById('loginMsg');
+    
+    const users = getUsers();
+    const user = users.find(u => u.email === email && u.password === pwd);
+
+    if (user) {
+        sessionStorage.setItem('agroecho_user', JSON.stringify(user));
+        msg.className = 'alert-msg success';
+        msg.style.display = 'block';
+        msg.textContent = 'Login efetuado. Redirecionando...';
+        setTimeout(() => {
+            window.location.href = user.role === 'admin' ? 'dashboard.html' : 'user_dispositivos.html';
+        }, 800);
+    } else {
+        msg.className = 'alert-msg error';
+        msg.style.display = 'block';
+        msg.textContent = 'Email ou senha incorretos.';
+    }
+});
+
+// ========== REGISTRO ==========
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('regName').value.trim();
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const pwd = pwdInput.value;
+    const confirm = confirmInput.value;
+    const msg = document.getElementById('registerMsg');
+
+    if (!validEmail(email)) {
+        msg.className = 'alert-msg error'; msg.style.display = 'block';
+        msg.textContent = 'Insira um email válido.'; return;
+    }
+    const { checks } = checkPwd(pwd);
+    if (!Object.values(checks).every(Boolean)) {
+        msg.className = 'alert-msg error'; msg.style.display = 'block';
+        msg.textContent = 'A senha não atende aos requisitos.'; return;
+    }
+    if (pwd !== confirm) {
+        msg.className = 'alert-msg error'; msg.style.display = 'block';
+        msg.textContent = 'As senhas não conferem.'; return;
+    }
+
+    const users = getUsers();
+    if (users.some(u => u.email === email)) {
+        msg.className = 'alert-msg error'; msg.style.display = 'block';
+        msg.textContent = 'Este email já está cadastrado.'; return;
+    }
+
+    users.push({ id: Date.now(), name, email, password: pwd, phone: phone || '-', role: 'user', createdAt: new Date().toISOString().split('T')[0] });
+    saveUsers(users);
+
+    msg.className = 'alert-msg success'; msg.style.display = 'block';
+    msg.textContent = 'Conta criada com sucesso!';
+    document.getElementById('registerForm').reset();
+    strengthFill.setAttribute('data-level', '');
+    strengthLabel.setAttribute('data-level', '');
+    strengthLabel.textContent = '';
+    Object.values(reqs).forEach(r => r.className = '');
+    emailHint.textContent = '';
+    matchHint.textContent = '';
+    emailInput.classList.remove('valid','invalid');
+    confirmInput.classList.remove('valid','invalid');
+    setTimeout(() => switchTab('login'), 1500);
+});
 </script>
 
 </body>
