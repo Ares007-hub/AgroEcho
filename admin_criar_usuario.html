@@ -62,6 +62,8 @@
             color:white;
             display:flex;
             flex-direction:column;
+            z-index:100;
+            transition:transform 0.3s ease;
         }
 
         .admin-header{
@@ -270,7 +272,7 @@
         }
 
         th,td{
-            padding:18px 20px;  /* ← aumentado */
+            padding:18px 20px;
             text-align:left;
             border-bottom:1px solid var(--border);
         }
@@ -382,39 +384,58 @@
             color:var(--text);
         }
 
+        .hamburger{
+            display:none;
+            position:fixed;
+            top:15px;
+            left:15px;
+            z-index:200;
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:10px;
+            width:42px;
+            height:42px;
+            cursor:pointer;
+            font-size:22px;
+            align-items:center;
+            justify-content:center;
+            color:var(--text);
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-overlay{
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.5);
+            z-index:99;
+        }
+        .sidebar-overlay.active{ display:block; }
+
         @media(max-width:900px){
-            .sidebar{
-                width:220px;
-            }
-            .main-content{
-                margin-left:220px;
-            }
-            .form-grid{
-                grid-template-columns:1fr;
-            }
+            .sidebar{ width:240px; }
+            .main-content{ margin-left:240px; }
+            .form-grid{ grid-template-columns:1fr; }
         }
 
         @media(max-width:768px){
-            .sidebar{
-                display:none;
-            }
-            .main-content{
-                margin-left:0;
-                padding:1rem;
-            }
-            .top-bar{
-                flex-direction:column;
-                align-items:flex-start;
-            }
+            .hamburger{ display:flex; }
+            .sidebar{ transform:translateX(-100%); width:260px; }
+            .sidebar.open{ transform:translateX(0); }
+            .main-content{ margin-left:0; padding:60px 1rem 1rem; }
+            .top-bar{ flex-direction:column; align-items:flex-start; }
         }
     </style>
 </head>
 
 <body>
 
+<button class="hamburger" onclick="toggleSidebar()" id="hamburgerBtn">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <div class="container">
 
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
         <div class="admin-header">
             <span class="admin-badge">ADMINISTRADOR</span>
             <div class="logo">Echo</div>
@@ -514,376 +535,169 @@
 </div>
 
 <script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+    document.getElementById('hamburgerBtn').innerHTML = document.getElementById('sidebar').classList.contains('open') ? '✕' : '☰';
+}
 
-    function checkAuth(){
-        const user = JSON.parse(sessionStorage.getItem('agroecho_user'));
-        
-        if(!user){
-            alert('Faça login novamente');
-            window.location.href='index.html';
-            return null;
-        }
+function checkAuth(){
+    const user = JSON.parse(sessionStorage.getItem('agroecho_user'));
+    if(!user){ alert('Faça login novamente'); window.location.href='index.html'; return null; }
+    if(user.role !== 'admin'){ alert('Acesso negado'); window.location.href='user_dispositivos.html'; return null; }
+    return user;
+}
 
-        if(user.role !== 'admin'){
-            alert('Acesso negado');
-            window.location.href='user_dispositivos.html';
-            return null;
-        }
+const user = checkAuth();
+if (!user) throw new Error('Auth failed');
+document.getElementById('sidebarUserName').textContent = user.name;
 
-        return user;
-    }
-
-    const user = checkAuth();
-    if (!user) throw new Error('Auth failed');
-    
-    document.getElementById('sidebarUserName').textContent = user.name;
-
-
-    let theme = localStorage.getItem('agroecho_theme') || 'light';
-
-    function applyTheme(){
-        if(theme === 'dark'){
-            document.documentElement.setAttribute('data-theme','dark');
-        } else {
-            document.documentElement.removeAttribute('data-theme');
-        }
-    }
-
-    function toggleTheme(){
-        theme = theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('agroecho_theme', theme);
-        applyTheme();
-    }
-
+let theme = localStorage.getItem('agroecho_theme') || 'light';
+function applyTheme(){
+    if(theme === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); }
+    else { document.documentElement.removeAttribute('data-theme'); }
+}
+function toggleTheme(){
+    theme = theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('agroecho_theme', theme);
     applyTheme();
+}
+applyTheme();
 
-
-    function loadUsers(){
-        let users = JSON.parse(localStorage.getItem('agroecho_all_users'));
-
-        if(!users || users.length === 0){
-            users = [
-                {
-                    id: 1,
-                    name: 'Administrador',
-                    email: 'admin@agroecho.com.br',
-                    password: 'admin123',
-                    role: 'admin',
-                    phone: '(11) 99999-9999',
-                    createdAt: '2024-01-15',
-                    permanent: true
-                },
-                {
-                    id: 2,
-                    name: 'João Silva',
-                    email: 'joao@email.com',
-                    password: 'joao123',
-                    role: 'user',
-                    phone: '(11) 98888-8888',
-                    createdAt: '2024-02-20',
-                    permanent: false
-                }
-            ];
-            saveUsers(users);
-        }
-
-        return users;
+function loadUsers(){
+    let users = JSON.parse(localStorage.getItem('agroecho_all_users'));
+    if(!users || users.length === 0){
+        users = [
+            { id: 1, name: 'Administrador', email: 'admin@agroecho.com.br', password: 'admin123', role: 'admin', phone: '(11) 99999-9999', createdAt: '2024-01-15', permanent: true },
+            { id: 2, name: 'João Silva', email: 'joao@email.com', password: 'joao123', role: 'user', phone: '(11) 98888-8888', createdAt: '2024-02-20', permanent: false }
+        ];
+        saveUsers(users);
     }
+    return users;
+}
+function saveUsers(users){ localStorage.setItem('agroecho_all_users', JSON.stringify(users)); }
+let users = loadUsers();
 
-    function saveUsers(users){
-        localStorage.setItem('agroecho_all_users', JSON.stringify(users));
-    }
+function renderUsers(){
+    const tbody = document.getElementById('usersTable');
+    tbody.innerHTML = users.map(function(u) {
+        var roleLabel = u.role === 'admin' ? 'Administrador' : 'Usuário';
+        var roleClass = u.role === 'admin' ? 'role-admin' : 'role-user';
+        var permBadge = u.permanent ? '<span class="permanent-badge">Fixo</span>' : '';
+        var roleBadge = u.permanent ? '<span class="role-badge ' + roleClass + '">' + roleLabel + '</span>' : '<span class="role-badge ' + roleClass + '" style="cursor:pointer;" onclick="showRoleMenu(event, ' + u.id + ')" title="Clique para alterar o tipo">' + roleLabel + ' ▾</span>';
+        var deleteBtn = !u.permanent ? '<button class="btn-edit-role" onclick="deleteUser(' + u.id + ')" style="background:#ffe2e2;color:#b42323;">Excluir</button>' : '<span style="color:#999;">Protegido</span>';
+        return '<tr><td><strong>#' + u.id + '</strong></td><td>' + u.name + permBadge + '</td><td>' + u.email + '</td><td>' + roleBadge + '</td><td>' + (u.phone || '-') + '</td><td>' + u.createdAt + '</td><td>' + deleteBtn + '</td></tr>';
+    }).join('');
+}
 
-    let users = loadUsers();
-
-    function renderUsers(){
-        const tbody = document.getElementById('usersTable');
-        
-        tbody.innerHTML = users.map(function(u) {
-            var roleLabel = u.role === 'admin' ? 'Administrador' : 'Usuário';
-            var roleClass = u.role === 'admin' ? 'role-admin' : 'role-user';
-            var permBadge = u.permanent ? '<span class="permanent-badge">Fixo</span>' : '';
-
-            var roleBadge = '';
-            if (u.permanent) {
-                roleBadge = '<span class="role-badge ' + roleClass + '">' + roleLabel + '</span>';
-            } else {
-                roleBadge = '<span class="role-badge ' + roleClass + '" style="cursor:pointer;" onclick="showRoleMenu(event, ' + u.id + ')" title="Clique para alterar o tipo">' + roleLabel + ' ▾</span>';
-            }
-
-            var deleteBtn = '';
-            if (!u.permanent) {
-                deleteBtn = '<button class="btn-edit-role" onclick="deleteUser(' + u.id + ')" style="background:#ffe2e2;color:#b42323;">Excluir</button>';
-            }
-            
-            return '<tr>' +
-                '<td><strong>#' + u.id + '</strong></td>' +
-                '<td>' + u.name + permBadge + '</td>' +
-                '<td>' + u.email + '</td>' +
-                '<td>' + roleBadge + '</td>' +
-                '<td>' + (u.phone || '-') + '</td>' +
-                '<td>' + u.createdAt + '</td>' +
-                '<td>' + (u.permanent ? '<span style="color:#999;">Protegido</span>' : deleteBtn) + '</td>' +
-                '</tr>';
-        }).join('');
-    }
-
-
-    function showRoleMenu(event, userId) {
-        event.stopPropagation();
-        
-        var targetUser = users.find(function(u) { return u.id === userId; });
-        if (!targetUser || targetUser.permanent) return;
-        
-
-        var existingMenu = document.getElementById('roleMenu');
-        if (existingMenu) {
-            existingMenu.remove();
-        }
-        
-
-        var menu = document.createElement('div');
-        menu.id = 'roleMenu';
-        menu.style.cssText = `
-            position: fixed;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            padding: 8px;
-            z-index: 2000;
-            min-width: 180px;
-        `;
-        
-        menu.style.left = event.clientX + 'px';
-        menu.style.top = event.clientY + 'px';
-        
-        var userOption = document.createElement('div');
-        userOption.style.cssText = `
-            padding: 12px 16px;
-            cursor: pointer;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background 0.2s;
-            font-weight: 500;
-            color: #173524;
-        `;
-        userOption.innerHTML = '👤 <span>Usuário Comum</span>';
-        
-        if (targetUser.role === 'user') {
-            userOption.style.background = '#dcebff';
-            userOption.style.color = '#2257a7';
-            userOption.innerHTML = ' <span>Usuário Comum</span> ✓';
-        }
-        
-        userOption.addEventListener('mouseenter', function() {
-            if (targetUser.role !== 'user') {
-                this.style.background = '#f0f4ff';
-            }
-        });
-        userOption.addEventListener('mouseleave', function() {
-            if (targetUser.role !== 'user') {
-                this.style.background = 'transparent';
-            }
-        });
-        userOption.addEventListener('click', function() {
-            changeUserRole(userId, 'user');
-            menu.remove();
-        });
-
-        var adminOption = document.createElement('div');
-        adminOption.style.cssText = `
-            padding: 12px 16px;
-            cursor: pointer;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background 0.2s;
-            font-weight: 500;
-            color: #173524;
-        `;
-        adminOption.innerHTML = ' <span>Administrador</span>';
+function showRoleMenu(event, userId) {
+    event.stopPropagation();
+    var targetUser = users.find(function(u) { return u.id === userId; });
+    if (!targetUser || targetUser.permanent) return;
+    var existingMenu = document.getElementById('roleMenu');
+    if (existingMenu) existingMenu.remove();
+    var menu = document.createElement('div');
+    menu.id = 'roleMenu';
+    menu.style.cssText = 'position:fixed;background:white;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.3);padding:8px;z-index:2000;min-width:180px;';
+    menu.style.left = event.clientX + 'px';
+    menu.style.top = event.clientY + 'px';
     
-        if (targetUser.role === 'admin') {
-            adminOption.style.background = '#ffe2e2';
-            adminOption.style.color = '#b42323';
-            adminOption.innerHTML = ' <span>Administrador</span> ✓';
-        }
-        
-        adminOption.addEventListener('mouseenter', function() {
-            if (targetUser.role !== 'admin') {
-                this.style.background = '#fff5f5';
-            }
+    var userOption = document.createElement('div');
+    userOption.style.cssText = 'padding:12px 16px;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:10px;transition:0.2s;font-weight:500;color:#173524;';
+    userOption.innerHTML = targetUser.role === 'user' ? '👤 Usuário Comum ✓' : '👤 Usuário Comum';
+    if (targetUser.role === 'user') { userOption.style.background = '#dcebff'; userOption.style.color = '#2257a7'; }
+    userOption.addEventListener('click', function() { changeUserRole(userId, 'user'); menu.remove(); });
+
+    var adminOption = document.createElement('div');
+    adminOption.style.cssText = 'padding:12px 16px;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:10px;transition:0.2s;font-weight:500;color:#173524;';
+    adminOption.innerHTML = targetUser.role === 'admin' ? '👑 Administrador ✓' : '👑 Administrador';
+    if (targetUser.role === 'admin') { adminOption.style.background = '#ffe2e2'; adminOption.style.color = '#b42323'; }
+    adminOption.addEventListener('click', function() { changeUserRole(userId, 'admin'); menu.remove(); });
+    
+    var separator = document.createElement('div');
+    separator.style.cssText = 'height:1px;background:#e1e5e9;margin:4px 8px;';
+    var cancelOption = document.createElement('div');
+    cancelOption.style.cssText = 'padding:10px 16px;cursor:pointer;border-radius:8px;text-align:center;color:#999;font-size:0.85rem;';
+    cancelOption.textContent = 'Cancelar';
+    cancelOption.addEventListener('click', function() { menu.remove(); });
+    
+    menu.appendChild(userOption);
+    menu.appendChild(adminOption);
+    menu.appendChild(separator);
+    menu.appendChild(cancelOption);
+    document.body.appendChild(menu);
+    
+    setTimeout(function() {
+        document.addEventListener('click', function closeMenu() {
+            if (document.getElementById('roleMenu')) document.getElementById('roleMenu').remove();
+            document.removeEventListener('click', closeMenu);
         });
-        adminOption.addEventListener('mouseleave', function() {
-            if (targetUser.role !== 'admin') {
-                this.style.background = 'transparent';
-            }
-        });
-        adminOption.addEventListener('click', function() {
-            changeUserRole(userId, 'admin');
-            menu.remove();
-        });
-        
-        var separator = document.createElement('div');
-        separator.style.cssText = `
-            height: 1px;
-            background: #e1e5e9;
-            margin: 4px 8px;
-        `;
-        
-        var cancelOption = document.createElement('div');
-        cancelOption.style.cssText = `
-            padding: 10px 16px;
-            cursor: pointer;
-            border-radius: 8px;
-            text-align: center;
-            color: #999;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        `;
-        cancelOption.textContent = 'Cancelar';
-        cancelOption.addEventListener('mouseenter', function() {
-            this.style.background = '#f5f5f5';
-        });
-        cancelOption.addEventListener('mouseleave', function() {
-            this.style.background = 'transparent';
-        });
-        cancelOption.addEventListener('click', function() {
-            menu.remove();
-        });
-        
+    }, 100);
+}
 
-        menu.appendChild(userOption);
-        menu.appendChild(adminOption);
-        menu.appendChild(separator);
-        menu.appendChild(cancelOption);
-        
-        document.body.appendChild(menu);
+function changeUserRole(userId, newRole) {
+    var targetUser = users.find(function(u) { return u.id === userId; });
+    if (!targetUser || targetUser.permanent || targetUser.role === newRole) return;
+    targetUser.role = newRole;
+    saveUsers(users);
+    renderUsers();
+    showMessage('success', '"' + targetUser.name + '" agora é ' + (newRole === 'admin' ? 'Administrador' : 'Usuário Comum') + '!');
+}
 
-        setTimeout(function() {
-            document.addEventListener('click', function closeMenu() {
-                if (document.getElementById('roleMenu')) {
-                    document.getElementById('roleMenu').remove();
-                }
-                document.removeEventListener('click', closeMenu);
-            });
-        }, 100);
-    }
+var pendingAction = null;
+function deleteUser(userId){
+    var targetUser = users.find(function(u) { return u.id === userId; });
+    if (!targetUser || targetUser.permanent) return;
+    document.getElementById('modalTitle').textContent = 'Excluir Usuário';
+    document.getElementById('modalMessage').textContent = 'Tem certeza que deseja excluir "' + targetUser.name + '"?';
+    document.getElementById('confirmModal').classList.add('active');
+    pendingAction = function() { users = users.filter(function(u) { return u.id !== userId; }); saveUsers(users); renderUsers(); showMessage('success', 'Usuário removido!'); closeModal(); };
+}
+function confirmAction(){ if(pendingAction){ pendingAction(); pendingAction = null; } }
+function closeModal(){ document.getElementById('confirmModal').classList.remove('active'); pendingAction = null; }
+document.getElementById('confirmModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
+function showMessage(type, text){
+    var msg = document.getElementById('message');
+    msg.className = 'message message-' + type;
+    msg.textContent = text;
+    msg.style.display = 'block';
+    setTimeout(function() { msg.style.display = 'none'; }, 4000);
+}
 
-    function changeUserRole(userId, newRole) {
-        var targetUser = users.find(function(u) { return u.id === userId; });
-        if (!targetUser || targetUser.permanent) return;
-        
-        if (targetUser.role === newRole) return;
-        
-        var roleName = newRole === 'admin' ? 'Administrador' : 'Usuário Comum';
-        
-        targetUser.role = newRole;
-        saveUsers(users);
-        renderUsers();
-        showMessage('success', '"' + targetUser.name + '" agora é ' + roleName + '!');
-    }
-
-
-    var pendingAction = null;
-
-    function deleteUser(userId){
-        var targetUser = users.find(function(u) { return u.id === userId; });
-        if (!targetUser || targetUser.permanent) return;
-        
-        document.getElementById('modalTitle').textContent = 'Excluir Usuário';
-        document.getElementById('modalMessage').textContent = 'Tem certeza que deseja excluir "' + targetUser.name + '"? Esta ação não pode ser desfeita.';
-        document.getElementById('confirmModal').classList.add('active');
-        
-        pendingAction = function() {
-            users = users.filter(function(u) { return u.id !== userId; });
-            saveUsers(users);
-            renderUsers();
-            showMessage('success', 'Usuário "' + targetUser.name + '" removido!');
-            closeModal();
-        };
-    }
-
-    function confirmAction(){
-        if(pendingAction){
-            pendingAction();
-            pendingAction = null;
-        }
-    }
-
-    function closeModal(){
-        document.getElementById('confirmModal').classList.remove('active');
-        pendingAction = null;
-    }
-
-
-    document.getElementById('confirmModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeModal();
-        }
-    });
-
-    function showMessage(type, text){
-        var msg = document.getElementById('message');
-        msg.className = 'message message-' + type;
-        msg.textContent = text;
-        msg.style.display = 'block';
-        
-        setTimeout(function() {
-            msg.style.display = 'none';
-        }, 4000);
-    }
-
-
-    document.getElementById('createUserForm').addEventListener('submit', async function(e){
-        e.preventDefault();
-
-        var btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.textContent = 'Criando...';
-
-        var newUser = {
-            id: users.length > 0 ? Math.max.apply(null, users.map(function(u) { return u.id; })) + 1 : 1,
-            name: document.getElementById('name').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            password: document.getElementById('password').value,
-            phone: document.getElementById('phone').value.trim(),
-            role: document.getElementById('role').value,
-            createdAt: new Date().toISOString().split('T')[0],
-            permanent: false
-        };
-
-        await new Promise(function(r) { return setTimeout(r, 700); });
-
-        if(users.some(function(u) { return u.email === newUser.email; })){
-            showMessage('error', 'Este email já existe');
-            btn.disabled = false;
-            btn.textContent = 'Criar Usuário';
-            return;
-        }
-
-        users.push(newUser);
-        saveUsers(users);
-        renderUsers();
-
-        showMessage('success', 'Usuário "' + newUser.name + '" criado com sucesso!');
-
-        document.getElementById('createUserForm').reset();
+document.getElementById('createUserForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Criando...';
+    var newUser = {
+        id: users.length > 0 ? Math.max.apply(null, users.map(function(u) { return u.id; })) + 1 : 1,
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value.trim(),
+        role: document.getElementById('role').value,
+        createdAt: new Date().toISOString().split('T')[0],
+        permanent: false
+    };
+    await new Promise(function(r) { return setTimeout(r, 700); });
+    if(users.some(function(u) { return u.email === newUser.email; })){
+        showMessage('error', 'Este email já existe');
         btn.disabled = false;
         btn.textContent = 'Criar Usuário';
-    });
-
-
-    function logout(){
-        sessionStorage.removeItem('agroecho_user');
-        window.location.href = 'index.html';
+        return;
     }
-
+    users.push(newUser);
+    saveUsers(users);
     renderUsers();
+    showMessage('success', 'Usuário criado com sucesso!');
+    document.getElementById('createUserForm').reset();
+    btn.disabled = false;
+    btn.textContent = 'Criar Usuário';
+});
+
+function logout(){ sessionStorage.removeItem('agroecho_user'); window.location.href = 'index.html'; }
+renderUsers();
 </script>
 
 </body>

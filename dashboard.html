@@ -53,13 +53,10 @@ body{
     transition:all 0.3s;
 }
 
-
-
 .container{
     display:flex;
     min-height:100vh;
 }
-
 
 .sidebar{
     width:280px;
@@ -71,6 +68,7 @@ body{
     display:flex;
     flex-direction:column;
     z-index:100;
+    transition:transform 0.3s ease;
 }
 
 .admin-header{
@@ -152,14 +150,12 @@ body{
     background:rgba(255,255,255,0.12);
 }
 
-
+/* MAIN */
 .main{
     flex:1;
     margin-left:280px;
     padding:2rem;
 }
-
-
 
 .topbar{
     background:var(--card);
@@ -193,7 +189,6 @@ body{
     font-size:0.9rem;
 }
 
-
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -226,7 +221,6 @@ body{
     font-size:0.9rem;
 }
 
-
 .chart-box{
     background:var(--card);
     padding:1.5rem;
@@ -241,7 +235,6 @@ body{
     color:var(--text);
     font-size:1.3rem;
 }
-
 
 .table-box{
     background:var(--card);
@@ -287,7 +280,6 @@ tbody tr:hover{
     background:var(--hover-row);
 }
 
-
 .status{
     padding:7px 14px;
     border-radius:20px;
@@ -311,7 +303,6 @@ tbody tr:hover{
     color:#9c6500;
 }
 
-
 .battery-bar{
     width:100px;
     height:8px;
@@ -329,53 +320,62 @@ tbody tr:hover{
     border-radius:20px;
 }
 
-.battery-low{
-    background:linear-gradient(90deg,#dc2626,#f59e0b);
+.battery-low{ background:linear-gradient(90deg,#dc2626,#f59e0b); }
+.battery-medium{ background:linear-gradient(90deg,#f59e0b,var(--primary)); }
+.battery-high{ background:linear-gradient(90deg,var(--primary),var(--blue)); }
+
+/* HAMBURGER */
+.hamburger{
+    display:none;
+    position:fixed;
+    top:15px;
+    left:15px;
+    z-index:200;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    width:42px;
+    height:42px;
+    cursor:pointer;
+    font-size:22px;
+    align-items:center;
+    justify-content:center;
+    color:var(--text);
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.battery-medium{
-    background:linear-gradient(90deg,#f59e0b,var(--primary));
+.sidebar-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    z-index:99;
 }
-
-.battery-high{
-    background:linear-gradient(90deg,var(--primary),var(--blue));
-}
-
+.sidebar-overlay.active{ display:block; }
 
 @media(max-width:1100px){
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
+    .stats{ grid-template-columns:repeat(2,1fr); }
 }
 
 @media(max-width:900px){
-    .sidebar{
-        width:220px;
-    }
-    .main{
-        margin-left:220px;
-    }
+    .sidebar{ width:240px; }
+    .main{ margin-left:240px; }
 }
 
 @media(max-width:768px){
+    .hamburger{ display:flex; }
+    
     .sidebar{
-        display:none;
+        transform:translateX(-100%);
+        width:260px;
     }
-    .main{
-        margin-left:0;
-        padding:1rem;
-    }
-    .container{
-        flex-direction:column;
-    }
-    .stats{
-        grid-template-columns:1fr;
-    }
-    .topbar{
-        flex-direction:column;
-        gap:15px;
-        text-align:center;
-    }
+    .sidebar.open{ transform:translateX(0); }
+    
+    .main{ margin-left:0; padding:60px 1rem 1rem; }
+    .container{ flex-direction:column; }
+    .stats{ grid-template-columns:1fr; }
+    .topbar{ flex-direction:column; gap:15px; text-align:center; }
+    .topbar h2{ font-size:1.4rem; }
 }
 
 </style>
@@ -383,11 +383,13 @@ tbody tr:hover{
 
 <body>
 
+<!-- HAMBURGER -->
+<button class="hamburger" onclick="toggleSidebar()" id="hamburgerBtn">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <div class="container">
 
-
-    <aside class="sidebar">
-
+    <aside class="sidebar" id="sidebar">
         <div class="admin-header">
             <span class="admin-badge">ADMINISTRADOR</span>
             <div class="logo">Echo</div>
@@ -396,25 +398,21 @@ tbody tr:hover{
 
         <ul class="nav-menu">
             <li class="nav-item">
-                <a href="dashboard.html" class="nav-link active"> Dashboard</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a href="admin_criar_usuario.html" class="nav-link"> Gerenciar Usuários</a>
+                <a href="admin_criar_usuario.html" class="nav-link">Gerenciar Usuários</a>
             </li>
         </ul>
 
         <div class="bottom-links">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
-                Alternar Tema
-            </button>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Alternar Tema</button>
             <a href="index.html" class="nav-link">Página Inicial</a>
             <a href="#" class="nav-link" onclick="logout()">Sair</a>
         </div>
-
     </aside>
 
     <main class="main">
-
         <div class="topbar">
             <div>
                 <h2>Painel Administrativo</h2>
@@ -423,16 +421,13 @@ tbody tr:hover{
             <div class="admin-badge-top">ADMIN</div>
         </div>
 
-
         <div class="stats" id="statsRow"></div>
 
-  
         <div class="chart-box">
             <h3>Status dos Dispositivos</h3>
             <canvas id="statusChart" height="80"></canvas>
         </div>
 
- 
         <div class="table-box">
             <h3>Dispositivos Conectados</h3>
             <table>
@@ -450,12 +445,20 @@ tbody tr:hover{
                 <tbody id="devicesTable"></tbody>
             </table>
         </div>
-
     </main>
-
 </div>
 
 <script>
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const hamburger = document.getElementById('hamburgerBtn');
+    
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
+    hamburger.innerHTML = sidebar.classList.contains('open') ? '✕' : '☰';
+}
 
 const user = JSON.parse(sessionStorage.getItem('agroecho_user'));
 
@@ -470,7 +473,6 @@ if(user.role !== 'admin'){
 }
 
 document.getElementById('sidebarUserName').textContent = user.name;
-
 
 let theme = localStorage.getItem('agroecho_theme') || 'light';
 
@@ -490,90 +492,26 @@ function toggleTheme(){
 
 applyTheme();
 
-
 const allDevices = [
-    {
-        id:'ESP32-SOIL-001',
-        name:'Sensor Umidade Solo',
-        type:'Sensor Capacitivo v1.2',
-        owner:'João Silva',
-        status:'active',
-        battery:87,
-        signal:'-85 dBm'
-    },
-    {
-        id:'ESP32-RAIN-002',
-        name:'Pluviômetro Central',
-        type:'Pluviômetro de Báscula',
-        owner:'Maria Souza',
-        status:'active',
-        battery:92,
-        signal:'-78 dBm'
-    },
-    {
-        id:'ESP32-FLOW-003',
-        name:'Sensor de Fluxo',
-        type:'YF-S201',
-        owner:'Carlos Lima',
-        status:'active',
-        battery:95,
-        signal:'-72 dBm'
-    },
-    {
-        id:'ESP32-TEMP-004',
-        name:'Sensor Temperatura',
-        type:'DS18B20',
-        owner:'Ana Paula',
-        status:'inactive',
-        battery:12,
-        signal:'-95 dBm'
-    },
-    {
-        id:'ESP32-LUX-005',
-        name:'Sensor Radiação Solar',
-        type:'BH1750',
-        owner:'Maria Souza',
-        status:'active',
-        battery:88,
-        signal:'-76 dBm'
-    },
-    {
-        id:'ESP32-SOIL-006',
-        name:'Sensor Umidade Horta',
-        type:'Sensor Capacitivo v1.2',
-        owner:'Carlos Lima',
-        status:'maintenance',
-        battery:45,
-        signal:'-82 dBm'
-    }
+    { id:'ESP32-SOIL-001', name:'Sensor Umidade Solo', type:'Sensor Capacitivo v1.2', owner:'João Silva', status:'active', battery:87, signal:'-85 dBm' },
+    { id:'ESP32-RAIN-002', name:'Pluviômetro Central', type:'Pluviômetro de Báscula', owner:'Maria Souza', status:'active', battery:92, signal:'-78 dBm' },
+    { id:'ESP32-FLOW-003', name:'Sensor de Fluxo', type:'YF-S201', owner:'Carlos Lima', status:'active', battery:95, signal:'-72 dBm' },
+    { id:'ESP32-TEMP-004', name:'Sensor Temperatura', type:'DS18B20', owner:'Ana Paula', status:'inactive', battery:12, signal:'-95 dBm' },
+    { id:'ESP32-LUX-005', name:'Sensor Radiação Solar', type:'BH1750', owner:'Maria Souza', status:'active', battery:88, signal:'-76 dBm' },
+    { id:'ESP32-SOIL-006', name:'Sensor Umidade Horta', type:'Sensor Capacitivo v1.2', owner:'Carlos Lima', status:'maintenance', battery:45, signal:'-82 dBm' }
 ];
-
 
 function renderStats(){
     const active = allDevices.filter(function(d) { return d.status === 'active'; }).length;
     const inactive = allDevices.filter(function(d) { return d.status === 'inactive'; }).length;
-    const maintenance = allDevices.filter(function(d) { return d.status === 'maintenance'; }).length;
     const avgBattery = Math.round(allDevices.reduce(function(acc, d) { return acc + d.battery; }, 0) / allDevices.length);
 
     document.getElementById('statsRow').innerHTML = 
-        '<div class="stat-card">' +
-            '<div class="stat-number">' + allDevices.length + '</div>' +
-            '<div class="stat-label">Total de Dispositivos</div>' +
-        '</div>' +
-        '<div class="stat-card">' +
-            '<div class="stat-number">' + active + '</div>' +
-            '<div class="stat-label">Dispositivos Ativos</div>' +
-        '</div>' +
-        '<div class="stat-card">' +
-            '<div class="stat-number">' + avgBattery + '%</div>' +
-            '<div class="stat-label">Bateria Média</div>' +
-        '</div>' +
-        '<div class="stat-card">' +
-            '<div class="stat-number">' + inactive + '</div>' +
-            '<div class="stat-label"> Dispositivos Inativos</div>' +
-        '</div>';
+        '<div class="stat-card"><div class="stat-number">' + allDevices.length + '</div><div class="stat-label">Total de Dispositivos</div></div>' +
+        '<div class="stat-card"><div class="stat-number">' + active + '</div><div class="stat-label">Dispositivos Ativos</div></div>' +
+        '<div class="stat-card"><div class="stat-number">' + avgBattery + '%</div><div class="stat-label">Bateria Média</div></div>' +
+        '<div class="stat-card"><div class="stat-number">' + inactive + '</div><div class="stat-label">Dispositivos Inativos</div></div>';
 }
-
 
 function renderTable(){
     document.getElementById('devicesTable').innerHTML = allDevices.map(function(device) {
@@ -586,17 +524,11 @@ function renderTable(){
             '<td>' + device.type + '</td>' +
             '<td>' + device.owner + '</td>' +
             '<td><span class="status ' + device.status + '">' + statusLabel + '</span></td>' +
-            '<td>' +
-                '<span class="battery-bar">' +
-                    '<span class="battery-fill ' + batteryClass + '" style="width:' + device.battery + '%"></span>' +
-                '</span>' +
-                device.battery + '%' +
-            '</td>' +
+            '<td><span class="battery-bar"><span class="battery-fill ' + batteryClass + '" style="width:' + device.battery + '%"></span></span>' + device.battery + '%</td>' +
             '<td>' + device.signal + '</td>' +
         '</tr>';
     }).join('');
 }
-
 
 function initChart(){
     const active = allDevices.filter(function(d) { return d.status === 'active'; }).length;
@@ -611,44 +543,26 @@ function initChart(){
             labels:['Ativos','Inativos','Manutenção'],
             datasets:[{
                 data:[active,inactive,maintenance],
-                backgroundColor:[
-                    '#1b8f5a',
-                    '#dc2626',
-                    '#2d7ff9'
-                ],
+                backgroundColor:['#1b8f5a','#dc2626','#2d7ff9'],
                 borderRadius:10
             }]
         },
         options:{
             responsive:true,
-            plugins:{
-                legend:{
-                    display:false
-                }
-            },
-            scales:{
-                y:{
-                    beginAtZero:true,
-                    ticks:{
-                        stepSize:1
-                    }
-                }
-            }
+            plugins:{ legend:{ display:false } },
+            scales:{ y:{ beginAtZero:true, ticks:{ stepSize:1 } } }
         }
     });
 }
-
 
 function logout(){
     sessionStorage.removeItem('agroecho_user');
     window.location.href = 'index.html';
 }
 
-
 renderStats();
 renderTable();
 initChart();
-
 </script>
 
 </body>
