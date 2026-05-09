@@ -47,6 +47,7 @@
             position: fixed;
             height: 100vh;
             z-index: 100;
+            transition: transform 0.3s ease;
         }
 
         .logo-area { 
@@ -172,26 +173,63 @@
             to { transform: translateX(100px); opacity: 0; }
         }
 
-     
+        .hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 200;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            cursor: pointer;
+            font-size: 22px;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+        .sidebar-overlay.active { display: block; }
+
         @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; padding: 15px; }
+            .hamburger { display: flex; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 60px 15px 15px; }
+            .topbar { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .devices-grid { grid-template-columns: 1fr; }
+            .user-profile span { display: none; }
+            .topbar h2 { font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
+    <button class="hamburger" onclick="toggleSidebar()" id="hamburgerBtn">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
     <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="logo-area">
             <img src="Logo.png" alt="ECHO Logo" class="logo-img">
         </div>
         
         <nav>
-            <div onclick="showPage('painel')" class="nav-link active" id="nav-painel">Painel Geral</div>
-            <div onclick="showPage('mapas')" class="nav-link" id="nav-mapas">Mapas</div>
-            <div onclick="showPage('relatorios')" class="nav-link" id="nav-relatorios">Relatórios</div>
-            <div onclick="showPage('config')" class="nav-link" id="nav-config">Configurações</div>
+            <div onclick="showPage('painel'); closeSidebarMobile()" class="nav-link active" id="nav-painel">Painel Geral</div>
+            <div onclick="showPage('mapas'); closeSidebarMobile()" class="nav-link" id="nav-mapas">Mapas</div>
+            <div onclick="showPage('relatorios'); closeSidebarMobile()" class="nav-link" id="nav-relatorios">Relatórios</div>
+            <div onclick="showPage('config'); closeSidebarMobile()" class="nav-link" id="nav-config">Configurações</div>
         </nav>
         
         <button class="btn" id="adminBtn" style="display:none; margin-top: auto; background: var(--warning); color: #000;" onclick="window.location.href='admin_criar_usuario.html'">
@@ -231,6 +269,24 @@
 
 <script>
 
+    function toggleSidebar() {
+        var sidebar = document.getElementById('sidebar');
+        var overlay = document.getElementById('sidebarOverlay');
+        var hamburger = document.getElementById('hamburgerBtn');
+        
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+        hamburger.innerHTML = sidebar.classList.contains('open') ? '✕' : '☰';
+    }
+
+    function closeSidebarMobile() {
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.getElementById('hamburgerBtn').innerHTML = '☰';
+        }
+    }
+
     const user = JSON.parse(sessionStorage.getItem('agroecho_user')) || {name: "Kellem Arielle", role: "admin", id: "1"};
 
     const devices = [
@@ -265,11 +321,9 @@
         const content = document.getElementById('dynamic-content');
         const desc = document.getElementById('page-desc');
         
-        // Atualizar navegação ativa
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         document.getElementById('nav-' + page).classList.add('active');
 
-        // Renderizar página
         switch(page) {
             case 'painel':
                 desc.innerText = "Monitoramento em tempo real dos seus sensores.";
