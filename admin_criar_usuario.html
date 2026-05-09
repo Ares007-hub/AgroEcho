@@ -97,7 +97,7 @@
         .nav-menu{
             list-style:none;
             margin-top:2rem;
-            flex:0.5;
+            flex:1; 
         }
 
         .nav-item{
@@ -113,11 +113,6 @@
             color:#d8f3e3;
             transition:0.3s;
             font-weight:500;
-        }
-
-        .active{
-            background:#dff5e8;
-            color:#146c43;
         }
 
         .nav-link:hover,
@@ -151,18 +146,18 @@
         .main-content{
             margin-left:280px;
             flex:1;
-            padding:2rem;
+            padding:3rem 3.5rem;  
         }
 
         .top-bar{
             background:var(--card);
             border-radius:20px;
-            padding:2rem;
+            padding:2.5rem 3rem; 
             box-shadow:0 5px 25px var(--shadow);
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:2rem;
+            margin-bottom:2.5rem;  
             border-left:6px solid var(--primary);
         }
 
@@ -186,9 +181,9 @@
         .card{
             background:var(--card);
             border-radius:20px;
-            padding:2rem;
+            padding:2.5rem 3rem; 
             box-shadow:0 5px 25px var(--shadow);
-            margin-bottom:2rem;
+            margin-bottom:2.5rem; 
         }
 
         .card h2{
@@ -217,7 +212,7 @@
         .form-grid{
             display:grid;
             grid-template-columns:1fr 1fr;
-            gap:1.5rem;
+            gap:2rem;  
         }
 
         .form-group label{
@@ -229,7 +224,7 @@
         .form-group input,
         .form-group select{
             width:100%;
-            padding:14px;
+            padding:16px 18px;  
             border:2px solid var(--border);
             border-radius:12px;
             background:#f7fbf8;
@@ -247,11 +242,10 @@
 
         .btn-create{
             width:100%;
-            padding:14px;
+            padding:16px;  
             border:none;
             border-radius:12px;
-            background:
-            linear-gradient(135deg,#001e10,#0c2516);
+            background:linear-gradient(135deg,#001e10,#0c2516);
             color:white;
             font-size:1rem;
             font-weight:700;
@@ -276,7 +270,7 @@
         }
 
         th,td{
-            padding:15px;
+            padding:18px 20px;  /* ← aumentado */
             text-align:left;
             border-bottom:1px solid var(--border);
         }
@@ -379,8 +373,7 @@
         }
 
         .btn-confirm{
-            background:
-            linear-gradient(135deg,#1b8f5a,#2d7ff9);
+            background:linear-gradient(135deg,#1b8f5a,#2d7ff9);
             color:white;
         }
 
@@ -734,7 +727,6 @@
             menu.remove();
         });
         
-        // Separador
         var separator = document.createElement('div');
         separator.style.cssText = `
             height: 1px;
@@ -742,7 +734,6 @@
             margin: 4px 8px;
         `;
         
-        // Cancelar
         var cancelOption = document.createElement('div');
         cancelOption.style.cssText = `
             padding: 10px 16px;
@@ -787,7 +778,6 @@
         var targetUser = users.find(function(u) { return u.id === userId; });
         if (!targetUser || targetUser.permanent) return;
         
-
         if (targetUser.role === newRole) return;
         
         var roleName = newRole === 'admin' ? 'Administrador' : 'Usuário Comum';
