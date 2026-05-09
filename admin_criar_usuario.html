@@ -99,7 +99,7 @@
         .nav-menu{
             list-style:none;
             margin-top:2rem;
-            flex:1; 
+            flex:0.5;
         }
 
         .nav-item{
@@ -148,18 +148,18 @@
         .main-content{
             margin-left:280px;
             flex:1;
-            padding:3rem 3.5rem;  
+            padding:2rem;
         }
 
         .top-bar{
             background:var(--card);
             border-radius:20px;
-            padding:2.5rem 3rem; 
+            padding:2rem;
             box-shadow:0 5px 25px var(--shadow);
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:2.5rem;  
+            margin-bottom:2rem;
             border-left:6px solid var(--primary);
         }
 
@@ -183,9 +183,9 @@
         .card{
             background:var(--card);
             border-radius:20px;
-            padding:2.5rem 3rem; 
+            padding:2rem;
             box-shadow:0 5px 25px var(--shadow);
-            margin-bottom:2.5rem; 
+            margin-bottom:2rem;
         }
 
         .card h2{
@@ -214,7 +214,7 @@
         .form-grid{
             display:grid;
             grid-template-columns:1fr 1fr;
-            gap:2rem;  
+            gap:1.5rem;
         }
 
         .form-group label{
@@ -226,7 +226,7 @@
         .form-group input,
         .form-group select{
             width:100%;
-            padding:16px 18px;  
+            padding:14px;
             border:2px solid var(--border);
             border-radius:12px;
             background:#f7fbf8;
@@ -244,7 +244,7 @@
 
         .btn-create{
             width:100%;
-            padding:16px;  
+            padding:14px;
             border:none;
             border-radius:12px;
             background:linear-gradient(135deg,#001e10,#0c2516);
@@ -272,7 +272,7 @@
         }
 
         th,td{
-            padding:18px 20px;
+            padding:15px;
             text-align:left;
             border-bottom:1px solid var(--border);
         }
@@ -601,32 +601,27 @@ function showRoleMenu(event, userId) {
     menu.style.cssText = 'position:fixed;background:white;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.3);padding:8px;z-index:2000;min-width:180px;';
     menu.style.left = event.clientX + 'px';
     menu.style.top = event.clientY + 'px';
-    
     var userOption = document.createElement('div');
     userOption.style.cssText = 'padding:12px 16px;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:10px;transition:0.2s;font-weight:500;color:#173524;';
     userOption.innerHTML = targetUser.role === 'user' ? '👤 Usuário Comum ✓' : '👤 Usuário Comum';
     if (targetUser.role === 'user') { userOption.style.background = '#dcebff'; userOption.style.color = '#2257a7'; }
     userOption.addEventListener('click', function() { changeUserRole(userId, 'user'); menu.remove(); });
-
     var adminOption = document.createElement('div');
     adminOption.style.cssText = 'padding:12px 16px;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:10px;transition:0.2s;font-weight:500;color:#173524;';
     adminOption.innerHTML = targetUser.role === 'admin' ? '👑 Administrador ✓' : '👑 Administrador';
     if (targetUser.role === 'admin') { adminOption.style.background = '#ffe2e2'; adminOption.style.color = '#b42323'; }
     adminOption.addEventListener('click', function() { changeUserRole(userId, 'admin'); menu.remove(); });
-    
     var separator = document.createElement('div');
     separator.style.cssText = 'height:1px;background:#e1e5e9;margin:4px 8px;';
     var cancelOption = document.createElement('div');
     cancelOption.style.cssText = 'padding:10px 16px;cursor:pointer;border-radius:8px;text-align:center;color:#999;font-size:0.85rem;';
     cancelOption.textContent = 'Cancelar';
     cancelOption.addEventListener('click', function() { menu.remove(); });
-    
     menu.appendChild(userOption);
     menu.appendChild(adminOption);
     menu.appendChild(separator);
     menu.appendChild(cancelOption);
     document.body.appendChild(menu);
-    
     setTimeout(function() {
         document.addEventListener('click', function closeMenu() {
             if (document.getElementById('roleMenu')) document.getElementById('roleMenu').remove();
