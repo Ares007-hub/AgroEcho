@@ -576,7 +576,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         msg.style.display = 'block';
         msg.textContent = 'Login efetuado. Redirecionando...';
         setTimeout(() => {
-            window.location.href = user.role === 'admin' ? 'dashboard.html' : 'user_dispositivos.html';
+            window.location.href = user.role === 'admin' ? 'dashboard.html' : 'USER_DISPOSITIVOS.html';
         }, 800);
     } else {
         msg.className = 'alert-msg error';
