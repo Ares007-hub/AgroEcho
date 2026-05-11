@@ -603,12 +603,12 @@ function showRoleMenu(event, userId) {
     menu.style.top = event.clientY + 'px';
     var userOption = document.createElement('div');
     userOption.style.cssText = 'padding:12px 16px;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:10px;transition:0.2s;font-weight:500;color:#173524;';
-    userOption.innerHTML = targetUser.role === 'user' ? '👤 Usuário Comum ✓' : '👤 Usuário Comum';
+    userOption.innerHTML = targetUser.role === 'user' ? ' Usuário Comum ' : ' Usuário Comum';
     if (targetUser.role === 'user') { userOption.style.background = '#dcebff'; userOption.style.color = '#2257a7'; }
     userOption.addEventListener('click', function() { changeUserRole(userId, 'user'); menu.remove(); });
     var adminOption = document.createElement('div');
     adminOption.style.cssText = 'padding:12px 16px;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:10px;transition:0.2s;font-weight:500;color:#173524;';
-    adminOption.innerHTML = targetUser.role === 'admin' ? '👑 Administrador ✓' : '👑 Administrador';
+    adminOption.innerHTML = targetUser.role === 'admin' ? 'Administrador' : 'Administrador';
     if (targetUser.role === 'admin') { adminOption.style.background = '#ffe2e2'; adminOption.style.color = '#b42323'; }
     adminOption.addEventListener('click', function() { changeUserRole(userId, 'admin'); menu.remove(); });
     var separator = document.createElement('div');
