@@ -472,19 +472,6 @@ function saveUsers(users) {
     localStorage.setItem('agroecho_all_users', JSON.stringify(users));
 }
 
-
-(function() {
-    let users = getUsers();
-    if (!users.find(u => u.email === 'admin@agroecho.com.br')) {
-        users.push({
-            id: 1, name: 'Administrador', email: 'admin@agroecho.com.br',
-            password: 'Admin@123', role: 'admin', phone: '(11) 99999-9999',
-            createdAt: '2024-01-15', permanent: true
-        });
-        saveUsers(users);
-    }
-})();
-
 const emailInput = document.getElementById('regEmail');
 const emailHint = document.getElementById('emailHint');
 function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
