@@ -3,10 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 route::get('/', 'App\Http\Controllers\WebsiteController@login');
-route::get('/home', 'App\Http\Controllers\WebsiteControlle@home');
-route::get('/user', 'App\Http\Controllers\WebsiteControlle@user');
-route::get('/relatorios', 'App\Http\Controllers\WebsiteControlle@relatorios');
-route::get('/config', 'App\Http\Controllers\WebsiteControlle@config');
+route::get('/home', 'App\Http\Controllers\WebsiteController@home');
+route::get('/relatorios', 'App\Http\Controllers\WebsiteController@relatorios');
+route::get('/config', 'App\Http\Controllers\WebsiteController@config');
 
 
 route::prefix('/admin')->group(function () {

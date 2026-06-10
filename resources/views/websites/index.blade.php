@@ -17,7 +17,7 @@
             <img src="/assets/img/Logo.png" alt="ECHO Logo" class="logo-img">
         </div>
         <nav>
-            <a href="/user" class="nav-link active">Painel Geral</a>
+            <a href="/home" class="nav-link ">Painel Geral</a>
             <a href="/relatorios" class="nav-link">Relatórios</a>
             <a href="/config" class="nav-link">Configurações</a>
         </nav>
@@ -25,34 +25,6 @@
             Admin
         </button>
     </aside>
-
-    <main class="main-content">
-        <header class="topbar">
-            <div>
-                <h2 id="welcomeText">Olá</h2>
-                <p style="color: var(--text-sub); font-size: 14px;">Monitoramento em tempo real</p>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">🌙</button>
-                <div class="user-profile">
-                    <div class="avatar" id="avatar" onclick="openModal()">👤</div>
-                    <span id="userName" style="font-weight: 600; font-size: 14px;">Usuário</span>
-                    <button class="btn btn-logout" onclick="logout()">Sair</button>
-                </div>
-            </div>
-        </header>
-
-        <div id="painel-content"></div>
-    </main>
-
-    <div class="modal" id="avatarModal">
-        <div class="modal-content">
-            <h4>Trocar Avatar</h4>
-            <div class="emoji-grid" id="emojiGrid"></div>
-            <button class="btn btn-primary" onclick="closeModal()" style="width:100%;">Fechar</button>
-        </div>
-    </div>
-    <div id="toast" class="toast" style="display:none;"></div>
 
     @yield('assunto')
 

@@ -1,4 +1,4 @@
-    @extends('website.index')
+    @extends('websites.index')
     @section('assunto')
 
     <main class="main-content">

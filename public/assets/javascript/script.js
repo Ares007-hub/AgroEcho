@@ -510,43 +510,7 @@ if (document.getElementById('painel-content')) {
     document.getElementById('userName').innerText = user.name;
     if (user.role === 'admin') document.getElementById('adminBtn').style.display = 'block';
 
-    const devices = [
-        { name:'Umidade Solo', id:'ESP32-SOIL-001', status:'active', reading:'869', unit:'kPa', battery:87, icon:'', location:'Setor Norte', lastUpdate:'2 min atrás' },
-        { name:'Pluviômetro', id:'ESP32-RAIN-002', status:'active', reading:'2.5', unit:'mm', battery:92, icon:'', location:'Setor Central', lastUpdate:'5 min atrás' },
-        { name:'Sensor de Fluxo', id:'ESP32-FLOW-003', status:'active', reading:'12.3', unit:'L/min', battery:95, icon:'', location:'Bomba Principal', lastUpdate:'1 min atrás' },
-        { name:'Temperatura', id:'ESP32-TEMP-004', status:'inactive', reading:'28.5', unit:'°C', battery:12, icon:'', location:'Estufa 1', lastUpdate:'3 horas atrás' },
-        { name:'Radiação Solar', id:'ESP32-LUX-005', status:'active', reading:'624', unit:'lux', battery:88, icon:'', location:'Área Central', lastUpdate:'10 min atrás' }
-    ];
-
-    function renderPainel() {
-        const activeCount = devices.filter(d => d.status === 'active').length;
-        const avgBattery = Math.round(devices.reduce((acc, d) => acc + d.battery, 0) / devices.length);
-        document.getElementById('painel-content').innerHTML = `
-            <div class="stats-grid">
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Total de Dispositivos</small><h3>${devices.length}</h3></div></div>
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Ativos</small><h3>${activeCount}</h3></div></div>
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Bateria Média</small><h3>${avgBattery}%</h3></div></div>
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Alertas</small><h3>${devices.filter(d => d.battery < 20).length}</h3></div></div>
-            </div>
-            <div class="devices-grid">
-                ${devices.map(d => {
-                    const batteryColor = d.battery < 20 ? '#ef4444' : d.battery < 50 ? '#f59e0b' : '#10b981';
-                    return `<div class="sensor-card">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <div><h4 style="color:var(--text-sub); font-size:0.9rem;">${d.name}</h4><small style="font-family:monospace; color:var(--text-sub);">${d.id}</small></div>
-                            <span style="font-size:28px;">${d.icon}</span>
-                        </div>
-                        <div class="sensor-value">${d.reading} <small style="font-size:14px; color:var(--text-sub);">${d.unit}</small></div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:1px solid var(--border);">
-                            <span style="font-size:12px; color:${batteryColor};">🔋 ${d.battery}%</span>
-                            <span style="font-size:12px; color:var(--text-sub);">📍 ${d.location}</span>
-                            <span class="badge ${d.status==='active'?'badge-active':'badge-inactive'}">${d.status==='active'?'● Ativo':'● Inativo'}</span>
-                        </div>
-                        <div style="margin-top:8px; font-size:11px; color:var(--text-sub); text-align:right;">Atualizado: ${d.lastUpdate}</div>
-                    </div>`;
-                }).join('')}
-            </div>`;
-    }
+    
 
     // Avatar
     const emojis = ['👤','👨‍🌾','👩‍🌾','🚜','🌱','💧','🔧','☀️','👑','🌽','🐄','🌻'];
@@ -567,335 +531,32 @@ if (document.getElementById('painel-content')) {
 // ============================================================
 // RELATORIOS.HTML
 // ============================================================
-if (document.getElementById('relatorios-content')) {
-    const user = JSON.parse(sessionStorage.getItem('agroecho_user')) || {name: "Usuário", role: "user", id: "1"};
-    document.getElementById('welcomeText').innerText = 'Olá, ' + user.name;
-    document.getElementById('userName').innerText = user.name;
-    if (user.role === 'admin') document.getElementById('adminBtn').style.display = 'block';
-
-    const devices = [
-        { name:'Umidade Solo', id:'ESP32-SOIL-001', status:'active', reading:'869', unit:'kPa', battery:87, icon:'', location:'Setor Norte', lastUpdate:'2 min atrás' },
-        { name:'Pluviômetro', id:'ESP32-RAIN-002', status:'active', reading:'2.5', unit:'mm', battery:92, icon:'', location:'Setor Central', lastUpdate:'5 min atrás' },
-        { name:'Sensor de Fluxo', id:'ESP32-FLOW-003', status:'active', reading:'12.3', unit:'L/min', battery:95, icon:'', location:'Bomba Principal', lastUpdate:'1 min atrás' },
-        { name:'Temperatura', id:'ESP32-TEMP-004', status:'inactive', reading:'28.5', unit:'°C', battery:12, icon:'', location:'Estufa 1', lastUpdate:'3 horas atrás' },
-        { name:'Radiação Solar', id:'ESP32-LUX-005', status:'active', reading:'624', unit:'lux', battery:88, icon:'', location:'Área Central', lastUpdate:'10 min atrás' }
-    ];
-
-    const reports = [
-        { date:'06/05/2026 14:30', sensor:'Umidade Solo', reading:'869 kPa', status:'active', statusLabel:'Normal' },
-        { date:'06/05/2026 14:25', sensor:'Pluviômetro', reading:'2.5 mm', status:'active', statusLabel:'Normal' },
-        { date:'06/05/2026 14:20', sensor:'Sensor de Fluxo', reading:'12.3 L/min', status:'active', statusLabel:'Normal' },
-        { date:'06/05/2026 12:00', sensor:'Temperatura', reading:'28.5 °C', status:'inactive', statusLabel:'Alerta - Bateria Baixa' },
-        { date:'05/05/2026 18:45', sensor:'Umidade Solo', reading:'845 kPa', status:'active', statusLabel:'Normal' },
-        { date:'05/05/2026 18:30', sensor:'Pluviômetro', reading:'1.2 mm', status:'active', statusLabel:'Normal' },
-        { date:'05/05/2026 10:15', sensor:'Radiação Solar', reading:'580 lux', status:'active', statusLabel:'Normal' },
-        { date:'04/05/2026 22:00', sensor:'Temperatura', reading:'26.1 °C', status:'active', statusLabel:'Normal' }
-    ];
-
-    function renderRelatorios() {
-        document.getElementById('relatorios-content').innerHTML = `
-            <div class="pdf-container" id="pdfContent">
-                <div class="pdf-header">
-                    <h2 style="color:var(--primary);"> Relatório de Monitoramento</h2>
-                    <p style="color:var(--text-sub);">Gerado em: ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}</p>
-                    <p style="color:var(--text-sub);">Usuário: ${user.name}</p>
-                </div>
-                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-bottom:20px;">
-                    <div style="background:var(--bg); padding:15px; border-radius:10px; text-align:center;">
-                        <div style="font-size:24px; font-weight:700; color:var(--primary);">${devices.length}</div>
-                        <div style="font-size:12px; color:var(--text-sub);">Total de Sensores</div>
-                    </div>
-                    <div style="background:var(--bg); padding:15px; border-radius:10px; text-align:center;">
-                        <div style="font-size:24px; font-weight:700; color:#10b981;">${devices.filter(d=>d.status==='active').length}</div>
-                        <div style="font-size:12px; color:var(--text-sub);">Sensores Ativos</div>
-                    </div>
-                    <div style="background:var(--bg); padding:15px; border-radius:10px; text-align:center;">
-                        <div style="font-size:24px; font-weight:700; color:#ef4444;">${devices.filter(d=>d.status==='inactive').length}</div>
-                        <div style="font-size:12px; color:var(--text-sub);">Sensores Inativos</div>
-                    </div>
-                </div>
-                <h3 style="margin-bottom:10px;"> Histórico de Leituras</h3>
-                <table>
-                    <thead><tr><th>Data/Hora</th><th>Sensor</th><th>Leitura</th><th>Status</th></tr></thead>
-                    <tbody>${reports.map(r => `<tr><td>${r.date}</td><td>${r.sensor}</td><td><strong>${r.reading}</strong></td><td><span class="badge ${r.status==='active'?'badge-active':'badge-inactive'}">${r.statusLabel}</span></td></tr>`).join('')}</tbody>
-                </table>
-                <h3 style="margin-top:25px; margin-bottom:10px;">📡 Dispositivos</h3>
-                <table>
-                    <thead><tr><th>ID</th><th>Nome</th><th>Localização</th><th>Bateria</th><th>Status</th></tr></thead>
-                    <tbody>${devices.map(d => `<tr><td style="font-family:monospace;">${d.id}</td><td>${d.icon} ${d.name}</td><td>${d.location}</td><td>${d.battery}%</td><td><span class="badge ${d.status==='active'?'badge-active':'badge-inactive'}">${d.status==='active'?'Ativo':'Inativo'}</span></td></tr>`).join('')}</tbody>
-                </table>
-            </div>
-            <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="exportToExcel()" id="excelBtn" style="display:flex; align-items:center; gap:8px; background:#217346;"> Exportar Excel</button>
-                <button class="btn btn-primary" onclick="exportToPDF()" id="exportBtn" style="display:flex; align-items:center; gap:8px;"> Exportar PDF</button>
-                <button class="btn" style="background:var(--bg); border:1px solid var(--border);" onclick="printReport()"> Imprimir</button>
-            </div>`;
-    }
-
-    // Exportar Excel (completo)
-    window.exportToExcel = function() {
-        const btn = document.getElementById('excelBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="loading-spinner"></span> Gerando Excel...';
-        try {
-            const wb = XLSX.utils.book_new();
-            const borderStyle = {
-                top: { style: 'thin', color: { rgb: '059669' } },
-                bottom: { style: 'thin', color: { rgb: '059669' } },
-                left: { style: 'thin', color: { rgb: '059669' } },
-                right: { style: 'thin', color: { rgb: '059669' } }
-            };
-            const headerStyle = {
-                font: { bold: true, sz: 11, color: { rgb: 'FFFFFF' }, name: 'Calibri' },
-                fill: { fgColor: { rgb: '059669' } },
-                alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-                border: {
-                    top: { style: 'medium', color: { rgb: '047857' } },
-                    bottom: { style: 'medium', color: { rgb: '047857' } },
-                    left: { style: 'medium', color: { rgb: '047857' } },
-                    right: { style: 'medium', color: { rgb: '047857' } }
-                }
-            };
-
-            // Capa
-            const capaData = [
-                [''], [''], ['RELATÓRIO DE MONITORAMENTO'], ['AGROECHO - IRRIGAÇÃO INTELIGENTE'], [''],
-                ['Data:', new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })],
-                ['Hora:', new Date().toLocaleTimeString('pt-BR')], ['Usuário:', user.name],
-                ['Acesso:', user.role === 'admin' ? 'Administrador' : 'Usuário'], [''],
-                ['RESUMO DO SISTEMA'], [''],
-                ['Total de Dispositivos:', devices.length],
-                ['Dispositivos Ativos:', devices.filter(d => d.status === 'active').length + ' (' + Math.round(devices.filter(d => d.status === 'active').length / devices.length * 100) + '%)'],
-                ['Dispositivos Inativos:', devices.filter(d => d.status === 'inactive').length + ' (' + Math.round(devices.filter(d => d.status === 'inactive').length / devices.length * 100) + '%)'],
-                ['Bateria Média:', Math.round(devices.reduce((acc, d) => acc + d.battery, 0) / devices.length) + '%'],
-                ['Bateria Crítica (<20%):', devices.filter(d => d.battery < 20).length], [''],
-                ['Registros no Histórico:', reports.length],
-                ['Período:', reports[reports.length - 1].date + ' até ' + reports[0].date],
-                ['Alertas:', reports.filter(r => r.status === 'inactive').length]
-            ];
-            const wsCapa = XLSX.utils.aoa_to_sheet(capaData);
-            wsCapa['!cols'] = [{ wch: 45 }, { wch: 45 }];
-            wsCapa['!merges'] = [
-                { s: { r: 2, c: 0 }, e: { r: 2, c: 1 } },
-                { s: { r: 3, c: 0 }, e: { r: 3, c: 1 } },
-                { s: { r: 10, c: 0 }, e: { r: 10, c: 1 } }
-            ];
-            const titleCell = XLSX.utils.encode_cell({ r: 2, c: 0 });
-            if (wsCapa[titleCell]) wsCapa[titleCell].s = {
-                font: { bold: true, sz: 22, color: { rgb: '059669' }, name: 'Calibri' },
-                alignment: { horizontal: 'center', vertical: 'center' },
-                fill: { fgColor: { rgb: 'D1FAE5' } },
-                border: { top: { style: 'medium', color: { rgb: '059669' } }, bottom: { style: 'medium', color: { rgb: '059669' } }, left: { style: 'medium', color: { rgb: '059669' } }, right: { style: 'medium', color: { rgb: '059669' } } }
-            };
-            const resumoCell = XLSX.utils.encode_cell({ r: 10, c: 0 });
-            if (wsCapa[resumoCell]) wsCapa[resumoCell].s = {
-                font: { bold: true, sz: 14, color: { rgb: 'FFFFFF' }, name: 'Calibri' },
-                fill: { fgColor: { rgb: '059669' } },
-                alignment: { horizontal: 'center', vertical: 'center' },
-                border: { top: { style: 'medium', color: { rgb: '047857' } }, bottom: { style: 'medium', color: { rgb: '047857' } }, left: { style: 'medium', color: { rgb: '047857' } }, right: { style: 'medium', color: { rgb: '047857' } } }
-            };
-            for (let r = 5; r <= 8; r++) {
-                for (let c = 0; c < 2; c++) {
-                    const cellRef = XLSX.utils.encode_cell({ r: r, c: c });
-                    if (wsCapa[cellRef] && !wsCapa[cellRef].s) wsCapa[cellRef].s = { border: borderStyle };
-                }
-            }
-            XLSX.utils.book_append_sheet(wb, wsCapa, ' Capa');
-
-            // Histórico de Leituras
-            const leiturasData = [['DATA/HORA', 'SENSOR', 'ID DISPOSITIVO', 'LEITURA', 'VALOR', 'UNIDADE', 'STATUS', 'OBSERVAÇÃO']];
-            reports.forEach(r => {
-                const device = devices.find(d => r.sensor.includes(d.name.split(' ')[0])) || devices[0];
-                const numericValue = parseFloat(r.reading.replace(/[^0-9.]/g, ''));
-                const unit = r.reading.replace(/[0-9.\s]/g, '').trim();
-                leiturasData.push([r.date, r.sensor, device ? device.id : 'N/A', r.reading, numericValue || 0, unit || '-', r.statusLabel, r.status === 'inactive' ? '⚠️ Requer atenção' : '✅ Normal']);
-            });
-            const wsLeituras = XLSX.utils.aoa_to_sheet(leiturasData);
-            wsLeituras['!cols'] = [{ wch: 22 }, { wch: 25 }, { wch: 20 }, { wch: 15 }, { wch: 12 }, { wch: 10 }, { wch: 22 }, { wch: 25 }];
-            for (let i = 0; i < 8; i++) {
-                const cellRef = XLSX.utils.encode_cell({ r: 0, c: i });
-                if (wsLeituras[cellRef]) wsLeituras[cellRef].s = headerStyle;
-            }
-            for (let r = 1; r < leiturasData.length; r++) {
-                const isAlert = leiturasData[r][7].includes('⚠️');
-                for (let c = 0; c < 8; c++) {
-                    const cellRef = XLSX.utils.encode_cell({ r: r, c: c });
-                    if (wsLeituras[cellRef]) wsLeituras[cellRef].s = {
-                        font: { sz: 10, name: 'Calibri', bold: isAlert, color: isAlert ? { rgb: '991B1B' } : { rgb: '1F2937' } },
-                        fill: { fgColor: { rgb: isAlert ? 'FEE2E2' : r % 2 === 0 ? 'F0FDF4' : 'FFFFFF' } },
-                        border: borderStyle,
-                        alignment: { vertical: 'center' }
-                    };
-                }
-            }
-            XLSX.utils.book_append_sheet(wb, wsLeituras, ' Histórico');
-
-            // Dispositivos
-            const dispositivosData = [['ID', 'NOME', 'TIPO', 'LOCALIZAÇÃO', 'BATERIA', 'NÍVEL', 'ÚLTIMA LEITURA', 'ATUALIZAÇÃO', 'STATUS']];
-            devices.forEach(d => {
-                const nivel = d.battery > 70 ? 'Alto' : d.battery > 40 ? 'Médio' : d.battery > 20 ? 'Baixo' : 'Crítico';
-                dispositivosData.push([d.id, d.name, d.unit, d.location, d.battery + '%', nivel, d.reading + ' ' + d.unit, d.lastUpdate, d.status === 'active' ? 'ATIVO' : 'INATIVO']);
-            });
-            const wsDispositivos = XLSX.utils.aoa_to_sheet(dispositivosData);
-            wsDispositivos['!cols'] = [{ wch: 20 }, { wch: 25 }, { wch: 10 }, { wch: 20 }, { wch: 10 }, { wch: 14 }, { wch: 15 }, { wch: 18 }, { wch: 10 }];
-            for (let i = 0; i < 9; i++) {
-                const cellRef = XLSX.utils.encode_cell({ r: 0, c: i });
-                if (wsDispositivos[cellRef]) wsDispositivos[cellRef].s = headerStyle;
-            }
-            for (let r = 1; r < dispositivosData.length; r++) {
-                const isInactive = dispositivosData[r][8] === 'INATIVO';
-                for (let c = 0; c < 9; c++) {
-                    const cellRef = XLSX.utils.encode_cell({ r: r, c: c });
-                    if (wsDispositivos[cellRef]) wsDispositivos[cellRef].s = {
-                        font: { sz: 10, name: 'Calibri', bold: isInactive, color: isInactive ? { rgb: '991B1B' } : { rgb: '1F2937' } },
-                        fill: { fgColor: { rgb: isInactive ? 'FEE2E2' : r % 2 === 0 ? 'F0FDF4' : 'FFFFFF' } },
-                        border: borderStyle,
-                        alignment: { vertical: 'center' }
-                    };
-                }
-            }
-            XLSX.utils.book_append_sheet(wb, wsDispositivos, ' Dispositivos');
-
-            // Bateria
-            const bateriaData = [['DISPOSITIVO', 'BATERIA', 'NÍVEL', 'STATUS', 'RECOMENDAÇÃO']];
-            devices.forEach(d => {
-                const nivel = d.battery > 70 ? 'Alto' : d.battery > 40 ? 'Médio' : d.battery > 20 ? 'Baixo' : 'Crítico';
-                const recomendacao = d.battery > 70 ? ' OK - Nenhuma ação necessária' : d.battery > 40 ? ' Monitorar - Verificar em 7 dias' : d.battery > 20 ? ' Atenção - Recarregar em 3 dias' : ' URGENTE - Recarregar imediatamente';
-                bateriaData.push([d.name, d.battery + '%', nivel, d.status === 'active' ? 'Ativo' : 'Inativo', recomendacao]);
-            });
-            const wsBateria = XLSX.utils.aoa_to_sheet(bateriaData);
-            wsBateria['!cols'] = [{ wch: 25 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 45 }];
-            for (let i = 0; i < 5; i++) {
-                const cellRef = XLSX.utils.encode_cell({ r: 0, c: i });
-                if (wsBateria[cellRef]) wsBateria[cellRef].s = headerStyle;
-            }
-            for (let r = 1; r < bateriaData.length; r++) {
-                for (let c = 0; c < 5; c++) {
-                    const cellRef = XLSX.utils.encode_cell({ r: r, c: c });
-                    if (wsBateria[cellRef]) wsBateria[cellRef].s = {
-                        font: { sz: 10, name: 'Calibri' },
-                        fill: { fgColor: { rgb: r % 2 === 0 ? 'F0FDF4' : 'FFFFFF' } },
-                        border: borderStyle,
-                        alignment: { vertical: 'center', wrapText: true }
-                    };
-                }
-            }
-            XLSX.utils.book_append_sheet(wb, wsBateria, ' Bateria');
-
-            // Estatísticas
-            const estatisticasData = [
-                ['ESTATÍSTICAS DO SISTEMA'], [''],
-                ['Métrica', 'Valor', 'Percentual'],
-                ['Total de Dispositivos', devices.length, '100%'],
-                ['Dispositivos Ativos', devices.filter(d => d.status === 'active').length, Math.round(devices.filter(d => d.status === 'active').length / devices.length * 100) + '%'],
-                ['Dispositivos Inativos', devices.filter(d => d.status === 'inactive').length, Math.round(devices.filter(d => d.status === 'inactive').length / devices.length * 100) + '%'],
-                ['Bateria Média', Math.round(devices.reduce((acc, d) => acc + d.battery, 0) / devices.length) + '%', '-'],
-                ['Bateria Máxima', Math.max(...devices.map(d => d.battery)) + '%', '-'],
-                ['Bateria Mínima', Math.min(...devices.map(d => d.battery)) + '%', '-'],
-                [''], ['Total de Leituras', reports.length, '-'],
-                ['Leituras Normais', reports.filter(r => r.status === 'active').length, Math.round(reports.filter(r => r.status === 'active').length / reports.length * 100) + '%'],
-                ['Leituras com Alerta', reports.filter(r => r.status === 'inactive').length, Math.round(reports.filter(r => r.status === 'inactive').length / reports.length * 100) + '%'],
-                [''], ['Período:', reports[reports.length - 1].date + ' a ' + reports[0].date, '-']
-            ];
-            const wsEstatisticas = XLSX.utils.aoa_to_sheet(estatisticasData);
-            wsEstatisticas['!cols'] = [{ wch: 35 }, { wch: 25 }, { wch: 15 }];
-            wsEstatisticas['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }];
-            const statTitle = XLSX.utils.encode_cell({ r: 0, c: 0 });
-            if (wsEstatisticas[statTitle]) wsEstatisticas[statTitle].s = {
-                font: { bold: true, sz: 14, color: { rgb: 'FFFFFF' }, name: 'Calibri' },
-                fill: { fgColor: { rgb: '059669' } },
-                alignment: { horizontal: 'center', vertical: 'center' },
-                border: { top: { style: 'medium', color: { rgb: '047857' } }, bottom: { style: 'medium', color: { rgb: '047857' } }, left: { style: 'medium', color: { rgb: '047857' } }, right: { style: 'medium', color: { rgb: '047857' } } }
-            };
-            for (let i = 0; i < 3; i++) {
-                const cellRef = XLSX.utils.encode_cell({ r: 2, c: i });
-                if (wsEstatisticas[cellRef]) wsEstatisticas[cellRef].s = headerStyle;
-            }
-            for (let r = 3; r < estatisticasData.length; r++) {
-                for (let c = 0; c < 3; c++) {
-                    const cellRef = XLSX.utils.encode_cell({ r: r, c: c });
-                    if (wsEstatisticas[cellRef] && estatisticasData[r][c] !== '' && estatisticasData[r][c] !== '-') {
-                        wsEstatisticas[cellRef].s = {
-                            font: { sz: 10, name: 'Calibri' },
-                            fill: { fgColor: { rgb: r % 2 === 0 ? 'F0FDF4' : 'FFFFFF' } },
-                            border: borderStyle,
-                            alignment: { vertical: 'center' }
-                        };
-                    }
-                }
-            }
-            XLSX.utils.book_append_sheet(wb, wsEstatisticas, ' Estatísticas');
-
-            XLSX.writeFile(wb, 'Relatorio_AgroEcho_' + new Date().toISOString().split('T')[0] + '.xlsx');
-            btn.disabled = false;
-            btn.innerHTML = 'Exportar Excel';
-            showToast('Excel exportado com bordas!');
-        } catch (error) {
-            console.error('Erro:', error);
-            btn.disabled = false;
-            btn.innerHTML = 'Exportar Excel';
-            showToast(' Erro. Tente novamente.');
+// Exporta a tabela exatamente do jeito que o Laravel montou (com as colunas filtradas)
+window.exportarParaExcel = function() {
+    try {
+        // Pega a tabela de dados brutos pelo ID
+        var tabela = document.getElementById("tabela-bruta");
+        
+        if (!tabela) {
+            alert("Nenhuma tabela encontrada para exportar.");
+            return;
         }
-    };
 
-    // Exportar PDF (completo)
-    window.exportToPDF = function() {
-        const element = document.getElementById('pdfContent');
-        const btn = document.getElementById('exportBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="loading-spinner"></span> Gerando PDF...';
-        const opt = {
-            margin: [8, 8, 8, 8],
-            filename: 'Relatorio_AgroEcho_' + new Date().toISOString().split('T')[0] + '.pdf',
-            image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false, backgroundColor: '#ffffff' },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-        };
-        html2pdf().set(opt).from(element).save().then(() => {
-            btn.disabled = false;
-            btn.innerHTML = 'Exportar PDF';
-            showToast('PDF exportado!');
-        }).catch(() => {
-            btn.disabled = false;
-            btn.innerHTML = 'Exportar PDF';
-            showToast('Erro ao gerar PDF.');
-        });
-    };
+        // Converte o HTML para uma planilha
+        var workbook = XLSX.utils.table_to_book(tabela, {sheet: "Dados Brutos"});
+        
+        // Gera um nome de arquivo identificando a data
+        var dataHoje = new Date().toISOString().split('T')[0];
+        var nomeArquivo = 'Relatorio_AgroEcho_' + dataHoje + '.xlsx';
+        
+        // Dispara o download
+        XLSX.writeFile(workbook, nomeArquivo);
 
-    // Imprimir (completo)
-    window.printReport = function() {
-        const printContent = document.getElementById('pdfContent').innerHTML;
-        const printWindow = window.open('', '_blank', 'width=900,height=700');
-        printWindow.document.write(`<!DOCTYPE html><html><head><title>Relatório AgroEcho</title><style>body{font-family:Inter,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}th{background:#059669;color:white;padding:8px}td{padding:8px;border:1px solid #bdf3c7}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body>${printContent}</body></html>`);
-        printWindow.document.close();
-        printWindow.focus();
-        setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
-        showToast('Impressão enviada!');
-    };
-
-    function showToast(m) {
-        const t = document.getElementById('toast');
-        t.textContent = m;
-        t.style.display = 'block';
-        setTimeout(() => t.style.display = 'none', 3000);
+    } catch (error) {
+        console.error('Erro na exportação:', error);
+        alert("Ocorreu um erro ao gerar o Excel. Tente novamente.");
     }
-
-    // Avatar
-    const emojis = ['👤','👨‍🌾','👩‍🌾','🚜','🌱','💧','🔧','☀️','👑','🌽','🐄','🌻'];
-    document.getElementById('emojiGrid').innerHTML = emojis.map(e => `<div class="emoji-item" onclick="selectAvatar('${e}')">${e}</div>`).join('');
-    window.openModal = function() { document.getElementById('avatarModal').classList.add('active'); };
-    window.closeModal = function() { document.getElementById('avatarModal').classList.remove('active'); };
-    window.selectAvatar = function(e) {
-        document.getElementById('avatar').innerText = e;
-        localStorage.setItem('avatar_' + user.id, e);
-        closeModal();
-    };
-    const savedAvatar = localStorage.getItem('avatar_' + user.id);
-    if (savedAvatar) document.getElementById('avatar').innerText = savedAvatar;
-
-    renderRelatorios();
-}
+};
 
 // ============================================================
 // CONFIG.HTML
