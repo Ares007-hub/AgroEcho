@@ -7,11 +7,15 @@ use App\Models\Dispositivo;
 use Illuminate\Http\Request;
 
 class WebsiteController extends Controller{
+    public function home(){
+        return view('websites.home');
+    }
+
     public function login(){
         return view('websites.login');
     }
 
-    public function home(){
+    public function dispositivos(){
     // Carrega os dispositivos já trazendo a última leitura do Arduino acoplada
     $dispositivos = \App\Models\Dispositivo::with('ultimaLeitura')->get();
 
@@ -22,7 +26,7 @@ class WebsiteController extends Controller{
     $erros = $dispositivos->where('status', 'error')->count();
 
     // manda pra view home
-    return view('websites.home', compact('dispositivos', 'totalDispositivos', 'ativos', 'manutencao', 'erros'));
+    return view('websites.dispositivos', compact('dispositivos', 'totalDispositivos', 'ativos', 'manutencao', 'erros'));
 }
 
     public function config(){

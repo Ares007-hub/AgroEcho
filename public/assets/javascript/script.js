@@ -40,14 +40,6 @@ function logout() {
 }
 
 // ----- BANCO DE USUÁRIOS (localStorage) -----
-let users = JSON.parse(localStorage.getItem('agroecho_all_users')) || [];
-if (users.length === 0) {
-    users = [
-        { id: 1, name: 'Administrador', email: 'admin@agroecho.com.br', password: 'admin123', role: 'admin', phone: '(11) 99999-9999', createdAt: '2024-01-15', permanent: true },
-        { id: 2, name: 'João Silva', email: 'joao@email.com', password: 'joao123', role: 'user', phone: '(11) 98888-8888', createdAt: '2024-02-20', permanent: false }
-    ];
-    saveUsers(users);
-}
 function getUsers() {
     let users = localStorage.getItem('agroecho_all_users');
     return users ? JSON.parse(users) : [];
@@ -79,14 +71,77 @@ function checkAuth(requiredRole) {
     }
     if (requiredRole && user.role !== requiredRole) {
         alert('Acesso negado');
-        window.location.href = user.role === 'admin' ? '/home' : '/admin';
+        window.location.href = user.role === 'admin' ? '/dispositivos' : '/admin';
         return null;
     }
     return user;
 }
 
 // ============================================================
-// INDEX.HTML
+// LANDING PAGE
+// ============================================================
+if (document.querySelector('body.landing-page')) {
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+    });
+
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    window.onclick = function (event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    const counters = document.querySelectorAll('.counter');
+    const countTo = (counter) => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 1500;
+        let startTime = null;
+
+        const animate = (timestamp) => {
+            if (!startTime) startTime = timestamp;
+            const progress = timestamp - startTime;
+            const progressPercentage = Math.min(progress / duration, 1);
+            const ease = progressPercentage * (2 - progressPercentage);
+            const currentValue = Math.floor(ease * target);
+            counter.textContent = `${currentValue}%`;
+            if (progress < duration) {
+                requestAnimationFrame(animate);
+            } else {
+                counter.textContent = `${target}%`;
+            }
+        };
+
+        requestAnimationFrame(animate);
+    };
+
+    const observerOptions = { threshold: 0.2 };
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                countTo(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    counters.forEach(counter => observer.observe(counter));
+}
+
+// ============================================================
+// INDEX.HTML (LOGIN)
 // ============================================================
 if (document.getElementById('loginForm')) {
     function togglePass(inputId, btn) {
@@ -193,7 +248,6 @@ if (document.getElementById('loginForm')) {
         }
     });
 
-    // Login
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
@@ -207,7 +261,7 @@ if (document.getElementById('loginForm')) {
             msg.style.display = 'block';
             msg.textContent = 'Login efetuado. Redirecionando...';
             setTimeout(() => {
-                window.location.href = user.role === 'admin' ? '/admin' : '/home';
+                window.location.href = user.role === 'admin' ? '/admin' : '/dispositivos';
             }, 800);
         } else {
             msg.className = 'alert-msg error';
@@ -216,7 +270,6 @@ if (document.getElementById('loginForm')) {
         }
     });
 
-    // Register
     document.getElementById('registerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const name = document.getElementById('regName').value.trim();
@@ -275,7 +328,7 @@ if (document.getElementById('statsRow')) {
     }
     if (user.role !== 'admin') {
         alert('Acesso permitido apenas para administradores');
-        window.location.href = '/home';
+        window.location.href = '/dispositivos';
     }
 
     document.getElementById('sidebarUserName').textContent = user.name;
@@ -353,7 +406,7 @@ if (document.getElementById('usersTable')) {
         }
         if (user.role !== 'admin') {
             alert('Acesso negado');
-            window.location.href = '/home';
+            window.location.href = '/dispositivos';
             return null;
         }
         return user;
@@ -363,7 +416,14 @@ if (document.getElementById('usersTable')) {
     if (!user) throw new Error('Auth failed');
     document.getElementById('sidebarUserName').textContent = user.name;
 
-
+    let users = JSON.parse(localStorage.getItem('agroecho_all_users')) || [];
+    if (users.length === 0) {
+        users = [
+            { id: 1, name: 'Administrador', email: 'admin@agroecho.com.br', password: 'admin123', role: 'admin', phone: '(11) 99999-9999', createdAt: '2024-01-15', permanent: true },
+            { id: 2, name: 'João Silva', email: 'joao@email.com', password: 'joao123', role: 'user', phone: '(11) 98888-8888', createdAt: '2024-02-20', permanent: false }
+        ];
+        saveUsers(users);
+    }
 
     function renderUsers() {
         const tbody = document.getElementById('usersTable');
@@ -510,9 +570,44 @@ if (document.getElementById('painel-content')) {
     document.getElementById('userName').innerText = user.name;
     if (user.role === 'admin') document.getElementById('adminBtn').style.display = 'block';
 
-    
+    const devices = [
+        { name:'Umidade Solo', id:'ESP32-SOIL-001', status:'active', reading:'869', unit:'kPa', battery:87, icon:'💧', location:'Setor Norte', lastUpdate:'2 min atrás' },
+        { name:'Pluviômetro', id:'ESP32-RAIN-002', status:'active', reading:'2.5', unit:'mm', battery:92, icon:'🌧️', location:'Setor Central', lastUpdate:'5 min atrás' },
+        { name:'Sensor de Fluxo', id:'ESP32-FLOW-003', status:'active', reading:'12.3', unit:'L/min', battery:95, icon:'💦', location:'Bomba Principal', lastUpdate:'1 min atrás' },
+        { name:'Temperatura', id:'ESP32-TEMP-004', status:'inactive', reading:'28.5', unit:'°C', battery:12, icon:'🌡️', location:'Estufa 1', lastUpdate:'3 horas atrás' },
+        { name:'Radiação Solar', id:'ESP32-LUX-005', status:'active', reading:'624', unit:'lux', battery:88, icon:'☀️', location:'Área Central', lastUpdate:'10 min atrás' }
+    ];
 
-    // Avatar
+    function renderPainel() {
+        const activeCount = devices.filter(d => d.status === 'active').length;
+        const avgBattery = Math.round(devices.reduce((acc, d) => acc + d.battery, 0) / devices.length);
+        document.getElementById('painel-content').innerHTML = `
+            <div class="stats-grid">
+                <div class="stat-card"><div><small style="color:var(--text-sub)">Total de Dispositivos</small><h3>${devices.length}</h3></div></div>
+                <div class="stat-card"><div><small style="color:var(--text-sub)">Ativos</small><h3>${activeCount}</h3></div></div>
+                <div class="stat-card"><div><small style="color:var(--text-sub)">Bateria Média</small><h3>${avgBattery}%</h3></div></div>
+                <div class="stat-card"><div><small style="color:var(--text-sub)">Alertas</small><h3>${devices.filter(d => d.battery < 20).length}</h3></div></div>
+            </div>
+            <div class="devices-grid">
+                ${devices.map(d => {
+                    const batteryColor = d.battery < 20 ? '#ef4444' : d.battery < 50 ? '#f59e0b' : '#10b981';
+                    return `<div class="sensor-card">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <div><h4 style="color:var(--text-sub); font-size:0.9rem;">${d.name}</h4><small style="font-family:monospace; color:var(--text-sub);">${d.id}</small></div>
+                            <span style="font-size:28px;">${d.icon}</span>
+                        </div>
+                        <div class="sensor-value">${d.reading} <small style="font-size:14px; color:var(--text-sub);">${d.unit}</small></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:1px solid var(--border);">
+                            <span style="font-size:12px; color:${batteryColor};">🔋 ${d.battery}%</span>
+                            <span style="font-size:12px; color:var(--text-sub);">📍 ${d.location}</span>
+                            <span class="badge ${d.status==='active'?'badge-active':'badge-inactive'}">${d.status==='active'?'● Ativo':'● Inativo'}</span>
+                        </div>
+                        <div style="margin-top:8px; font-size:11px; color:var(--text-sub); text-align:right;">Atualizado: ${d.lastUpdate}</div>
+                    </div>`;
+                }).join('')}
+            </div>`;
+    }
+
     const emojis = ['👤','👨‍🌾','👩‍🌾','🚜','🌱','💧','🔧','☀️','👑','🌽','🐄','🌻'];
     document.getElementById('emojiGrid').innerHTML = emojis.map(e => `<div class="emoji-item" onclick="selectAvatar('${e}')">${e}</div>`).join('');
     window.openModal = function() { document.getElementById('avatarModal').classList.add('active'); };
@@ -531,27 +626,17 @@ if (document.getElementById('painel-content')) {
 // ============================================================
 // RELATORIOS.HTML
 // ============================================================
-// Exporta a tabela exatamente do jeito que o Laravel montou (com as colunas filtradas)
 window.exportarParaExcel = function() {
     try {
-        // Pega a tabela de dados brutos pelo ID
         var tabela = document.getElementById("tabela-bruta");
-        
         if (!tabela) {
             alert("Nenhuma tabela encontrada para exportar.");
             return;
         }
-
-        // Converte o HTML para uma planilha
         var workbook = XLSX.utils.table_to_book(tabela, {sheet: "Dados Brutos"});
-        
-        // Gera um nome de arquivo identificando a data
         var dataHoje = new Date().toISOString().split('T')[0];
         var nomeArquivo = 'Relatorio_AgroEcho_' + dataHoje + '.xlsx';
-        
-        // Dispara o download
         XLSX.writeFile(workbook, nomeArquivo);
-
     } catch (error) {
         console.error('Erro na exportação:', error);
         alert("Ocorreu um erro ao gerar o Excel. Tente novamente.");
@@ -566,7 +651,6 @@ if (document.getElementById('config-content')) {
     document.getElementById('userName').innerText = user.name;
     if (user.role === 'admin') document.getElementById('adminBtn').style.display = 'block';
 
-    // Layout original da configuração
     document.getElementById('config-content').innerHTML = `
         <div style="max-width:500px; background:var(--card); padding:25px; border-radius:20px; border:1px solid var(--border);">
             <h3 style="margin-bottom:20px;"> Configurações</h3>
@@ -617,7 +701,6 @@ if (document.getElementById('config-content')) {
         setTimeout(() => t.style.display = 'none', 3000);
     }
 
-    // Avatar
     const emojis = ['👤','👨‍🌾','👩‍🌾','🚜','🌱','💧','🔧','☀️','👑','🌽','🐄','🌻'];
     document.getElementById('emojiGrid').innerHTML = emojis.map(e => `<div class="emoji-item" onclick="selectAvatar('${e}')">${e}</div>`).join('');
     window.openModal = function() { document.getElementById('avatarModal').classList.add('active'); };

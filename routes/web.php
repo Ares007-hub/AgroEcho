@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-route::get('/', 'App\Http\Controllers\WebsiteController@login');
-route::get('/home', 'App\Http\Controllers\WebsiteController@home');
+route::get('/', 'App\Http\Controllers\WebsiteController@home');
+route::get('/login', 'App\Http\Controllers\WebsiteController@login');
+route::get('/dispositivos', 'App\Http\Controllers\WebsiteController@dispositivos');
 route::get('/relatorios', 'App\Http\Controllers\WebsiteController@relatorios');
 route::get('/config', 'App\Http\Controllers\WebsiteController@config');
 
