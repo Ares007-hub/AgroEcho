@@ -17,7 +17,7 @@
             <img src="/assets/img/Logo.png" alt="ECHO Logo" class="logo-img">
         </div>
         <nav>
-            <a href="/home" class="nav-link ">Painel Geral</a>
+            <a href="/dispositivos" class="nav-link ">Painel Geral</a>
             <a href="/relatorios" class="nav-link">Relatórios</a>
             <a href="/config" class="nav-link">Configurações</a>
         </nav>

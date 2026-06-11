@@ -22,4 +22,9 @@ class Dispositivo extends Model
     {
         return $this->hasOne(LeituraSensor::class, 'dispositivo_id')->latest('momento_leitura');
     }
+
+    public function usuario()
+{
+    return $this->belongsTo(Usuario::class, 'usuario_id');
+}
 }

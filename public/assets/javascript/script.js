@@ -143,8 +143,10 @@ if (document.querySelector('body.landing-page')) {
 // ============================================================
 // INDEX.HTML (LOGIN)
 // ============================================================
-if (document.getElementById('loginForm')) {
-    function togglePass(inputId, btn) {
+if (document.getElementById('tab-login')) { // Verifica se está na página de login
+    
+    // 1. Mostrar/Ocultar Senha
+    window.togglePass = function(inputId, btn) {
         const input = document.getElementById(inputId);
         const icon = btn.querySelector('i');
         if (input.type === 'password') {
@@ -154,167 +156,54 @@ if (document.getElementById('loginForm')) {
             input.type = 'password';
             icon.className = 'fas fa-eye';
         }
-    }
+    };
 
-    function switchTab(tab) {
+    // 2. Trocar abas (Login / Cadastro)
+    window.switchTab = function(tab) {
         const isLogin = tab === 'login';
         document.querySelectorAll('.tab-btn').forEach((btn, i) => {
             btn.classList.toggle('active', isLogin ? i === 0 : i === 1);
         });
         document.getElementById('tab-login').classList.toggle('active', isLogin);
         document.getElementById('tab-register').classList.toggle('active', !isLogin);
-        document.querySelectorAll('.alert-msg').forEach(m => m.style.display = 'none');
         document.querySelector('.tab-scroll').scrollTop = 0;
+    };
+
+    // 3. Máscara de Telefone
+    const phoneInput = document.getElementById('regPhone');
+    if(phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            let val = this.value.replace(/\D/g, '');
+            if (val.length > 0) val = val.replace(/^(\d{2})(\d)/, '($1) $2');
+            if (val.length > 10) val = val.replace(/(\d{5})(\d)/, '$1-$2');
+            this.value = val;
+        });
     }
 
-    const phoneInput = document.getElementById('regPhone');
-    phoneInput.addEventListener('input', function() {
-        let val = this.value.replace(/\D/g, '');
-        if (val.length > 0) val = val.replace(/^(\d{2})(\d)/, '($1) $2');
-        if (val.length > 10) val = val.replace(/(\d{5})(\d)/, '$1-$2');
-        this.value = val;
-    });
-
-    const emailInput = document.getElementById('regEmail');
-    const emailHint = document.getElementById('emailHint');
-    function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-    emailInput.addEventListener('input', function() {
-        const val = this.value.trim();
-        if (!val) { emailHint.textContent = ''; this.classList.remove('valid','invalid'); return; }
-        if (validEmail(val)) {
-            emailHint.textContent = 'Email válido';
-            emailHint.className = 'field-hint ok';
-            this.classList.add('valid'); this.classList.remove('invalid');
-        } else {
-            emailHint.textContent = 'Formato inválido';
-            emailHint.className = 'field-hint err';
-            this.classList.add('invalid'); this.classList.remove('valid');
-        }
-    });
-
+    // 4. Força da Senha (Apenas Visual)
     const pwdInput = document.getElementById('regPassword');
     const strengthFill = document.getElementById('strengthFill');
     const strengthLabel = document.getElementById('strengthLabel');
-    const reqs = {
-        length: document.getElementById('req-length'),
-        upper: document.getElementById('req-upper'),
-        special: document.getElementById('req-special'),
-        number: document.getElementById('req-number')
-    };
-    function checkPwd(pwd) {
-        const checks = {
-            length: pwd.length >= 6,
-            upper: /[A-Z]/.test(pwd),
-            special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
-            number: /[0-9]/.test(pwd)
-        };
-        let score = Object.values(checks).filter(Boolean).length;
-        if (pwd.length >= 10) score++;
-        return { checks, score };
+    
+    if(pwdInput) {
+        pwdInput.addEventListener('input', function() {
+            const pwd = this.value;
+            if (!pwd) {
+                strengthFill.setAttribute('data-level', '');
+                strengthLabel.textContent = '';
+                return;
+            }
+            let score = 0;
+            if (pwd.length >= 6) score++;
+            if (/[A-Z]/.test(pwd)) score++;
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) score++;
+            if (/[0-9]/.test(pwd)) score++;
+            
+            let level = score <= 1 ? 'weak' : score <= 2 ? 'fair' : score <= 3 ? 'good' : 'strong';
+            strengthFill.setAttribute('data-level', level);
+            strengthLabel.textContent = { weak: 'Fraca', fair: 'Razoável', good: 'Boa', strong: 'Forte' }[level];
+        });
     }
-    pwdInput.addEventListener('input', function() {
-        const pwd = this.value;
-        if (!pwd) {
-            strengthFill.setAttribute('data-level', '');
-            strengthLabel.setAttribute('data-level', '');
-            strengthLabel.textContent = '';
-            Object.values(reqs).forEach(r => r.className = '');
-            return;
-        }
-        const { checks, score } = checkPwd(pwd);
-        reqs.length.className = checks.length ? 'met' : '';
-        reqs.upper.className = checks.upper ? 'met' : '';
-        reqs.special.className = checks.special ? 'met' : '';
-        reqs.number.className = checks.number ? 'met' : '';
-        let level = score <= 1 ? 'weak' : score <= 2 ? 'fair' : score <= 3 ? 'good' : 'strong';
-        strengthFill.setAttribute('data-level', level);
-        strengthLabel.setAttribute('data-level', level);
-        strengthLabel.textContent = { weak: 'Fraca', fair: 'Razoável', good: 'Boa', strong: 'Forte' }[level];
-    });
-
-    const confirmInput = document.getElementById('regConfirm');
-    const matchHint = document.getElementById('matchHint');
-    confirmInput.addEventListener('input', function() {
-        const val = this.value;
-        if (!val) { matchHint.textContent = ''; this.classList.remove('valid','invalid'); return; }
-        if (val === pwdInput.value) {
-            matchHint.textContent = 'Senhas conferem';
-            matchHint.className = 'field-hint ok';
-            this.classList.add('valid'); this.classList.remove('invalid');
-        } else {
-            matchHint.textContent = 'Senhas não conferem';
-            matchHint.className = 'field-hint err';
-            this.classList.add('invalid'); this.classList.remove('valid');
-        }
-    });
-
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const pwd = document.getElementById('loginPassword').value;
-        const msg = document.getElementById('loginMsg');
-        const users = getUsers();
-        const user = users.find(u => u.email === email && u.password === pwd);
-        if (user) {
-            sessionStorage.setItem('agroecho_user', JSON.stringify(user));
-            msg.className = 'alert-msg success';
-            msg.style.display = 'block';
-            msg.textContent = 'Login efetuado. Redirecionando...';
-            setTimeout(() => {
-                window.location.href = user.role === 'admin' ? '/admin' : '/dispositivos';
-            }, 800);
-        } else {
-            msg.className = 'alert-msg error';
-            msg.style.display = 'block';
-            msg.textContent = 'Email ou senha incorretos.';
-        }
-    });
-
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = document.getElementById('regName').value.trim();
-        const email = emailInput.value.trim();
-        const phone = phoneInput.value.trim();
-        const pwd = pwdInput.value;
-        const confirm = confirmInput.value;
-        const msg = document.getElementById('registerMsg');
-
-        if (!validEmail(email)) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'Insira um email válido.'; return;
-        }
-        const { checks } = checkPwd(pwd);
-        if (!Object.values(checks).every(Boolean)) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'A senha não atende aos requisitos.'; return;
-        }
-        if (pwd !== confirm) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'As senhas não conferem.'; return;
-        }
-
-        const users = getUsers();
-        if (users.some(u => u.email === email)) {
-            msg.className = 'alert-msg error'; msg.style.display = 'block';
-            msg.textContent = 'Este email já está cadastrado.'; return;
-        }
-
-        users.push({ id: Date.now(), name, email, password: pwd, phone: phone || '-', role: 'user', createdAt: new Date().toISOString().split('T')[0] });
-        saveUsers(users);
-
-        msg.className = 'alert-msg success'; msg.style.display = 'block';
-        msg.textContent = 'Conta criada com sucesso!';
-        document.getElementById('registerForm').reset();
-        strengthFill.setAttribute('data-level', '');
-        strengthLabel.setAttribute('data-level', '');
-        strengthLabel.textContent = '';
-        Object.values(reqs).forEach(r => r.className = '');
-        emailHint.textContent = '';
-        matchHint.textContent = '';
-        emailInput.classList.remove('valid','invalid');
-        confirmInput.classList.remove('valid','invalid');
-        setTimeout(() => switchTab('login'), 1500);
-    });
 }
 
 // ============================================================
@@ -562,68 +451,6 @@ if (document.getElementById('usersTable')) {
 }
 
 // ============================================================
-// USER_DISPOSITIVOS.HTML (Painel Geral)
-// ============================================================
-if (document.getElementById('painel-content')) {
-    const user = JSON.parse(sessionStorage.getItem('agroecho_user')) || {name: "Usuário", role: "user", id: "1"};
-    document.getElementById('welcomeText').innerText = 'Olá, ' + user.name;
-    document.getElementById('userName').innerText = user.name;
-    if (user.role === 'admin') document.getElementById('adminBtn').style.display = 'block';
-
-    const devices = [
-        { name:'Umidade Solo', id:'ESP32-SOIL-001', status:'active', reading:'869', unit:'kPa', battery:87, icon:'💧', location:'Setor Norte', lastUpdate:'2 min atrás' },
-        { name:'Pluviômetro', id:'ESP32-RAIN-002', status:'active', reading:'2.5', unit:'mm', battery:92, icon:'🌧️', location:'Setor Central', lastUpdate:'5 min atrás' },
-        { name:'Sensor de Fluxo', id:'ESP32-FLOW-003', status:'active', reading:'12.3', unit:'L/min', battery:95, icon:'💦', location:'Bomba Principal', lastUpdate:'1 min atrás' },
-        { name:'Temperatura', id:'ESP32-TEMP-004', status:'inactive', reading:'28.5', unit:'°C', battery:12, icon:'🌡️', location:'Estufa 1', lastUpdate:'3 horas atrás' },
-        { name:'Radiação Solar', id:'ESP32-LUX-005', status:'active', reading:'624', unit:'lux', battery:88, icon:'☀️', location:'Área Central', lastUpdate:'10 min atrás' }
-    ];
-
-    function renderPainel() {
-        const activeCount = devices.filter(d => d.status === 'active').length;
-        const avgBattery = Math.round(devices.reduce((acc, d) => acc + d.battery, 0) / devices.length);
-        document.getElementById('painel-content').innerHTML = `
-            <div class="stats-grid">
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Total de Dispositivos</small><h3>${devices.length}</h3></div></div>
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Ativos</small><h3>${activeCount}</h3></div></div>
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Bateria Média</small><h3>${avgBattery}%</h3></div></div>
-                <div class="stat-card"><div><small style="color:var(--text-sub)">Alertas</small><h3>${devices.filter(d => d.battery < 20).length}</h3></div></div>
-            </div>
-            <div class="devices-grid">
-                ${devices.map(d => {
-                    const batteryColor = d.battery < 20 ? '#ef4444' : d.battery < 50 ? '#f59e0b' : '#10b981';
-                    return `<div class="sensor-card">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <div><h4 style="color:var(--text-sub); font-size:0.9rem;">${d.name}</h4><small style="font-family:monospace; color:var(--text-sub);">${d.id}</small></div>
-                            <span style="font-size:28px;">${d.icon}</span>
-                        </div>
-                        <div class="sensor-value">${d.reading} <small style="font-size:14px; color:var(--text-sub);">${d.unit}</small></div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:1px solid var(--border);">
-                            <span style="font-size:12px; color:${batteryColor};">🔋 ${d.battery}%</span>
-                            <span style="font-size:12px; color:var(--text-sub);">📍 ${d.location}</span>
-                            <span class="badge ${d.status==='active'?'badge-active':'badge-inactive'}">${d.status==='active'?'● Ativo':'● Inativo'}</span>
-                        </div>
-                        <div style="margin-top:8px; font-size:11px; color:var(--text-sub); text-align:right;">Atualizado: ${d.lastUpdate}</div>
-                    </div>`;
-                }).join('')}
-            </div>`;
-    }
-
-    const emojis = ['👤','👨‍🌾','👩‍🌾','🚜','🌱','💧','🔧','☀️','👑','🌽','🐄','🌻'];
-    document.getElementById('emojiGrid').innerHTML = emojis.map(e => `<div class="emoji-item" onclick="selectAvatar('${e}')">${e}</div>`).join('');
-    window.openModal = function() { document.getElementById('avatarModal').classList.add('active'); };
-    window.closeModal = function() { document.getElementById('avatarModal').classList.remove('active'); };
-    window.selectAvatar = function(e) {
-        document.getElementById('avatar').innerText = e;
-        localStorage.setItem('avatar_' + user.id, e);
-        closeModal();
-    };
-    const savedAvatar = localStorage.getItem('avatar_' + user.id);
-    if (savedAvatar) document.getElementById('avatar').innerText = savedAvatar;
-
-    renderPainel();
-}
-
-// ============================================================
 // RELATORIOS.HTML
 // ============================================================
 window.exportarParaExcel = function() {
@@ -646,70 +473,11 @@ window.exportarParaExcel = function() {
 // ============================================================
 // CONFIG.HTML
 // ============================================================
-if (document.getElementById('config-content')) {
-    const user = JSON.parse(sessionStorage.getItem('agroecho_user')) || {name: "Usuário", role: "user", id: "1"};
-    document.getElementById('userName').innerText = user.name;
-    if (user.role === 'admin') document.getElementById('adminBtn').style.display = 'block';
-
-    document.getElementById('config-content').innerHTML = `
-        <div style="max-width:500px; background:var(--card); padding:25px; border-radius:20px; border:1px solid var(--border);">
-            <h3 style="margin-bottom:20px;"> Configurações</h3>
-            <div style="margin-bottom:15px;">
-                <label style="display:block; margin-bottom:5px; font-size:14px; font-weight:600;">Nome da Fazenda</label>
-                <input type="text" id="farmName" value="Fazenda Esperança" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text-main); font-size:14px;">
-            </div>
-            <div style="margin-bottom:15px;">
-                <label style="display:block; margin-bottom:5px; font-size:14px; font-weight:600;">Email para Alertas</label>
-                <input type="email" id="alertEmail" value="${user.email || 'admin@agroecho.com.br'}" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text-main); font-size:14px;">
-            </div>
-            <div style="margin-bottom:15px;">
-                <label style="display:block; margin-bottom:5px; font-size:14px; font-weight:600;">Notificações</label>
-                <select id="notifications" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text-main); font-size:14px;">
-                    <option>Ativado (E-mail + Push)</option>
-                    <option>Somente Alertas Críticos</option>
-                    <option>Desativado</option>
-                </select>
-            </div>
-            <div style="margin-bottom:20px;">
-                <label style="display:block; margin-bottom:5px; font-size:14px; font-weight:600;">Intervalo de Leitura</label>
-                <select id="readingInterval" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text-main); font-size:14px;">
-                    <option>5 minutos</option>
-                    <option>10 minutos</option>
-                    <option>30 minutos</option>
-                    <option>1 hora</option>
-                </select>
-            </div>
-            <button class="btn btn-primary" onclick="saveConfig()" style="width:100%; padding:12px; font-size:16px;"> Salvar Configurações</button>
-        </div>`;
-
-    window.saveConfig = function() {
-        const config = {
-            farmName: document.getElementById('farmName').value,
-            alertEmail: document.getElementById('alertEmail').value,
-            notifications: document.getElementById('notifications').value,
-            readingInterval: document.getElementById('readingInterval').value,
-            savedAt: new Date().toISOString()
-        };
-        localStorage.setItem('agroecho_config', JSON.stringify(config));
-        showToast('Configurações salvas com sucesso!');
-    };
-
-    function showToast(m) {
-        const t = document.getElementById('toast');
+function showToast(m) {
+    const t = document.getElementById('toast');
+    if(t) {
         t.textContent = m;
         t.style.display = 'block';
         setTimeout(() => t.style.display = 'none', 3000);
     }
-
-    const emojis = ['👤','👨‍🌾','👩‍🌾','🚜','🌱','💧','🔧','☀️','👑','🌽','🐄','🌻'];
-    document.getElementById('emojiGrid').innerHTML = emojis.map(e => `<div class="emoji-item" onclick="selectAvatar('${e}')">${e}</div>`).join('');
-    window.openModal = function() { document.getElementById('avatarModal').classList.add('active'); };
-    window.closeModal = function() { document.getElementById('avatarModal').classList.remove('active'); };
-    window.selectAvatar = function(e) {
-        document.getElementById('avatar').innerText = e;
-        localStorage.setItem('avatar_' + user.id, e);
-        closeModal();
-    };
-    const savedAvatar = localStorage.getItem('avatar_' + user.id);
-    if (savedAvatar) document.getElementById('avatar').innerText = savedAvatar;
 }
