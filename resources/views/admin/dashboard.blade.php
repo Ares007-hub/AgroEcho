@@ -36,10 +36,17 @@
         </ul>
 
         <div class="bottom-links">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Alternar Tema</button>
-            <a href="/" class="nav-link">Página Inicial</a>
-            <a href="#" class="nav-link" onclick="logout()">Sair</a>
-        </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Alternar Tema</button>
+
+    <a href="/" class="nav-link">Página Inicial</a>
+    <a href="#" class="nav-link" onclick="logout()">Sair</a>
+    @if(auth()->check() && auth()->user()->role === 'admin')
+        <button class="btn-back-user" style="background: #2563eb; color: #fff; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 10px;" onclick="window.location.href='/dispositivos'">
+            Voltar para Usuário
+        </button>
+    @endif
+    
+</div>
     </aside>
 
     <main class="main">

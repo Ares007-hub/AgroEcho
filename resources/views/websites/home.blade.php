@@ -32,8 +32,8 @@
             <div class="hero-tag animate-slide-up">Ecossistema IoT de Agricultura de Precisão</div>
             <h1 class="animate-slide-up delay-1">AgroFlow: <span class="gradient-text-hero">Inteligência que faz o campo
                     fluir</span></h1>
-            <p class="animate-slide-up delay-2">Economize até <strong>30% de água</strong> e <strong>20% de
-                    energia</strong> com a gestão automatizada.</p>
+            <p class="animate-slide-up delay-2">Economize até <strong>35% Vida Útil do Equipamento</strong> e <strong>Auditoria 
+                Relatórios Técnicos </strong> com a gestão automatizada.</p>
 
             <div class="hero-actions animate-slide-up delay-3">
                 <a href="/login" class="btn-primary">Começar Agora</a>
@@ -42,23 +42,23 @@
 
             <div class="hero-mini-cards animate-slide-up delay-3">
                 <div class="mini-card">
-                    <div class="mini-card-icon icon-agua"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    <div class="mini-card-icon icon-vida"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
-                            <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-13-7-13S5 10.7 5 15a7 7 0 0 0 7 7z" />
+                           <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                         </svg></div>
                     <div class="mini-card-info">
-                        <h4>30%</h4>
-                        <p>Economia de Água</p>
+                        <h4>35%</h4>
+                        <p>Vida Útil do Equipamento</p>
                     </div>
                 </div>
                 <div class="mini-card">
-                    <div class="mini-card-icon icon-energia"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    <div class="mini-card-icon icon-auditoria"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
-                            <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><path d="M8 18v-4" /><path d="M12 18v-7" /><path d="M16 18v-2" />
                         </svg></div>
                     <div class="mini-card-info">
-                        <h4>20%</h4>
-                        <p>Economia de Energia</p>
+                        <h4>Auditoria </h4>
+                        <p>Relatórios Técnicos</p>
                     </div>
                 </div>
                 <div class="mini-card">
@@ -80,39 +80,38 @@
     <section id="contexto" class="section" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
         <div class="section-tag scroll-animate">O Cenário Atual</div>
         <h2 class="section-title-gradient scroll-animate">
-            <span class="text-tech">O Desafio da</span> <span class="text-precision">Irrigação</span>
+            <span class="text-tech">O Desafio do</span> <span class="text-precision">Motorbomba de irrigação</span>
         </h2>
         <p class="section-subtitle scroll-animate">Entenda por que sistemas convencionais operam no escuro e desperdiçam
             recursos valiosos da sua fazenda.</p>
 
         <div class="tech-grid scroll-animate" style="margin-top: 40px;">
             <div class="tech-card-large" style="text-align: center; padding: 40px 24px;">
-                <div class="counter" data-target="72"
+                <div class="counter" data-target="60"
                     style="font-size: 56px; font-weight: 800; color: #0f4c81; margin-bottom: 10px; line-height: 1;">0%
                 </div>
-                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Consumo de Água</h4>
-                <p style="font-size: 15px; color: #64748b;">A agricultura consome hoje quase três quartos de toda a água
-                    disponível no Brasil.</p>
+                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Proteção da Safra</h4>
+                <p style="font-size: 15px; color: #64748b;"> Falhas de bombeamento em períodos críticos podem causar perdas de mais da metade 
+                    da produção; nosso sistema evita paradas não programadas com alertas 24h</p>
             </div>
 
             <div class="tech-card-large" style="text-align: center; padding: 40px 24px;">
-                <div class="counter" data-target="50"
+                <div class="counter" data-target="60"
                     style="font-size: 56px; font-weight: 800; color: #e74c3c; margin-bottom: 10px; line-height: 1;">0%
                 </div>
-                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Desperdício
-                    Silencioso</h4>
-                <p style="font-size: 15px; color: #64748b;">Sistemas convencionais desperdiçam até metade da água
-                    bombeada por pura falta de dados precisos do solo.</p>
+                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Eficiência Hídrica</h4>
+                <p style="font-size: 15px; color: #64748b;">Desperdícios por transbordamento de reservatórios chegam a 60% do volume captado;
+                     nossa automação com sensores ultrassônicos elimina o extravasamento silencioso</p>
             </div>
 
             <div class="tech-card-large" style="text-align: center; padding: 40px 24px;">
-                <div class="counter" data-target="24"
+                <div class="counter" data-target="35"
                     style="font-size: 56px; font-weight: 800; color: #f59e0b; margin-bottom: 10px; line-height: 1;">0%
                 </div>
-                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Custos com Energia
+                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;"> Economia em Manutenção
                 </h4>
-                <p style="font-size: 15px; color: #64748b;">O bombeamento e a conta de energia representam um quarto de
-                    todas as despesas operacionais.</p>
+                <p style="font-size: 15px; color: #64748b;">O monitoramento de vibração e controle rotacional reduzem o 
+                    desgaste abrasivo em até um terço, estendendo a vida útil do motor e selos mecânicos</p>
             </div>
         </div>
     </section>
@@ -188,7 +187,7 @@
                     tarifas</button>
             </div>
 
-            <div
+            <div class=periodo-critico
                 style="background-color: #ffffff; padding: 24px 32px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; border: 1px solid #e2e8f0; flex-shrink: 0; min-width: 250px;">
                 <div style="color: #e74c3c; font-weight: 700; font-size: 15px; margin-bottom: 8px;">PERÍODO CRÍTICO
                 </div>
@@ -288,7 +287,7 @@
                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                     </svg></a>
-                <a href="#" class="icon-linkedin" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24"
+                <a href="https://br.linkedin.com/in/raphael-augusto-de-paula-freitas-699850382" class="icon-linkedin" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                         <rect x="2" y="9" width="4" height="12"></rect>

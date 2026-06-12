@@ -177,9 +177,11 @@ body.landing-page .logo-container {
 }
 
 body.landing-page .logo-img {
-    height: 32px;
+    height: 80px;
     width: auto;
     object-fit: contain;
+    background: white;
+    border-radius: 6px;
 }
 
 body.landing-page .logo-text {
@@ -380,12 +382,14 @@ body.landing-page .hero-mini-cards {
     margin-top: 20px;
 }
 
+
 body.landing-page .mini-card {
     background-color: rgba(34, 41, 47, 0.7);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.12);
     padding: 18px 24px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -394,19 +398,28 @@ body.landing-page .mini-card {
     text-align: left;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
 }
+body.landing-page .mini-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
 
 body.landing-page .mini-card-icon {
     width: 52px;
     height: 52px;
     display: flex;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     align-items: center;
     justify-content: center;
     border-radius: 12px;
     flex-shrink: 0;
 }
+body.landing-page .mini-card-icon:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
 
-body.landing-page .icon-agua { background-color: rgba(59, 89, 122, 0.4); color: #3b82f6; }
-body.landing-page .icon-energia { background-color: rgba(33, 75, 61, 0.5); color: #10b981; }
+body.landing-page .icon-vida { background-color: rgba(59, 89, 122, 0.4); color: #3b82f6; }
+body.landing-page .icon-auditoria { background-color: rgba(33, 75, 61, 0.5); color: #10b981; }
 body.landing-page .icon-lora { background-color: rgba(24, 69, 69, 0.5); color: #00a896; }
 
 body.landing-page .mini-card-info { display: flex; flex-direction: column; gap: 2px; }
@@ -440,6 +453,15 @@ body.landing-page .section {
     padding: 80px 24px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+body.landing-page .periodo-critico{
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.landing-page .periodo-critico:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
 }
 
 body.landing-page .section-tag {
@@ -975,7 +997,7 @@ body.dashboard-page .user-name {
 body.dashboard-page .nav-menu {
     list-style: none;
     margin-top: 2rem;
-    flex: 0.5;
+
 }
 
 body.dashboard-page .nav-item { margin-bottom: 0.7rem; }
@@ -1433,7 +1455,6 @@ body.admin-page .user-name {
 body.admin-page .nav-menu {
     list-style: none;
     margin-top: 2rem;
-    flex: 0.5;
 }
 
 body.admin-page .nav-item { margin-bottom: 0.7rem; }
@@ -1462,6 +1483,7 @@ body.admin-page .nav-link.active {
 body.admin-page .bottom-links {
     border-top: 1px solid rgba(255,255,255,0.1);
     padding-top: 1rem;
+    
 }
 
 body.admin-page .theme-toggle {
