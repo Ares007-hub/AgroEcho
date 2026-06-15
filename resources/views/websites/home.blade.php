@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroFlow - Inteligência que faz o campo fluir</title>
+    <title>AgroEcho - Inteligência que faz o campo fluir</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -14,7 +14,7 @@
         <div class="header-container animate-fade-in">
             <a href="#" class="logo-container">
                 <img src="/assets/img/Logo.png" alt="Logo AgroFlow" class="logo-img">
-                <h1 class="logo-text">Agro<span>Flow</span></h1>
+                <h1 class="logo-text">Agro<span>Echo</span></h1>
             </a>
 
             <ul class="nav-menu">
@@ -30,7 +30,7 @@
     <section class="hero animate-fade-in">
         <div class="hero-container">
             <div class="hero-tag animate-slide-up">Ecossistema IoT de Agricultura de Precisão</div>
-            <h1 class="animate-slide-up delay-1">AgroFlow: <span class="gradient-text-hero">Inteligência que faz o campo
+            <h1 class="animate-slide-up delay-1">AgroEcho: <span class="gradient-text-hero">Inteligência que faz o campo
                     fluir</span></h1>
             <p class="animate-slide-up delay-2">Economize até <strong>35% Vida Útil do Equipamento</strong> e <strong>Auditoria 
                 Relatórios Técnicos </strong> com a gestão automatizada.</p>
@@ -255,7 +255,7 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <div class="logo-container">
-                    <h1 class="logo-text" style="color: #ffffff;">Agro<span>Flow</span></h1>
+                    <h1 class="logo-text" style="color: #ffffff;">Agro<span>Echo</span></h1>
                 </div>
                 <p>Ecossistema IoT de agricultura de precisão. Transformando o campo com tecnologia inteligente.</p>
             </div>
@@ -304,7 +304,7 @@
         </div>
         <div
             style="max-width: 1200px; margin: 30px auto 0 auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center;">
-            <p style="font-size: 13px; color: #64748b;">© 2026 AgroFlow. Todos os direitos reservados.</p>
+            <p style="font-size: 13px; color: #64748b;">© 2026 AgroEcho. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -330,7 +330,7 @@
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg></button>
             <h3>Processamento Edge</h3>
-            <p>O cérebro do AgroFlow não fica apenas na nuvem. Os sensores possuem "Edge Computing", o que significa que
+            <p>O cérebro do AgroEcho não fica apenas na nuvem. Os sensores possuem "Edge Computing", o que significa que
                 eles <strong>processam os dados ali mesmo na lavoura</strong>. Isso elimina a lentidão (latência) e
                 permite tomar decisões de irrigação mesmo se a internet da fazenda cair temporariamente.</p>
         </div>
@@ -386,7 +386,7 @@
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg></button>
             <h3>Sinal de Vida Constante</h3>
-            <p>O AgroFlow faz checagens constantes de conexão, como um batimento cardíaco ("Heartbeat"). Caso qualquer
+            <p>O AgroEcho faz checagens constantes de conexão, como um batimento cardíaco ("Heartbeat"). Caso qualquer
                 hardware no meio do campo fique offline ou perca a bateria por <strong>mais de 1 hora</strong>, o
                 sistema apita no seu celular. Você age rápido, antes que a planta sofra.</p>
         </div>

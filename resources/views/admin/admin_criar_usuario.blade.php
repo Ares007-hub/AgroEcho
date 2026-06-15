@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echo - Gerenciar Usuários</title>
-
     <link rel="stylesheet" href="/assets/css/style.css">
-
 </head>
 
 <body class="admin-page">
@@ -20,7 +18,7 @@
         <div class="admin-header">
             <span class="admin-badge">ADMINISTRADOR</span>
             <div class="logo">Echo</div>
-            <div class="user-name" id="sidebarUserName"></div>
+            <div class="user-name" id="sidebarUserName">{{ auth()->user()->nome ?? 'Admin' }}</div>
         </div>
 
         <ul class="nav-menu">
@@ -33,16 +31,15 @@
         </ul>
 
         <div class="bottom-links">
-    <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
-    <a href="index.html" class="nav-link">Página Inicial</a>
-    <a href="#" class="nav-link" onclick="logout()">Sair</a>
-
-    @if(auth()->check() && auth()->user()->role === 'admin')
-        <button class="btn-back-user" style="background: #2563eb; color: #fff; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 10px;" onclick="window.location.href='/dispositivos'">
-            Voltar para Usuário
-        </button>
-    @endif
-</div>
+            <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
+            <a href="/" class="nav-link">Página Inicial</a>
+            <a href="#" class="nav-link" onclick="logout()">Sair</a>
+        </div>
+        @if(auth()->check() && auth()->user()->role === 'admin')
+                <button class="btn-back-user" style="background: #ffffff;color: #000000;padding: 10px 12px;border: none;border-radius: 6px;cursor: pointer;font-weight: bold;width: 100%;margin-bottom: 10px; margin-top: auto;" onclick="window.location.href='/dispositivos'">
+                    Voltar para Usuário
+                </button>
+        @endif
     </nav>
 
     <main class="main-content">
@@ -55,36 +52,65 @@
         </div>
 
         <div class="card">
-            <h2>Criar Novo Usuário</h2>
-            <div class="message" id="message"></div>
+            <h2>{{ $editUser ? 'Alterar Dados do Usuário' : 'Criar Novo Usuário' }}</h2>
+            
+            @if(session('success'))
+                <div style="background:#e2f7ed; color:#1b8f5a; padding:12px; border-radius:6px; margin-bottom:15px; font-weight:bold;">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div style="background:#ffe2e2; color:#b42323; padding:12px; border-radius:6px; margin-bottom:15px; font-weight:bold;">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-            <form id="createUserForm">
+            <form action="{{ route('admin.usuarios.salvar') }}" method="POST" id="createUserForm">
+                @csrf
+                
+                <input type="hidden" name="id" value="{{ $editUser->id ?? '' }}">
+
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Nome Completo</label>
-                        <input type="text" id="name" required>
+                        <input type="text" name="nome" value="{{ $editUser->nome ?? '' }}" required>
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" id="email" required>
+                        <input type="email" name="email" value="{{ $editUser->email ?? '' }}" required>
                     </div>
                     <div class="form-group">
-                        <label>Senha</label>
-                        <input type="password" id="password" minlength="6" required>
+                        <label>Senha {{ $editUser ? '(Deixe vazio para não mudar)' : '' }}</label>
+                        <input type="password" name="senha" {{ $editUser ? '' : 'required' }}>
                     </div>
                     <div class="form-group">
                         <label>Telefone</label>
-                        <input type="tel" id="phone">
+                        <input type="tel" name="telefone" id="regPhone" value="{{ $editUser->telefone ?? '' }}">
                     </div>
                     <div class="form-group">
                         <label>Tipo</label>
-                        <select id="role">
-                            <option value="user">Usuário</option>
-                            <option value="admin">Administrador</option>
+                        <select name="role">
+                            <option value="user" {{ ($editUser && $editUser->role == 'user') ? 'selected' : '' }}>Usuário</option>
+                            <option value="admin" {{ ($editUser && $editUser->role == 'admin') ? 'selected' : '' }}>Administrador</option>
                         </select>
                     </div>
-                    <div class="form-group" style="display:flex;align-items:end;">
-                        <button type="submit" class="btn-create" id="submitBtn">Criar Usuário</button>
+                    <div class="form-group">
+                        <label>Fixo/Permanente</label>
+                        <select name="permanent">
+                            <option value="0" {{ ($editUser && $editUser->permanent == 0) ? 'selected' : '' }}>Não</option>
+                            <option value="1" {{ ($editUser && $editUser->permanent == 1) ? 'selected' : '' }}>Sim</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display:flex; align-items:end; gap:10px;">
+                        <button type="submit" class="btn-create" id="submitBtn">
+                            {{ $editUser ? 'Salvar Alterações' : 'Criar Usuário' }}
+                        </button>
+                        
+                        @if($editUser)
+                            <a href="{{ route('admin.usuarios.criar') }}" style="background:#e1e5e9; color:#4b5563; padding:12px 20px; border-radius:8px; text-decoration:none; font-weight:bold; text-align:center;">
+                                Cancelar
+                            </a>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -100,25 +126,43 @@
                         <th>Email</th>
                         <th>Tipo</th>
                         <th>Telefone</th>
-                        <th>Data</th>
+                        <th>Fixo</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody id="usersTable"></tbody>
+                <tbody id="usersTable">
+                    @foreach($usuarios as $u)
+                        <tr>
+                            <td><strong>#{{ $u->id }}</strong></td>
+                            <td>{{ $u->nome }}</td>
+                            <td>{{ $u->email }}</td>
+                            <td>
+                                <span class="role-badge" style="background: {{ $u->role === 'admin' ? '#ffe2e2' : '#dcebff' }}; color: {{ $u->role === 'admin' ? '#b42323' : '#2257a7' }}; padding:4px 8px; border-radius:4px; font-weight:bold;">
+                                    {{ $u->role === 'admin' ? 'Administrador' : 'Usuário' }}
+                                </span>
+                            </td>
+                            <td>{{ $u->telefone ?? '-' }}</td>
+                            <td>{{ $u->permanent ? 'Sim' : 'Não' }}</td>
+                            <td>
+                                <div style="display:flex; gap:8px;">
+                                    <a href="{{ route('admin.usuarios.criar', ['edit' => $u->id]) }}" style="background:#dcebff; color:#2257a7; padding:6px 12px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
+                                        Editar
+                                    </a>
+
+                                    <form action="{{ route('admin.usuarios.excluir', $u->id) }}" method="POST" onsubmit="return confirm('Apagar usuário {{ $u->nome }}?');">
+                                        @csrf
+                                        <button type="submit" style="background:#ffe2e2; color:#b42323; padding:6px 12px; border-radius:6px; border:none; cursor:pointer; font-weight:bold; font-size:0.9rem;">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </main>
-</div>
-
-<div class="modal-overlay" id="confirmModal">
-    <div class="modal">
-        <h3 id="modalTitle">Confirmar Alteração</h3>
-        <p id="modalMessage"></p>
-        <div class="modal-buttons">
-            <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-            <button class="btn-confirm" onclick="confirmAction()">Confirmar</button>
-        </div>
-    </div>
 </div>
 
 <script defer src="/assets/javascript/script.js"></script>

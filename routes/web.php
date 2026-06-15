@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController; 
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminDispositivoController;
 
 // Rotas Públicas (Visitantes)
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
@@ -22,16 +24,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/config', [WebsiteController::class, 'config'])->name('config.index');
     Route::post('/config/atualizar', [AuthController::class, 'updateConfig'])->name('config.update');
 
-    // Área Administrativa (Trancada com o Middleware 'admin')
+    // Área Administrativa
     Route::prefix('/admin')->middleware(['admin'])->group(function () {
         
         Route::get('/', function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
 
-        Route::get('/criar', function () {
-            return view('admin.admin_criar_usuario');
-        })->name('admin.usuarios.criar');
+        //CRUD
+        Route::get('/criar', [AdminController::class, 'index'])->name('admin.usuarios.criar');
+        Route::post('/usuarios/salvar', [AdminController::class, 'salvar'])->name('admin.usuarios.salvar');
+        Route::post('/usuarios/excluir/{id}', [AdminController::class, 'excluir'])->name('admin.usuarios.excluir');
         
     });
 

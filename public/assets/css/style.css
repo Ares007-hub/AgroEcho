@@ -48,9 +48,9 @@
     --hover-row: #f5faf7;
     --primary-hover: #059669;
     --text-main: #1e293b;
-    --text-sub: #64748b;
-    --danger: #ef4444;
-    --warning: #f59e0b;
+    --text-sub: #ffffff;/*nav link*/
+    --danger: #ef4444; 
+    --warning: #ffffff; /*painel adm*/
 }
 
 [data-theme="dark"] {
@@ -90,7 +90,7 @@
     --thead-bg: #1a2a1f;
     --hover-row: #1a3a2a;
     --text-main: #f1f5f9;
-    --text-sub: #94a3b8;
+    --text-sub: #ffffff;/*nav link*/
 }
 
 /* ============================================================
@@ -1290,18 +1290,32 @@ body.user-page .sidebar {
     transition: transform 0.3s ease;
 }
 
+body.user-page .extracao-color{
+    color: var(--gray-900);
+    font-size: 14px;
+}
+
 body.user-page .logo-area { 
     margin-bottom: 40px; 
     display: flex;
     justify-content: center; 
     align-items: center;    
     width: 100%;
+    background: wh;
 }
 
 body.user-page .logo-img {
-    max-width: 160px; 
+        max-width: 140px;
     height: auto;
     object-fit: contain;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+}
+
+body.user-page .monitoramento.color{
+    color: var(--gray-900); 
+    font-size: 14px;
 }
 
 body.user-page .nav-link {
@@ -1310,7 +1324,7 @@ body.user-page .nav-link {
     border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.2s;
 }
 
-body.user-page .nav-link.active { background: rgba(16, 185, 129, 0.1); color: var(--primary); }
+body.user-page .nav-link.active { background: rgba(255, 255, 255, 0.1); color: var(--primary); }
 body.user-page .nav-link:hover:not(.active) { background: var(--bg); color: var(--text-main); }
 
 body.user-page .main-content { margin-left: 260px; flex: 1; padding: 30px; }
@@ -1393,6 +1407,9 @@ body.user-page .sidebar-overlay.active { display: block; }
     body.user-page .devices-grid { grid-template-columns: 1fr; }
     body.user-page .user-profile span { display: none; }
     body.user-page .topbar h2 { font-size: 1.2rem; }
+}
+body.user-page .color-card{
+    color: var(--gray-900);
 }
 
 /* ============================================================
@@ -1477,7 +1494,7 @@ body.admin-page .active {
 
 body.admin-page .nav-link:hover,
 body.admin-page .nav-link.active {
-    background: rgba(255,255,255,0.12);
+    background: rgba(226, 221, 221, 0.12);
 }
 
 body.admin-page .bottom-links {

@@ -5,7 +5,7 @@
     <header class="topbar">
         <div>
             <h2>Configurações</h2>
-            <p style="color: var(--text-sub); font-size: 14px;">Ajustes da conta e preferências do sistema</p>
+            <p class="extracao-color">Ajustes da conta e preferências do sistema</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
             <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">🌙</button>

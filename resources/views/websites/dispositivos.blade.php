@@ -5,7 +5,7 @@
     <header class="topbar">
         <div>
             <h2 id="welcomeText">Olá, {{ Auth::user()->nome ?? 'Operador' }}</h2>
-            <p style="color: var(--text-sub); font-size: 14px;">Monitoramento e Proteção de Motobombas</p>
+            <p class="monitoramento-color">Monitoramento e Proteção de Motobombas</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
             <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">🌙</button>
@@ -21,25 +21,25 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div>
-                    <small style="color:var(--text-sub)">Total de Motobombas</small>
+                    <small class="color-card" >Total de Motobombas</small>
                     <h3>{{ $totalDispositivos }}</h3>
                 </div>
             </div>
             <div class="stat-card">
                 <div>
-                    <small style="color:var(--text-sub)">Operando Normal</small>
+                    <small class="color-card">Operando Normal</small>
                     <h3 style="color: #10b981;">{{ $ativos }}</h3>
                 </div>
             </div>
             <div class="stat-card">
                 <div>
-                    <small style="color:var(--text-sub)">Em Manutenção</small>
+                    <small class="color-card">Em Manutenção</small>
                     <h3 style="color: #f59e0b;">{{ $manutencao }}</h3>
                 </div>
             </div>
             <div class="stat-card">
                 <div>
-                    <small style="color:var(--text-sub)">Críticos / Falhas</small>
+                    <small class="color-card">Críticos / Falhas</small>
                     <h3 style="color: #ef4444;">{{ $erros }}</h3>
                 </div>
             </div>

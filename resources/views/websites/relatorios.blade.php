@@ -5,7 +5,7 @@
     <header class="topbar">
         <div>
             <h2>Relatórios de Telemetria Bruta</h2>
-            <p style="color: var(--text-sub); font-size: 14px;">Extração de dados dos sensores</p>
+            <p class="extracao-color">Extração de dados dos sensores</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
             <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">🌙</button>
