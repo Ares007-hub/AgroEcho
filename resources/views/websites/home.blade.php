@@ -46,8 +46,10 @@
                             stroke="currentColor" stroke-width="2">
                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                         </svg></div>
-                    <div class="mini-card-info">
-                        <h4>35%</h4>
+                    <div class="mini-card-info" >
+                            <div class="counter" data-target="35"
+                                style="font-size: 22px; font-weight: 700; color: #ffffff; line-height: 1.2; letter-spacing: 0.5px;">0%
+                            </div>
                         <p>Vida Útil do Equipamento</p>
                     </div>
                 </div>

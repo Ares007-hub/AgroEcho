@@ -35,6 +35,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/criar', [AdminController::class, 'index'])->name('admin.usuarios.criar');
         Route::post('/usuarios/salvar', [AdminController::class, 'salvar'])->name('admin.usuarios.salvar');
         Route::post('/usuarios/excluir/{id}', [AdminController::class, 'excluir'])->name('admin.usuarios.excluir');
+
+        Route::get('/motobombas', [AdminDispositivoController::class, 'index'])->name('admin.dispositivos.criar');
+        Route::post('/motobombas/salvar', [AdminDispositivoController::class, 'salvar'])->name('admin.dispositivos.salvar');
+        Route::post('/motobombas/excluir/{id}', [AdminDispositivoController::class, 'excluir'])->name('admin.dispositivos.excluir');
         
     });
 

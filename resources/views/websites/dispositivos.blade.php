@@ -58,7 +58,7 @@
                     <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom: 15px;">
                         <div>
                             <h4 style="color:var(--text-main); font-size:1.1rem; font-weight:700; margin:0;">{{ $bomba->nome }}</h4>
-                            <small style="color:var(--text-sub);">ID: {{ $bomba->id }} | Mod: {{ $bomba->modelo ?? 'N/A' }}</small>
+                            <small style="color:var(--text-sub);">Mod: {{ $bomba->modelo ?? 'N/A' }}</small>
                         </div>
                         
                     </div>
@@ -80,20 +80,20 @@
                             <div><strong>Vol. Total:</strong> {{ number_format($leitura->volume_total, 0, ',', '.') }} L</div>
                         </div>
                     @else
-                        <div style="padding: 30px 0; text-align: center; color: var(--text-sub); font-style: italic;">
-                            Aguardando telemetria do Arduino...
+                        <div style="padding: 30px 0; text-align: center; color:var(--gray--900); font-style: italic;">
+                            Aguardando telemetria...
                         </div>
                     @endif
 
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:1px solid var(--border);">
-                        <span style="font-size:12px; color:var(--text-sub);">📍 {{ $bomba->localizacao ?? 'Sem local' }}</span>
+                        <span style="font-size:12px; color:var(--gray--900);">📍 {{ $bomba->localizacao ?? 'Sem local' }}</span>
                         
                         <span class="badge" style="background-color: {{ $statusColor }}20; color: {{ $statusColor }}; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
                             ● {{ strtoupper($bomba->status) }}
                         </span>
                     </div>
 
-                    <div style="margin-top:8px; font-size:11px; color:var(--text-sub); text-align:right;">
+                    <div style="margin-top:8px; font-size:11px; color:var(--gray--900); text-align:right;">
                         Leitura: {{ $leitura ? date('d/m H:i', strtotime($leitura->momento_leitura)) : 'N/A' }}
                     </div>
                 </div>

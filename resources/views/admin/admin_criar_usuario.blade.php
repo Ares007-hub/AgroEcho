@@ -28,6 +28,9 @@
             <li class="nav-item">
                 <a href="/admin/criar" class="nav-link active">Gerenciar Usuários</a>
             </li>
+             <li class="nav-item">
+                <a href="/admin/motobombas" class="nav-link">Gerenciar Motobombas</a>
+            </li>
         </ul>
 
         <div class="bottom-links">
