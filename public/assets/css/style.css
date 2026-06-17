@@ -1228,7 +1228,7 @@ body.index-page .tab-content.active {
 body.index-page .section-title {
     font-size: 1.45rem;
     font-weight: 700;
-    color: var(--gray-800);
+    color: var(--gray-900);
     margin-bottom: 3px;
 }
 body.index-page .section-subtitle {

@@ -58,17 +58,17 @@
                     <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom: 15px;">
                         <div>
                             <h4 style="color:var(--text-main); font-size:1.1rem; font-weight:700; margin:0;">{{ $bomba->nome }}</h4>
-                            <small style="color:var(--text-sub);">Mod: {{ $bomba->modelo ?? 'N/A' }}</small>
+                            <small style="color:var(--grey--900);">Mod: {{ $bomba->modelo ?? 'N/A' }}</small>
                         </div>
                         
                     </div>
 
                     @if($leitura)
                         @php
-                            $tempColor = $leitura->temperatura_motor > 70 ? '#ef4444' : ($leitura->temperatura_motor > 50 ? '#f59e0b' : 'var(--text-main)');
+                            $tempColor = $leitura->temperatura_motor > 70 ? '#ef4444' : ($leitura->temperatura_motor > 50 ? '#f59e0b' : 'var(--l-main)');
                         @endphp
                         <div class="sensor-value" style="color: {{ $tempColor }}; font-size: 2rem; font-weight: bold; margin-bottom: 15px;">
-                            {{ number_format($leitura->temperatura_motor, 1, ',', '.') }} <small style="font-size:16px; color:var(--text-sub);">°C no Motor</small>
+                            {{ number_format($leitura->temperatura_motor, 1, ',', '.') }} <small style="font-size:16px; color:var(--grey--900);">°C no Motor</small>
                         </div>
 
                         <div style="display: grid; grid-cols: 2; gap: 8px; font-size: 13px; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 10px; rounded: 6px;">
@@ -88,8 +88,12 @@
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:1px solid var(--border);">
                         <span style="font-size:12px; color:var(--gray--900);">📍 {{ $bomba->localizacao ?? 'Sem local' }}</span>
                         
-                        <span class="badge" style="background-color: {{ $statusColor }}20; color: {{ $statusColor }}; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
-                            ● {{ strtoupper($bomba->status) }}
+                    @php
+                            $statusColor = ($bomba->status === 'active') ? '#28a745' : '#dc3545';
+                    @endphp
+
+                    <span class="badge" style="background-color: {{ $statusColor }}20; color: {{ $statusColor }}; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
+                        ● {{ strtoupper($bomba->status) }}
                         </span>
                     </div>
 

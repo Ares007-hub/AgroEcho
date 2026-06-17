@@ -9,7 +9,6 @@ class AdminDispositivoController extends Controller
 {
     public function index(Request $request)
     {
-        // Busca todos os usuários para listar nos selects (Filtro e Dono)
         $usuarios = DB::table('usuarios')->orderBy('nome', 'asc')->get();
 
         $query = DB::table('dispositivos')
