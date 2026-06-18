@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\CheckAdmin::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            'api/telemetria'
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

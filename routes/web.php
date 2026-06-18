@@ -43,3 +43,5 @@ Route::middleware(['auth'])->group(function () {
     });
 
 });
+//rota das leituras do arduino
+Route::post('/api/telemetria', [App\Http\Controllers\TelemetryController::class, 'receberLeitura']);

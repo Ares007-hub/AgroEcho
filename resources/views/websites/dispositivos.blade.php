@@ -1,6 +1,66 @@
 @extends('websites.index')
 @section('assunto')
 
+<style>
+    .chart-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 99999;
+        display: none; /* Mantido escondido até clicar */
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(4px);
+    }
+    .chart-modal-content {
+        background: var(--card, #ffffff);
+        width: 70%;
+        height: 70vh;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        overflow: hidden;
+    }
+    .chart-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--border, #e5e7eb);
+        background: var(--bg, #f9fafb);
+    }
+    .chart-modal-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--text-main, #111827);
+    }
+    .btn-close-chart {
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        color: var(--gray-600, #4b5563);
+    }
+    .btn-close-chart:hover {
+        color: #ef4444;
+    }
+    .chart-modal-body {
+        flex: 1;
+        padding: 20px;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: var(--card, #ffffff);
+    }
+    @media (max-width: 768px) {
+        .chart-modal-content { width: 95%; height: 60vh; }
+    }
+</style>
+
 <main class="main-content">
     <header class="topbar">
         <div>
@@ -48,19 +108,17 @@
         <div class="devices-grid" style="margin-top: 20px;">
             @foreach($dispositivos as $bomba)
                 @php
-                    // Define a cor do card com base na gravidade do status
                     $statusColor = $bomba->status === 'error' ? '#ef4444' : ($bomba->status === 'maintenance' ? '#f59e0b' : '#10b981');
                     $leitura = $bomba->ultimaLeitura;
                 @endphp
 
-                <div class="sensor-card" style="border-top: 4px solid {{ $statusColor }}; position: relative;">
+                <div class="sensor-card" style="border-top: 4px solid {{ $statusColor }}; position: relative; display: flex; flex-direction: column;">
                     
                     <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom: 15px;">
                         <div>
                             <h4 style="color:var(--text-main); font-size:1.1rem; font-weight:700; margin:0;">{{ $bomba->nome }}</h4>
                             <small style="color:var(--grey--900);">Mod: {{ $bomba->modelo ?? 'N/A' }}</small>
                         </div>
-                        
                     </div>
 
                     @if($leitura)
@@ -89,7 +147,7 @@
                         <span style="font-size:12px; color:var(--gray--900);">📍 {{ $bomba->localizacao ?? 'Sem local' }}</span>
                         
                     @php
-                            $statusColor = ($bomba->status === 'active') ? '#28a745' : '#dc3545';
+                            $statusColor = ($bomba->status === 'active') ? '#28a745' : '#f59e0b';
                     @endphp
 
                     <span class="badge" style="background-color: {{ $statusColor }}20; color: {{ $statusColor }}; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
@@ -100,6 +158,13 @@
                     <div style="margin-top:8px; font-size:11px; color:var(--gray--900); text-align:right;">
                         Leitura: {{ $leitura ? date('d/m H:i', strtotime($leitura->momento_leitura)) : 'N/A' }}
                     </div>
+
+                    <div style="margin-top: auto; padding-top: 15px;">
+                        <button class="btn" onclick="openChartModal('{{ addslashes($bomba->nome) }}')" style="width: 100%; background-color: #2d7ff9; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                            📈 Ver Gráficos
+                        </button>
+                    </div>
+
                 </div>
             @endforeach
         </div>
@@ -108,6 +173,19 @@
 
 <div id="toast" class="toast" style="display:none;"></div>
 
+<div id="chartModal" class="chart-modal-overlay">
+    <div class="chart-modal-content">
+        <div class="chart-modal-header">
+            <h3 id="chartModalTitle">Gráfico de Linha em Tempo Real</h3>
+            <button class="btn-close-chart" onclick="closeChartModal()">✖</button>
+        </div>
+        <div class="chart-modal-body">
+            <canvas id="realTimeChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <script src="/assets/javascript/script.js"></script>

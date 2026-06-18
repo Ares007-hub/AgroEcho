@@ -1943,7 +1943,7 @@ body.user-page .stat-icon {
 
 body.user-page .devices-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr));
     gap: 20px;
 }
 body.user-page .sensor-card {
@@ -2608,4 +2608,80 @@ body.admin-page .sidebar-overlay.active {
         flex-direction: column;
         align-items: flex-start;
     }
+    /* ============================================================
+   MODAL DE GRÁFICO (POPUP EM TEMPO REAL)
+   ============================================================ */
+.chart-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 3000;
+    display: flex; /* Mantido como flex pelo script para abrir centralizado */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.chart-modal-content {
+    background: var(--card, #ffffff);
+    width: 70%;       /* Ocupa 70% da tela */
+    height: 70vh;     /* Proporção amigável de altura */
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    overflow: hidden;
+    animation: fadeInModal 0.3s ease-out forwards;
+}
+
+.chart-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    background: var(--bg, #f9fafb);
+}
+
+.chart-modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text-main, #111827);
+}
+
+.btn-close-chart {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--gray-600, #4b5563);
+    transition: color 0.2s;
+}
+
+.btn-close-chart:hover {
+    color: var(--danger, #ef4444);
+}
+
+.chart-modal-body {
+    flex: 1;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsividade do Modal para Celulares */
+@media (max-width: 768px) {
+    .chart-modal-content {
+        width: 95%;
+        height: 60vh;
+    }
+}
+
+
 }   

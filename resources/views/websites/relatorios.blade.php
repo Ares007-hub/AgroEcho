@@ -85,13 +85,13 @@
             <table id="tabela-bruta" style="width: 100%; text-align: left; border-collapse: collapse;">
                 <thead>
                     <tr style="background: var(--bg); border-bottom: 2px solid var(--border-color, #e5e7eb);">
-                        <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-main);">Data e Hora</th>
-                        <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-main);">ID</th>
-                        <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-main);">Motobomba</th>
+                        <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900);">Data e Hora</th>
+                        <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900);">ID</th>
+                        <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900);">Motobomba</th>
                         
                         @foreach($todasColunas as $key => $label)
                             @if(in_array($key, $colunas))
-                                <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-main);">{{ $label }}</th>
+                                <th style="padding: 10px; font-size: 12px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900);">{{ $label }}</th>
                             @endif
                         @endforeach
                     </tr>
@@ -99,13 +99,13 @@
                 <tbody>
                     @forelse($leituras as $leitura)
                         <tr style="border-bottom: 1px solid var(--border-color, #f3f4f6);">
-                            <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-sub);">{{ date('d/m/Y H:i:s', strtotime($leitura->momento_leitura)) }}</td>
-                            <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-sub);">{{ $leitura->dispositivo_id }}</td>
-                            <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-main); font-weight: 500;">{{ $leitura->dispositivo->nome ?? 'Excluída' }}</td>
+                            <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900)">{{ date('d/m/Y H:i:s', strtotime($leitura->momento_leitura)) }}</td>
+                            <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900)">{{ $leitura->dispositivo_id }}</td>
+                            <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900); font-weight: 500;">{{ $leitura->dispositivo->nome ?? 'Excluída' }}</td>
                             
                             @foreach($todasColunas as $key => $label)
                                 @if(in_array($key, $colunas))
-                                    <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--text-main);">
+                                    <td style="padding: 10px; font-size: 13px; border-right: 1px solid var(--border-color, #e5e7eb); color: var(--gray--900);">
                                         {{ number_format($leitura->$key, 2, ',', '.') }}
                                     </td>
                                 @endif
@@ -113,7 +113,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10" style="padding: 20px; text-align: center; color: var(--text-sub);">Nenhum dado encontrado com os filtros selecionados.</td>
+                            <td colspan="10" style="padding: 20px; text-align: center; color: var(--gray--900)">Nenhum dado encontrado com os filtros selecionados.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -171,13 +171,12 @@ if (document.getElementById('tab-login')) {
 }
 
 // ============================================================
-// PAINEL ADMIN / DASHBOARD (GRÁFICO DINÂMICO)
+// PAINEL ADMIN / DASHBOARD (GRÁFICO DINÂMICO DE STATUS)
 // ============================================================
 document.addEventListener("DOMContentLoaded", function () {
     const chartEl = document.getElementById('statusChart');
     
     if (chartEl) {
-        // Pega os dados direto das propriedades data-* do HTML (ou joga 0 se não existirem)
         const active = parseInt(chartEl.getAttribute('data-active')) || 0;
         const inactive = parseInt(chartEl.getAttribute('data-inactive')) || 0;
         const maintenance = parseInt(chartEl.getAttribute('data-maintenance')) || 0;
@@ -248,4 +247,94 @@ function showToast(m) {
         t.style.display = 'block';
         setTimeout(() => t.style.display = 'none', 3000);
     }
+}
+
+// ============================================================
+// MODAL DE GRÁFICOS EM TEMPO REAL (NOVO)
+// ============================================================
+let realTimeChartInstance = null;
+let realTimeInterval = null;
+
+window.openChartModal = function(bombaNome) {
+    const modal = document.getElementById('chartModal');
+    if(modal) {
+        modal.style.display = 'flex';
+        document.getElementById('chartModalTitle').innerText = 'Gráfico em Tempo Real - ' + bombaNome;
+        initRealTimeChart();
+    }
+}
+
+window.closeChartModal = function() {
+    const modal = document.getElementById('chartModal');
+    if(modal) {
+        modal.style.display = 'none';
+        if(realTimeInterval) clearInterval(realTimeInterval);
+        if(realTimeChartInstance) realTimeChartInstance.destroy();
+    }
+}
+
+function initRealTimeChart() {
+    const canvas = document.getElementById('realTimeChart');
+    if(!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Gera dados iniciais para preencher o gráfico
+    let initialData = [];
+    let initialLabels = [];
+    let now = new Date();
+    for(let i = 10; i >= 0; i--) {
+        let t = new Date(now.getTime() - i * 2000);
+        initialLabels.push(t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds());
+        initialData.push(Math.floor(Math.random() * (80 - 40 + 1)) + 40); // Simula temperatura 40 a 80
+    }
+
+    realTimeChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: initialLabels,
+            datasets: [{
+                label: 'Simulação - Temperatura (°C)',
+                data: initialData,
+                borderColor: '#2d7ff9',
+                backgroundColor: 'rgba(45, 127, 249, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    suggestedMin: 20,
+                    suggestedMax: 100
+                }
+            },
+            animation: {
+                duration: 0
+            }
+        }
+    });
+
+    // Atualiza com novos dados a cada 2 segundos simulando "tempo real"
+    realTimeInterval = setInterval(() => {
+        let t = new Date();
+        let timeString = t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds();
+        let newValue = Math.floor(Math.random() * (80 - 40 + 1)) + 40;
+
+        realTimeChartInstance.data.labels.push(timeString);
+        realTimeChartInstance.data.datasets[0].data.push(newValue);
+
+        // Remove o dado mais antigo para dar o efeito de rolagem
+        if (realTimeChartInstance.data.labels.length > 15) {
+            realTimeChartInstance.data.labels.shift();
+            realTimeChartInstance.data.datasets[0].data.shift();
+        }
+
+        realTimeChartInstance.update();
+    }, 2000);
 }
