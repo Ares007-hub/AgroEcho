@@ -1689,6 +1689,77 @@ body.dashboard-page .status {
     display: inline-block;
 }
 
+/* ============================================================
+   MODAL DE GRÁFICO (POPUP EM TEMPO REAL) - USER DISPOSITIVOS
+   ============================================================ */
+body.user-page .chart-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 99999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+body.user-page .chart-modal-content {
+    background: var(--card, #ffffff);
+    width: 70%;
+    height: 70vh;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+body.user-page .chart-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    background: var(--bg, #f9fafb);
+}
+
+body.user-page .chart-modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text-main, #111827);
+}
+
+body.user-page .btn-close-chart {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--gray-600, #4b5563);
+}
+
+body.user-page .btn-close-chart:hover {
+    color: #ef4444;
+}
+
+body.user-page .chart-modal-body {
+    flex: 1;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--card, #ffffff);
+}
+
+@media (max-width: 768px) {
+    body.user-page .chart-modal-content {
+        width: 95%;
+        height: 60vh;
+    }
+}
+
 body.dashboard-page .active {
     background: #dff5e8;
 }
@@ -1817,6 +1888,8 @@ body.user-page {
     transition: 0.3s;
     font-family: 'Inter', sans-serif;
 }
+
+
 
 body.user-page .sidebar {
     width: 260px;
@@ -2682,6 +2755,7 @@ body.admin-page .sidebar-overlay.active {
         height: 60vh;
     }
 }
+
 
 
 }   

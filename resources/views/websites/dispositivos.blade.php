@@ -1,65 +1,7 @@
 @extends('websites.index')
 @section('assunto')
 
-<style>
-    .chart-modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 99999;
-        display: none; /* Mantido escondido até clicar */
-        justify-content: center;
-        align-items: center;
-        backdrop-filter: blur(4px);
-    }
-    .chart-modal-content {
-        background: var(--card, #ffffff);
-        width: 70%;
-        height: 70vh;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        overflow: hidden;
-    }
-    .chart-modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        border-bottom: 1px solid var(--border, #e5e7eb);
-        background: var(--bg, #f9fafb);
-    }
-    .chart-modal-header h3 {
-        margin: 0;
-        font-size: 1.2rem;
-        color: var(--text-main, #111827);
-    }
-    .btn-close-chart {
-        background: none;
-        border: none;
-        font-size: 22px;
-        cursor: pointer;
-        color: var(--gray-600, #4b5563);
-    }
-    .btn-close-chart:hover {
-        color: #ef4444;
-    }
-    .chart-modal-body {
-        flex: 1;
-        padding: 20px;
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background: var(--card, #ffffff);
-    }
-    @media (max-width: 768px) {
-        .chart-modal-content { width: 95%; height: 60vh; }
-    }
-</style>
+
 
 <main class="main-content">
     <header class="topbar">
@@ -161,7 +103,7 @@
 
                     <div style="margin-top: auto; padding-top: 15px;">
                         <button class="btn" onclick="openChartModal('{{ addslashes($bomba->nome) }}')" style="width: 100%; background-color: #2d7ff9; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                            📈 Ver Gráficos
+                            Ver Gráficos
                         </button>
                     </div>
 

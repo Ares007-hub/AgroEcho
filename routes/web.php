@@ -6,6 +6,8 @@ use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminDispositivoController;
 
+use App\Http\Controllers\TelemetryController;
+
 // Rotas Públicas (Visitantes)
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('/login', [WebsiteController::class, 'login'])->name('login');
@@ -23,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/relatorios', [WebsiteController::class, 'relatorios'])->name('relatorios.index');
     Route::get('/config', [WebsiteController::class, 'config'])->name('config.index');
     Route::post('/config/atualizar', [AuthController::class, 'updateConfig'])->name('config.update');
+
+    // Rotas internas para o JavaScript atualizar a tela e os gráficos
+    Route::get('/dispositivos/{id}/realtime', [TelemetryController::class, 'obterDadosRealTime'])->name('dispositivos.realtime');
+    Route::get('/dispositivos/status-geral', [TelemetryController::class, 'obterStatusGeral'])->name('dispositivos.statusGeral');
 
     // Área Administrativa
     Route::prefix('/admin')->middleware(['admin'])->group(function () {
@@ -42,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
         
     });
 
+
 });
 //rota das leituras do arduino
 Route::post('/api/telemetria', [App\Http\Controllers\TelemetryController::class, 'receberLeitura']);
+

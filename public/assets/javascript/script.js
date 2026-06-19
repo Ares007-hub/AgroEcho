@@ -330,11 +330,11 @@ function initRealTimeChart() {
         realTimeChartInstance.data.datasets[0].data.push(newValue);
 
         // Remove o dado mais antigo para dar o efeito de rolagem
-        if (realTimeChartInstance.data.labels.length > 15) {
+        if (realTimeChartInstance.data.labels.length > 31) {
             realTimeChartInstance.data.labels.shift();
             realTimeChartInstance.data.datasets[0].data.shift();
         }
 
         realTimeChartInstance.update();
-    }, 2000);
+    }, 1000);
 }
