@@ -62,4 +62,51 @@ class TelemetryController extends Controller
             'bomba_status'     => $dispositivo->status
         ], 200);
     }
+
+    
+
+    // Retorna os limites e as últimas 15 leituras de um dispositivo específico
+    public function obterDadosRealTime($id)
+    {
+        // Busca as últimas 15 leituras da bomba específica, ordenadas da mais recente para a mais antiga, e reverte para o gráfico (da mais antiga para a mais recente)
+        $leituras = \App\Models\LeituraSensor::where('dispositivo_id', $id)
+                        ->orderBy('momento_leitura', 'desc')
+                        ->take(15)
+                        ->get()
+                        ->reverse()
+                        ->values(); 
+
+        // Busca os limites técnicos configurados para esta bomba
+        $limites = \Illuminate\Support\Facades\DB::table('limites')->where('dispositivo_id', $id)->first();
+
+        // Retorna tudo em formato JSON para o AJAX
+        return response()->json([
+            'status' => 'success',
+            'leituras' => $leituras,
+            'limites' => $limites
+        ], 200);
+    }
+
+    // Retorna o status atualizado de todos os dispositivos e contadores para sincronizar a tela
+    public function obterStatusGeral()
+    {
+        $dispositivos = DB::table('dispositivos')->get();
+        
+        // Mapeia cada bomba trazendo sua respectiva última leitura atualizada
+        $dadosBomba = $dispositivos->map(function($bomba) {
+            $bomba->ultimaLeitura = DB::table('leituras_sensores')
+                ->where('dispositivo_id', $bomba->id)
+                ->orderBy('id', 'desc')
+                ->first();
+            return $bomba;
+        });
+
+        return response()->json([
+            'total'       => $dispositivos->count(),
+            'ativos'      => $dispositivos->where('status', 'active')->count(),
+            'manutencao'  => $dispositivos->where('status', 'maintenance')->count(),
+            'erros'       => $dispositivos->where('status', 'error')->count(),
+            'dispositivos'=> $dadosBomba
+        ], 200);
+    }
 }

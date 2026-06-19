@@ -1,8 +1,6 @@
 @extends('websites.index')
 @section('assunto')
 
-
-
 <main class="main-content">
     <header class="topbar">
         <div>
@@ -47,7 +45,7 @@
             </div>
         </div>
 
-        <div class="devices-grid" style="margin-top: 20px;">
+        <div class="devices-grid" style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
             @foreach($dispositivos as $bomba)
                 @php
                     $statusColor = $bomba->status === 'error' ? '#ef4444' : ($bomba->status === 'maintenance' ? '#f59e0b' : '#10b981');
@@ -71,7 +69,7 @@
                             {{ number_format($leitura->temperatura_motor, 1, ',', '.') }} <small style="font-size:16px; color:var(--grey--900);">°C no Motor</small>
                         </div>
 
-                        <div style="display: grid; grid-cols: 2; gap: 8px; font-size: 13px; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 10px; rounded: 6px;">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 13px; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 10px; border-radius: 6px;">
                             <div><strong>Tensão:</strong> {{ number_format($leitura->tensao_v, 1) }}V</div>
                             <div><strong>Corrente:</strong> {{ number_format($leitura->corrente_a, 1) }}A</div>
                             <div><strong>Potência:</strong> {{ number_format($leitura->potencia_kw, 2) }} kW</div>
@@ -88,12 +86,8 @@
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:1px solid var(--border);">
                         <span style="font-size:12px; color:var(--gray--900);">📍 {{ $bomba->localizacao ?? 'Sem local' }}</span>
                         
-                    @php
-                            $statusColor = ($bomba->status === 'active') ? '#28a745' : '#f59e0b';
-                    @endphp
-
-                    <span class="badge" style="background-color: {{ $statusColor }}20; color: {{ $statusColor }}; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
-                        ● {{ strtoupper($bomba->status) }}
+                        <span class="badge" style="background-color: {{ $statusColor }}20; color: {{ $statusColor }}; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
+                            ● {{ strtoupper($bomba->status) }}
                         </span>
                     </div>
 
@@ -102,11 +96,10 @@
                     </div>
 
                     <div style="margin-top: auto; padding-top: 15px;">
-                        <button class="btn" onclick="openChartModal('{{ addslashes($bomba->nome) }}')" style="width: 100%; background-color: #2d7ff9; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                        <button class="btn" onclick="openChartModal({{ $bomba->id }}, '{{ addslashes($bomba->nome) }}')" style="width: 100%; background-color: #2d7ff9; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px;">
                             Ver Gráficos
                         </button>
                     </div>
-
                 </div>
             @endforeach
         </div>
@@ -117,12 +110,24 @@
 
 <div id="chartModal" class="chart-modal-overlay">
     <div class="chart-modal-content">
-        <div class="chart-modal-header">
+        <div class="chart-modal-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h3 id="chartModalTitle">Gráfico de Linha em Tempo Real</h3>
             <button class="btn-close-chart" onclick="closeChartModal()">✖</button>
         </div>
-        <div class="chart-modal-body">
-            <canvas id="realTimeChart"></canvas>
+        <div class="chart-modal-body" style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                <label for="metricSelect" style="font-weight: 600; color: var(--text-main); font-size: 14px;">Monitorar:</label>
+                <select id="metricSelect" onchange="renderChart()" style="padding: 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); font-size: 14px; cursor: pointer;">
+                    <option value="temperatura_motor">Temperatura (°C)</option>
+                    <option value="corrente_a">Corrente (A)</option>
+                    <option value="tensao_v">Tensão (V)</option>
+                    <option value="vibracao">Vibração (mm/s)</option>
+                    <option value="fluxo_agua">Fluxo (L/h)</option>
+                </select>
+            </div>
+            <div style="position: relative; height: 300px; width: 100%;">
+                <canvas id="realTimeChart"></canvas>
+            </div>
         </div>
     </div>
 </div>

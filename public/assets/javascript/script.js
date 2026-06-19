@@ -250,17 +250,24 @@ function showToast(m) {
 }
 
 // ============================================================
-// MODAL DE GRÁFICOS EM TEMPO REAL (NOVO)
+// MODAL DE GRÁFICOS EM TEMPO REAL (INTEGRAÇÃO LARAVEL VIA AJAX)
 // ============================================================
 let realTimeChartInstance = null;
 let realTimeInterval = null;
+let currentBombaId = null;
+let currentChartData = [];
+let currentLimits = {};
 
-window.openChartModal = function(bombaNome) {
+window.openChartModal = function(bombaId, bombaNome) {
     const modal = document.getElementById('chartModal');
     if(modal) {
+        currentBombaId = bombaId;
+        document.getElementById('chartModalTitle').innerText = 'Monitoramento - ' + bombaNome;
         modal.style.display = 'flex';
-        document.getElementById('chartModalTitle').innerText = 'Gráfico em Tempo Real - ' + bombaNome;
-        initRealTimeChart();
+        
+        // Dispara a primeira busca imediatamente e depois seta o loop
+        fetchChartData();
+        realTimeInterval = setInterval(fetchChartData, 1000); // Atualiza a cada 1 segundos
     }
 }
 
@@ -269,72 +276,119 @@ window.closeChartModal = function() {
     if(modal) {
         modal.style.display = 'none';
         if(realTimeInterval) clearInterval(realTimeInterval);
-        if(realTimeChartInstance) realTimeChartInstance.destroy();
+        currentBombaId = null;
     }
 }
 
-function initRealTimeChart() {
+// Busca os dados do banco via requisição AJAX (JSON)
+async function fetchChartData() {
+    if(!currentBombaId) return;
+
+    try {
+        const response = await fetch(`/dispositivos/${currentBombaId}/realtime`);
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            currentChartData = result.leituras;
+            currentLimits = result.limites || {};
+            renderChart();
+        }
+    } catch (error) {
+        console.error("Erro ao buscar dados de telemetria:", error);
+    }
+}
+
+// Mapeia qual limite usar dependendo do Select atual
+function getActiveLimits(metric) {
+    if (!currentLimits) return { alert: null, crit: null };
+    
+    switch (metric) {
+        case 'temperatura_motor': return { alert: currentLimits.temperatura_alerta, crit: currentLimits.temperatura_desligar };
+        case 'corrente_a': return { alert: currentLimits.corrente_alerta, crit: currentLimits.corrente_desligar_alta };
+        case 'tensao_v': return { alert: currentLimits.tensao_alerta_alta, crit: currentLimits.tensao_desligar_alta };
+        case 'vibracao': return { alert: currentLimits.vibracao_alerta, crit: currentLimits.vibracao_desligar };
+        case 'fluxo_agua': return { alert: currentLimits.fluxo_alerta_baixo, crit: currentLimits.fluxo_desligar_zero };
+        default: return { alert: null, crit: null };
+    }
+}
+
+// Monta ou Atualiza o Chart.js com as linhas dinâmicas
+window.renderChart = function() {
     const canvas = document.getElementById('realTimeChart');
-    if(!canvas) return;
+    if(!canvas || currentChartData.length === 0) return;
     
     const ctx = canvas.getContext('2d');
-    
-    // Gera dados iniciais para preencher o gráfico
-    let initialData = [];
-    let initialLabels = [];
-    let now = new Date();
-    for(let i = 10; i >= 0; i--) {
-        let t = new Date(now.getTime() - i * 2000);
-        initialLabels.push(t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds());
-        initialData.push(Math.floor(Math.random() * (80 - 40 + 1)) + 40); // Simula temperatura 40 a 80
-    }
+    const metric = document.getElementById('metricSelect').value;
+    const limits = getActiveLimits(metric);
 
-    realTimeChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: initialLabels,
-            datasets: [{
-                label: 'Simulação - Temperatura (°C)',
-                data: initialData,
-                borderColor: '#2d7ff9',
-                backgroundColor: 'rgba(45, 127, 249, 0.1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 3
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    suggestedMin: 20,
-                    suggestedMax: 100
-                }
-            },
-            animation: {
-                duration: 0
-            }
-        }
+    // Converte os horários
+    const labels = currentChartData.map(d => {
+        const date = new Date(d.momento_leitura);
+        return date.getHours().toString().padStart(2, '0') + ':' + 
+               date.getMinutes().toString().padStart(2, '0') + ':' + 
+               date.getSeconds().toString().padStart(2, '0');
     });
 
-    // Atualiza com novos dados a cada 2 segundos simulando "tempo real"
-    realTimeInterval = setInterval(() => {
-        let t = new Date();
-        let timeString = t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds();
-        let newValue = Math.floor(Math.random() * (80 - 40 + 1)) + 40;
+    const dataPoints = currentChartData.map(d => parseFloat(d[metric]));
 
-        realTimeChartInstance.data.labels.push(timeString);
-        realTimeChartInstance.data.datasets[0].data.push(newValue);
+    // Cria arrays planos com o mesmo valor para desenhar as linhas retas horizontais
+    const alertData = limits.alert ? Array(labels.length).fill(limits.alert) : [];
+    const critData = limits.crit ? Array(labels.length).fill(limits.crit) : [];
 
-        // Remove o dado mais antigo para dar o efeito de rolagem
-        if (realTimeChartInstance.data.labels.length > 31) {
-            realTimeChartInstance.data.labels.shift();
-            realTimeChartInstance.data.datasets[0].data.shift();
-        }
+    const datasets = [{
+        label: 'Leitura em Tempo Real',
+        data: dataPoints,
+        borderColor: '#2d7ff9',
+        backgroundColor: 'rgba(45, 127, 249, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 3
+    }];
 
-        realTimeChartInstance.update();
-    }, 1000);
+    // Adiciona Linha de Alerta (Amarela) se o limite existir
+    if (limits.alert) {
+        datasets.push({
+            label: 'Limite de Alerta',
+            data: alertData,
+            borderColor: '#f59e0b',
+            borderWidth: 2,
+            borderDash: [5, 5], // Linha tracejada
+            pointRadius: 0,
+            fill: false
+        });
+    }
+
+    // Adiciona Linha Crítica (Vermelha) se o limite existir
+    if (limits.crit) {
+        datasets.push({
+            label: 'Limite Crítico (Corte)',
+            data: critData,
+            borderColor: '#ef4444',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            fill: false
+        });
+    }
+
+    // Atualiza se já existir, cria se não existir
+    if (realTimeChartInstance) {
+        realTimeChartInstance.data.labels = labels;
+        realTimeChartInstance.data.datasets = datasets;
+        realTimeChartInstance.update('none'); // Update sem animação para não piscar no polling
+    } else {
+        realTimeChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: { labels: labels, datasets: datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 0 }, // Essencial desligar para polling não travar
+                scales: {
+                    y: { beginAtZero: false }
+                }
+            }
+        });
+    }
 }
