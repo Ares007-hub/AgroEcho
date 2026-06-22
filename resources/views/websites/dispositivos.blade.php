@@ -96,7 +96,7 @@
                     </div>
 
                     <div style="margin-top: auto; padding-top: 15px;">
-                        <button class="btn" onclick="openChartModal({{ $bomba->id }}, '{{ addslashes($bomba->nome) }}')" style="width: 100%; background-color: #2d7ff9; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                        <button class="btn" onclick="openChartModal({{ $bomba->id }}, '{{ addslashes($bomba->nome) }}')" style="width: 100%; background-color: #10b981; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px;">
                             Ver Gráficos
                         </button>
                     </div>

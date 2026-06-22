@@ -29,11 +29,11 @@
 
     <section class="hero animate-fade-in">
         <div class="hero-container">
-            <div class="hero-tag animate-slide-up">Ecossistema IoT de Agricultura de Precisão</div>
+            <div class="hero-tag animate-slide-up">Ecossistema IoT de Monitoramento de Bombas</div>
             <h1 class="animate-slide-up delay-1">AgroEcho: <span class="gradient-text-hero">Inteligência que faz o campo
                     fluir</span></h1>
-            <p class="animate-slide-up delay-2">Economize até <strong>35% Vida Útil do Equipamento</strong> e <strong>Auditoria 
-                Relatórios Técnicos </strong> com a gestão automatizada.</p>
+            <p class="animate-slide-up delay-2">Aumente em até <strong>35% a Vida Útil do Equipamento</strong> e <strong>economize com Auditoria,
+                Relatórios Técnicos e </strong> com a gestão automatizada.</p>
 
             <div class="hero-actions animate-slide-up delay-3">
                 <a href="/login" class="btn-primary">Começar Agora</a>
@@ -82,38 +82,38 @@
     <section id="contexto" class="section" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
         <div class="section-tag scroll-animate">O Cenário Atual</div>
         <h2 class="section-title-gradient scroll-animate">
-            <span class="text-tech">O Desafio do</span> <span class="text-precision">Motorbomba de irrigação</span>
+            <span class="text-tech">O Desafio das</span> <span class="text-precision">Motobombas de irrigação</span>
         </h2>
         <p class="section-subtitle scroll-animate">Entenda por que sistemas convencionais operam no escuro e desperdiçam
-            recursos valiosos da sua fazenda.</p>
+            recursos valiosos dos seus motores.</p>
 
         <div class="tech-grid scroll-animate" style="margin-top: 40px;">
             <div class="tech-card-large" style="text-align: center; padding: 40px 24px;">
-                <div class="counter" data-target="60"
+                <div class="counter" data-target="20"
                     style="font-size: 56px; font-weight: 800; color: #0f4c81; margin-bottom: 10px; line-height: 1;">0%
                 </div>
-                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Proteção da Safra</h4>
-                <p style="font-size: 15px; color: #64748b;"> Falhas de bombeamento em períodos críticos podem causar perdas de mais da metade 
-                    da produção; nosso sistema evita paradas não programadas com alertas 24h</p>
+                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Menos água em períodos críticos</h4>
+                <p style="font-size: 15px; color: #64748b;"> Em sistemas de irrigação de grande porte, uma falha inesperada pode deixar o sistema
+                     parado por cerca de 20% do tempo em janelas de alta demanda, reduzindo a lâmina aplicada e afetando diretamente o rendimento da lavoura. Nosso monitoramento IoT antecipa anomalias em motobombas e reduz paradas não programadas.</p>
             </div>
 
             <div class="tech-card-large" style="text-align: center; padding: 40px 24px;">
-                <div class="counter" data-target="60"
+                <div class="counter" data-target="15"
                     style="font-size: 56px; font-weight: 800; color: #e74c3c; margin-bottom: 10px; line-height: 1;">0%
                 </div>
-                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Eficiência Hídrica</h4>
-                <p style="font-size: 15px; color: #64748b;">Desperdícios por transbordamento de reservatórios chegam a 60% do volume captado;
-                     nossa automação com sensores ultrassônicos elimina o extravasamento silencioso</p>
+                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Proteção da produtividade</h4>
+                <p style="font-size: 15px; color: #64748b;">Estudos de extensão rural mostram que uma irrigação mal distribuída pode reduzir a produtividade em até 15%
+                     em culturas sensíveis, enquanto falhas de bombeamento em irrigação podem causar perdas substanciais de produção. Nosso sistema ajuda a evitar subirrigação por alerta precoce de falhas elétricas, cavitação e operação a seco.</p>
             </div>
 
             <div class="tech-card-large" style="text-align: center; padding: 40px 24px;">
-                <div class="counter" data-target="35"
+                <div class="counter" data-target="50"
                     style="font-size: 56px; font-weight: 800; color: #f59e0b; margin-bottom: 10px; line-height: 1;">0%
                 </div>
-                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;"> Economia em Manutenção
+                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;"> Eficiência operacional da irrigação
                 </h4>
-                <p style="font-size: 15px; color: #64748b;">O monitoramento de vibração e controle rotacional reduzem o 
-                    desgaste abrasivo em até um terço, estendendo a vida útil do motor e selos mecânicos</p>
+                <p style="font-size: 15px; color: #64748b;">Mais de 50% dos sistemas de irrigação no Kansas não operam na eficiência ideal, segundo avaliação
+                     recente da K-State, o que resulta em perdas de água e produtividade. Com sensores IoT de pressão, corrente, vibração e nível, sua operação identifica desvio de performance antes que a motobomba falhe.</p>
             </div>
         </div>
     </section>
@@ -121,9 +121,9 @@
     <section id="tecnologia" class="section">
         <div class="section-tag scroll-animate">A Solução</div>
         <h2 class="section-title-gradient scroll-animate">
-            <span class="text-tech">Tecnologia de</span> <span class="text-precision">Precisão</span>
+            <span class="text-tech">Monitoramento de</span> <span class="text-precision">Precisão</span>
         </h2>
-        <p class="section-subtitle scroll-animate">Uma visão limpa e inteligente para sua lavoura.</p>
+        <p class="section-subtitle scroll-animate">Uma visão limpa e inteligente para suas motobombas</p>
 
         <div class="tech-grid">
             <div class="tech-card-large scroll-animate">
@@ -132,9 +132,9 @@
                         <path d="M5 12a7 7 0 0 1 14 0M8.5 12a3.5 3.5 0 0 1 7 0M12 12v.01" />
                     </svg>
                 </div>
-                <h3>Conectividade LoRa</h3>
-                <p>Monitoramento de longo alcance sem dependência de Wi-Fi ou 4G no campo.</p>
-                <button class="btn-pulse" onclick="openModal('modal-lora')">Alcance Mágico</button>
+                <h3>Telemetria Multissensorial</h3>
+                <p>Acompanhamento completo de grandezas elétricas, térmicas e mecânicas do motor em tempo real.</p>
+                <button class="btn-pulse" onclick="openModal('modal-lora')">Leituras</button>
             </div>
 
             <div class="tech-card-large scroll-animate">
@@ -145,9 +145,9 @@
                         <line x1="16" y1="13" x2="8" y2="13"></line>
                     </svg>
                 </div>
-                <h3>Algoritmo Inteligente</h3>
-                <p>O sistema processa dados do solo e clima para decidir exatamente quando irrigar.</p>
-                <button class="btn-pulse" onclick="openModal('modal-algoritmo')">Como ele pensa</button>
+                <h3>Corte Crítico Automatizado</h3>
+                <p>Interrupção imediata do funcionamento da bomba ao detectar qualquer operação fora das margens seguras.</p>
+                <button class="btn-pulse" onclick="openModal('modal-algoritmo')">Quando?</button>
             </div>
 
             <div class="tech-card-large scroll-animate">
@@ -158,19 +158,19 @@
                         <line x1="12" y1="4" x2="12" y2="20"></line>
                     </svg>
                 </div>
-                <h3>Sensores de Precisão</h3>
-                <p>Leitura real de umidade da terra, chuva e fluxo de água, direto na raiz da planta.</p>
-                <button class="btn-pulse" onclick="openModal('modal-sensores')">O que a terra esconde?</button>
+                <h3>Detecção de Trabalho a Seco</h3>
+                <p>Monitoramento hidráulico integrado para evitar o desgaste do selo mecânico por falta de água.</p>
+                <button class="btn-pulse" onclick="openModal('modal-sensores')">Como?</button>
             </div>
         </div>
     </section>
 
     <section id="gestao" class="section" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
-        <div class="section-tag scroll-animate">Gestão e Segurança</div>
+        <div class="section-tag scroll-animate">MONITORAMENTO INDUSTRIAL</div>
         <h2 class="section-title-gradient scroll-animate">
-            <span class="text-tech">Controle</span> <span class="text-precision">Absoluto</span>
+            <span class="text-tech">Proteção</span> <span class="text-precision">Integral</span>
         </h2>
-        <p class="section-subtitle scroll-animate">Proteja o seu lucro e automatize processos críticos com segurança.
+        <p class="section-subtitle scroll-animate">Evite a queima de motores, monitore variáveis elétricas e automatize desligamentos críticos.
         </p>
 
         <div class="smart-cost-banner scroll-animate">
@@ -181,24 +181,23 @@
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
-                    Gestão Financeira: Proteção Tarifária
+                    Segurança de Borda: Corte por Limite Crítico
                 </h3>
-                <p style="font-size: 16px; color: #475569; line-height: 1.6; margin-bottom: 10px;">Bloqueio automático
-                    de bombas nos horários com energia mais cara, protegendo sua rentabilidade.</p>
-                <button class="btn-pulse" onclick="openModal('modal-smartcost')">Blindar meu lucro contra
-                    tarifas</button>
+                <p style="font-size: 16px; color: #475569; line-height: 1.6; margin-bottom: 10px;">Desligamento autônomo
+                    e instantâneo ao detectar sobrecarga de corrente, superaquecimento ou oscilações severas de tensão.</p>
+                <button class="btn-pulse" onclick="openModal('modal-smartcost')">Proteger meu patrimônio elétrico</button>
             </div>
 
             <div class=periodo-critico
                 style="background-color: #ffffff; padding: 24px 32px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; border: 1px solid #e2e8f0; flex-shrink: 0; min-width: 250px;">
-                <div style="color: #e74c3c; font-weight: 700; font-size: 15px; margin-bottom: 8px;">PERÍODO CRÍTICO
+                <div style="color: #e74c3c; font-weight: 700; font-size: 15px; margin-bottom: 8px;">STATUS DE ALERTA
                 </div>
                 <div
                     style="color: #111827; font-size: 28px; font-weight: 800; margin-bottom: 8px; font-variant-numeric: tabular-nums;">
-                    18:00 - 21:00</div>
+                    SOBRECARGA</div>
                 <div
                     style="background-color: #d1fae5; color: #059669; font-size: 14px; font-weight: 700; padding: 6px 12px; border-radius: 20px; display: inline-block;">
-                    Bloqueio Ativo</div>
+                    Corte Preventivo</div>
             </div>
         </div>
 
@@ -214,8 +213,8 @@
                     </svg>
                 </div>
                 <div class="tech-info-small">
-                    <h4>Prevenção de Vazamentos</h4>
-                    <p>Evita a queima de motores e o desperdício em caso de rompimentos.</p>
+                    <h4>Proteção Elétrica Ativa</h4>
+                    <p> Evita a queima de motores e o desperdício em caso de rompimentos.</p>
                 </div>
                 <button class="btn-pulse" style="width: 100%; justify-content: center;"
                     onclick="openModal('modal-vazamento')">Como o Failsafe funciona?</button>
@@ -312,57 +311,41 @@
 
     <div class="modal-overlay" id="modal-lora">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal-lora')"><svg width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
-            <h3>Conectividade LoRa</h3>
-            <p>Diferente do Wi-Fi que cai ou não tem alcance, a tecnologia LoRa permite que os sensores conversem com a
-                base central a uma distância de até <strong>15km em área aberta</strong>. Tudo isso consumindo o mínimo
-                de bateria, garantindo meses de autonomia.</p>
+            
+            <h3>Telemetria Multissensorial</h3>
+            <p>O sistema realiza a leitura contínua de parâmetros cruciais como <strong>corrente (A)</strong>, <strong>tensão (V)</strong>,
+                 <strong>vibração</strong> e <strong>temperatura</strong> da carcaça. O cruzamento instantâneo desses dados permite mapear o comportamento exato do equipamento,
+                  identificando sobrecargas elétricas, desequilíbrio de fases ou falhas de rolamento bem antes que o motor sofra uma pane definitiva.</p>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal-algoritmo">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal-algoritmo')"><svg width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
-            <h3>Processamento Edge</h3>
-            <p>O cérebro do AgroEcho não fica apenas na nuvem. Os sensores possuem "Edge Computing", o que significa que
-                eles <strong>processam os dados ali mesmo na lavoura</strong>. Isso elimina a lentidão (latência) e
-                permite tomar decisões de irrigação mesmo se a internet da fazenda cair temporariamente.</p>
+            
+            <h3>Corte Crítico Automatizado</h3>
+            <p>Através de uma tabela de <strong>limites customizáveis</strong>, o hardware atua diretamente no painel elétrico da motobomba.
+                 Caso o sensor registre picos perigosos de temperatura ou variações severas na rede elétrica, o comando de desligamento de emergência
+                  é acionado de forma autônoma na ponta, evitando o derretimento das bobinas ou danos estruturais graves.</p>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal-sensores">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal-sensores')"><svg width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
-            <h3>Sensores de Precisão</h3>
-            <p>Ao invés de irrigar "por tempo" e torcer para dar certo, nossos sensores medem exatamente a umidade na
-                raiz da planta. Se choveu e a terra está úmida o suficiente, o sistema <strong>cancela a irrigação
-                    automaticamente</strong>. Nada de molhar a terra molhada.</p>
+            
+            <h3>Detecção de Trabalho a Seco</h3>
+            <p>Através de uma tabela de <strong>limites customizáveis</strong>, o hardware atua diretamente no painel elétrico da motobomba.
+                 Caso o sensor registre picos perigosos de temperatura ou variações severas na rede elétrica, o comando de desligamento de emergência
+                  é acionado de forma autônoma na ponta, evitando o derretimento das bobinas ou danos estruturais graves.</p>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal-smartcost">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal-smartcost')"><svg width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
-            <h3>O Segredo do Smart-Cost</h3>
-            <p>A energia das 18h às 21h ("Horário de Ponta") pode ser até <strong>10 vezes mais cara</strong>. Nosso
-                algoritmo garante que as bombas elétricas jamais operem nesse horário crítico, pausando as irrigações e
-                retomando automaticamente às 21h01. É uma economia violenta direto no caixa da sua fazenda.</p>
+            
+            <h3>Proteção do Motor: Detecção de Trabalho a Seco</h3>
+            <p>Ao correlacionar a potência elétrica consumida com o fluxo de água efetivo na tubulação,
+                 o sistema sabe exatamente se a bomba está puxando ar na captação e interrompe a operação na hora,
+                  impedindo a queima por falta de refrigeração.</p>
         </div>
     </div>
 
