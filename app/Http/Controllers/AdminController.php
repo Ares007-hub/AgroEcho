@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dispositivo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; // puxa dp banco de dados
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -36,12 +37,9 @@ class AdminController extends Controller
         if ($request->filled('id')) {
             DB::table('usuarios')->where('id', $request->id)->update($dados);
             return redirect()->route('admin.usuarios.criar')->with('success', 'Usuário atualizado com sucesso!');
-        } 
-        
-        else {
-            $dados['status'] = 'active'; 
+        } else {
+            $dados['status'] = 'active';
             $dados['notificacoes'] = 'on';
-            
             DB::table('usuarios')->insert($dados);
             return redirect()->route('admin.usuarios.criar')->with('success', 'Usuário criado com sucesso!');
         }
@@ -57,5 +55,18 @@ class AdminController extends Controller
 
         DB::table('usuarios')->where('id', $id)->delete();
         return redirect()->route('admin.usuarios.criar')->with('success', 'Usuário removido!');
+    }
+
+    public function dashboard()
+    {
+        $total = Dispositivo::count();
+        $ativos = Dispositivo::where('status', 'active')->count();
+        $manutencao = Dispositivo::where('status', 'maintenance')->count();
+        $erros = Dispositivo::where('status', 'error')->count();
+        $dispositivos = Dispositivo::with('usuario')->get();
+
+        return view('admin.dashboard', compact(
+            'total', 'ativos', 'manutencao', 'erros', 'dispositivos'
+        ));
     }
 }

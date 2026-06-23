@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroEcho - Inteligência que faz o campo fluir</title>
+    <title>Echo - Inteligência que faz o campo fluir</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -14,7 +14,7 @@
         <div class="header-container animate-fade-in">
             <a href="#" class="logo-container">
                 <img src="/assets/img/Logo.png" alt="Logo AgroFlow" class="logo-img">
-                <h1 class="logo-text">Agro<span>Echo</span></h1>
+                <h1 class="logo-text"><span>Echo</span></h1>
             </a>
 
             <ul class="nav-menu">
@@ -30,7 +30,7 @@
     <section class="hero animate-fade-in">
         <div class="hero-container">
             <div class="hero-tag animate-slide-up">Ecossistema IoT de Monitoramento de Bombas</div>
-            <h1 class="animate-slide-up delay-1">AgroEcho: <span class="gradient-text-hero">Inteligência que faz o campo
+            <h1 class="animate-slide-up delay-1">Echo: <span class="gradient-text-hero">Inteligência que faz o campo
                     fluir</span></h1>
             <p class="animate-slide-up delay-2">Aumente em até <strong>35% a Vida Útil do Equipamento</strong> e <strong>economize com Auditoria,
                 Relatórios Técnicos e </strong> com a gestão automatizada.</p>
@@ -256,9 +256,9 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <div class="logo-container">
-                    <h1 class="logo-text" style="color: #ffffff;">Agro<span>Echo</span></h1>
+                    <h1 class="logo-text" style="color: #ffffff;"><span>Echo</span></h1>
                 </div>
-                <p>Ecossistema IoT de agricultura de precisão. Transformando o campo com tecnologia inteligente.</p>
+                <p>Transformando o campo com tecnologia inteligente.</p>
             </div>
 
             <div class="footer-links-group">
@@ -305,7 +305,7 @@
         </div>
         <div
             style="max-width: 1200px; margin: 30px auto 0 auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center;">
-            <p style="font-size: 13px; color: #64748b;">© 2026 AgroEcho. Todos os direitos reservados.</p>
+            <p style="font-size: 13px; color: #64748b;">© 2026 Echo. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -350,12 +350,7 @@
     </div>
 
     <div class="modal-overlay" id="modal-vazamento">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal-vazamento')"><svg width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
+        <div class="modal-content"> 
             <h3>Ação Instantânea (Failsafe)</h3>
             <p>Se a plataforma mandar a bomba ligar, mas o sensor de fluxo não detectar água correndo nos canos em
                 exatos <strong>60 segundos</strong>, o sistema desliga tudo! Isso evita que as bombas trabalhem a seco
@@ -365,13 +360,8 @@
 
     <div class="modal-overlay" id="modal-heartbeat">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal-heartbeat')"><svg width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
             <h3>Sinal de Vida Constante</h3>
-            <p>O AgroEcho faz checagens constantes de conexão, como um batimento cardíaco ("Heartbeat"). Caso qualquer
+            <p>O Echo faz checagens constantes de conexão, como um batimento cardíaco ("Heartbeat"). Caso qualquer
                 hardware no meio do campo fique offline ou perca a bateria por <strong>mais de 1 hora</strong>, o
                 sistema apita no seu celular. Você age rápido, antes que a planta sofra.</p>
         </div>
@@ -379,11 +369,6 @@
 
     <div class="modal-overlay" id="modal-relatorio">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal-relatorio')"><svg width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
             <h3>Relatórios Inteligentes</h3>
             <p>Você recebe diretamente no seu e-mail PDFs gerados de forma inteligente com todo o histórico de litros de
                 água usados, kilowatts consumidos e chuvas por talhão. Perfeito para auditorias, fechamento financeiro e

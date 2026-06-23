@@ -8,7 +8,7 @@
             <p class="extracao-color">Ajustes da conta e preferências do sistema</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
-            <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">💡</button>
             <div class="user-profile">
                 <span id="userName" style="font-weight: 600; font-size: 14px; color: var(--text-main);">{{ Auth::user()->nome }}</span>
                 <a href="/logout" class="btn btn-logout" style="text-decoration: none; font-size: 14px;">Sair</a>

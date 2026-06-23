@@ -8,7 +8,7 @@
             <p class="monitoramento-color">Monitoramento e Proteção de Motobombas</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
-            <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">💡</button>
             <div class="user-profile">
                 <span id="userName" style="font-weight: 600; font-size: 14px;">{{ Auth::user()->nome ?? 'Usuário' }}</span>
                 <button class="btn btn-logout" onclick="logout()">Sair</button>

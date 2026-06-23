@@ -8,7 +8,7 @@
             <p class="extracao-color">Extração de dados dos sensores</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
-            <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="btn" style="background:none; font-size: 20px;" onclick="toggleTheme()" id="themeBtn">💡</button>
             <div class="user-profile">
                 <span style="font-weight: 600; font-size: 14px; color: var(--text-main);">{{ Auth::user()->nome ?? 'Usuário' }}</span>
                 <button class="btn btn-logout" onclick="logout()">Sair</button>

@@ -1606,8 +1606,11 @@ body.dashboard-page .stat-card {
     transition: all 0.3s;
 }
 
+
 body.dashboard-page .stat-card:hover {
-    transform: translateY(-3px);
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(27, 143, 90, 0.25);
 }
 
 body.dashboard-page .stat-number {
@@ -1761,7 +1764,7 @@ body.user-page .chart-modal-body {
 }
 
 body.dashboard-page .active {
-    background: #dff5e8;
+    background: green;
 }
 
 body.dashboard-page .inactive {

@@ -38,7 +38,6 @@ function toggleSidebar() {
 
 // ----- 3. LOGOUT INTEGRADO AO LARAVEL -----
 function logout() {
-    // Redireciona direto para a rota de logout do Laravel limpar a sessão do servidor
     window.location.href = '/logout';
 }
 
@@ -109,7 +108,6 @@ if (document.querySelector('body.landing-page')) {
 // ============================================================
 if (document.getElementById('tab-login')) {
     
-    // Mostrar/Ocultar Senha
     window.togglePass = function(inputId, btn) {
         const input = document.getElementById(inputId);
         const icon = btn.querySelector('i');
@@ -122,7 +120,6 @@ if (document.getElementById('tab-login')) {
         }
     };
 
-    // Trocar abas (Login / Cadastro)
     window.switchTab = function(tab) {
         const isLogin = tab === 'login';
         document.querySelectorAll('.tab-btn').forEach((btn, i) => {
@@ -133,7 +130,6 @@ if (document.getElementById('tab-login')) {
         document.querySelector('.tab-scroll').scrollTop = 0;
     };
 
-    // Máscara de Telefone
     const phoneInput = document.getElementById('regPhone');
     if(phoneInput) {
         phoneInput.addEventListener('input', function() {
@@ -144,7 +140,6 @@ if (document.getElementById('tab-login')) {
         });
     }
 
-    // Força da Senha (Apenas Visual)
     const pwdInput = document.getElementById('regPassword');
     const strengthFill = document.getElementById('strengthFill');
     const strengthLabel = document.getElementById('strengthLabel');
@@ -178,17 +173,17 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if (chartEl) {
         const active = parseInt(chartEl.getAttribute('data-active')) || 0;
-        const inactive = parseInt(chartEl.getAttribute('data-inactive')) || 0;
         const maintenance = parseInt(chartEl.getAttribute('data-maintenance')) || 0;
+        const error = parseInt(chartEl.getAttribute('data-error')) || 0;
 
         const ctx = chartEl.getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Ativos', 'Inativos', 'Manutenção'],
+                labels: ['Operando Normal', 'Em Manutenção', 'Críticos / Falhas'],
                 datasets: [{ 
-                    data: [active, inactive, maintenance], 
-                    backgroundColor: ['#1b8f5a', '#dc2626', '#2d7ff9'], 
+                    data: [active, maintenance, error], 
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], 
                     borderRadius: 10 
                 }]
             },
@@ -265,9 +260,8 @@ window.openChartModal = function(bombaId, bombaNome) {
         document.getElementById('chartModalTitle').innerText = 'Monitoramento - ' + bombaNome;
         modal.style.display = 'flex';
         
-        // Dispara a primeira busca imediatamente e depois seta o loop
         fetchChartData();
-        realTimeInterval = setInterval(fetchChartData, 1000); // Atualiza a cada 1 segundos
+        realTimeInterval = setInterval(fetchChartData, 1000);
     }
 }
 
@@ -280,7 +274,6 @@ window.closeChartModal = function() {
     }
 }
 
-// Busca os dados do banco via requisição AJAX (JSON)
 async function fetchChartData() {
     if(!currentBombaId) return;
 
@@ -298,7 +291,6 @@ async function fetchChartData() {
     }
 }
 
-// Mapeia qual limite usar dependendo do Select atual
 function getActiveLimits(metric) {
     if (!currentLimits) return { alert: null, crit: null };
     
@@ -312,7 +304,6 @@ function getActiveLimits(metric) {
     }
 }
 
-// Monta ou Atualiza o Chart.js com as linhas dinâmicas
 window.renderChart = function() {
     const canvas = document.getElementById('realTimeChart');
     if(!canvas || currentChartData.length === 0) return;
@@ -321,7 +312,6 @@ window.renderChart = function() {
     const metric = document.getElementById('metricSelect').value;
     const limits = getActiveLimits(metric);
 
-    // Converte os horários
     const labels = currentChartData.map(d => {
         const date = new Date(d.momento_leitura);
         return date.getHours().toString().padStart(2, '0') + ':' + 
@@ -331,7 +321,6 @@ window.renderChart = function() {
 
     const dataPoints = currentChartData.map(d => parseFloat(d[metric]));
 
-    // Cria arrays planos com o mesmo valor para desenhar as linhas retas horizontais
     const alertData = limits.alert ? Array(labels.length).fill(limits.alert) : [];
     const critData = limits.crit ? Array(labels.length).fill(limits.crit) : [];
 
@@ -346,20 +335,18 @@ window.renderChart = function() {
         pointRadius: 3
     }];
 
-    // Adiciona Linha de Alerta (Amarela) se o limite existir
     if (limits.alert) {
         datasets.push({
             label: 'Limite de Alerta',
             data: alertData,
             borderColor: '#f59e0b',
             borderWidth: 2,
-            borderDash: [5, 5], // Linha tracejada
+            borderDash: [5, 5],
             pointRadius: 0,
             fill: false
         });
     }
 
-    // Adiciona Linha Crítica (Vermelha) se o limite existir
     if (limits.crit) {
         datasets.push({
             label: 'Limite Crítico (Corte)',
@@ -372,11 +359,10 @@ window.renderChart = function() {
         });
     }
 
-    // Atualiza se já existir, cria se não existir
     if (realTimeChartInstance) {
         realTimeChartInstance.data.labels = labels;
         realTimeChartInstance.data.datasets = datasets;
-        realTimeChartInstance.update('none'); // Update sem animação para não piscar no polling
+        realTimeChartInstance.update('none');
     } else {
         realTimeChartInstance = new Chart(ctx, {
             type: 'line',
@@ -384,7 +370,7 @@ window.renderChart = function() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: { duration: 0 }, // Essencial desligar para polling não travar
+                animation: { duration: 0 },
                 scales: {
                     y: { beginAtZero: false }
                 }
