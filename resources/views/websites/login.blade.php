@@ -39,7 +39,8 @@
                     <div class="alert-msg error" style="display: block;">{{ $message }}</div>
                 @enderror
 
-                <form method="POST" action="{{ url('/login') }}">
+                <!-- CORRIGIDO: action com https -->
+                <form method="POST" action="{{ secure_url('/login') }}">
                     @csrf
                     <div class="field-group">
                         <label>Email</label>
@@ -68,7 +69,8 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ url('/register') }}">
+                <!-- CORRIGIDO: action com https -->
+                <form method="POST" action="{{ secure_url('/register') }}">
                     @csrf
                     <div class="field-group">
                         <label>Nome completo <span class="asterisk">*</span></label>
