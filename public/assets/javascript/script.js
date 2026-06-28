@@ -1,6 +1,6 @@
 /* ============================================================
    AGROECHO – JAVASCRIPT UNIFICADO (APENAS FRONTEND & UX)
-   ============================================================ */
+   ============================================================ 
 
 // ----- 1. TEMA GLOBAL (DARK / LIGHT MODE) -----
 let theme = localStorage.getItem('agroecho_theme') || 'light';
@@ -478,4 +478,4 @@ if (btnConnectSerial) {
             selectDispositivo.disabled = false; // Destrava o select em caso de erro
         }
     });
-}
+} */

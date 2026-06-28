@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echo - Inteligência que faz o campo fluir</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
 </head>
 
 <body class="landing-page">
@@ -376,7 +376,7 @@
         </div>
     </div>
 
-    <script src="assets/javascript/script.js"></script>
+    <script src="assets/javascript/script.min.js"></script>
 </body>
 
 </html>
