@@ -6,6 +6,7 @@ use App\Models\Dispositivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
@@ -36,11 +37,13 @@ class AdminController extends Controller
 
         if ($request->filled('id')) {
             DB::table('usuarios')->where('id', $request->id)->update($dados);
+            Cache::flush(); // Limpa cache ao atualizar
             return redirect()->route('admin.usuarios.criar')->with('success', 'Usuário atualizado com sucesso!');
         } else {
             $dados['status'] = 'active';
             $dados['notificacoes'] = 'on';
             DB::table('usuarios')->insert($dados);
+            Cache::flush(); // Limpa cache ao criar
             return redirect()->route('admin.usuarios.criar')->with('success', 'Usuário criado com sucesso!');
         }
     }
@@ -54,16 +57,32 @@ class AdminController extends Controller
         }
 
         DB::table('usuarios')->where('id', $id)->delete();
+        Cache::flush(); // Limpa cache ao excluir
         return redirect()->route('admin.usuarios.criar')->with('success', 'Usuário removido!');
     }
 
     public function dashboard()
     {
-        $total = Dispositivo::count();
-        $ativos = Dispositivo::where('status', 'active')->count();
-        $manutencao = Dispositivo::where('status', 'maintenance')->count();
-        $erros = Dispositivo::where('status', 'error')->count();
-        $dispositivos = Dispositivo::with('usuario')->get();
+        // Cache de 30 segundos para consultas pesadas
+        $total = Cache::remember('total_dispositivos', 30, function () {
+            return Dispositivo::count();
+        });
+
+        $ativos = Cache::remember('ativos_dispositivos', 30, function () {
+            return Dispositivo::where('status', 'active')->count();
+        });
+
+        $manutencao = Cache::remember('manutencao_dispositivos', 30, function () {
+            return Dispositivo::where('status', 'maintenance')->count();
+        });
+
+        $erros = Cache::remember('erros_dispositivos', 30, function () {
+            return Dispositivo::where('status', 'error')->count();
+        });
+
+        $dispositivos = Cache::remember('todos_dispositivos', 30, function () {
+            return Dispositivo::with('usuario:id,nome')->get();
+        });
 
         return view('admin.dashboard', compact(
             'total', 'ativos', 'manutencao', 'erros', 'dispositivos'
